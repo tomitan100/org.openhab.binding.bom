@@ -36,17 +36,21 @@ For future forecasts the following fields are available:
 - UV alert text
 
 ## Configuration
-At minimum there are four fields required to process the data feed.  The FTP path to obvservation data XML, the weather station ID of observation, the FTP path to forecast data XML and the area code.
+At minimum there are four fields required to process the data-feed.  The FTP path to obvservation data XML, the weather station ID of observation, the FTP path to forecast data XML and the area code.
 
 Observation FTP paths are grouped by state. Use the following table to copy the XML path of your state.
 
-<table style="width:100%"; border="1">
+<table>
 <tr align="left">
   <th>State</th>
   <th>Observation FTP Path</th> 
 </tr>
 <tr>
-  <td><b>NSW/ACT</b></td>
+  <td><b>NSW</b></td>
+  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDN60920.xml</td>
+</tr>
+<tr>
+  <td><b>ACT</b></td>
   <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDN60920.xml</td>
 </tr>
 <tr>
@@ -84,7 +88,7 @@ Next you will need to provide the FTP path to the forecast file.
 Below is a list of forecast paths for Australian major cities.  If the forecast you are interested is not in the list go to this catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml and search for the forecast.  The type must be "Forecast". Use the Search box on the page.  Once located append the product ID to the FTP path ftp://ftp.bom.gov.au/anon/gen/fwo/ and add the ".xml" file extension.
 
 
-<table style="width:100%"; border="1">
+<table>
 <tr align="left">
   <th>City</th>
   <th>Forecast FTP Path</th> 
@@ -94,7 +98,7 @@ Below is a list of forecast paths for Australian major cities.  If the forecast 
   <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDD10150.xml</td>
 </tr>
 <tr>
-  <td><b>Canberra (NSW)</b></td>
+  <td><b>Canberra (ACT)</b></td>
   <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDN10035.xml</td>
 </tr>
 <tr>
@@ -161,5 +165,6 @@ Below is a list of forecast paths for Australian major cities.  If the forecast 
 
 Once you have located the forecast data-feed open the file and locate the area code (aac) you would like to use.
 
-For example: Perth aac code in ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml is "WA_PT053".
+For example: Perth's aac code in ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml is "WA_PT053".
 
+For more information about data-feed, please go to http://reg.bom.gov.au/catalogue/data-feeds.shtml
