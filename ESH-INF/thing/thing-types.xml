@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="bom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
+
+	<thing-type id="weather">
+		<label>BOM</label>
+		<description>Australian Bureau of Meteorology Binding</description>
+
+		<channel-groups>
+			<channel-group id="day1" typeId="day1Group" />
+			<channel-group id="day2" typeId="day2Group" />
+			<channel-group id="day3" typeId="day3Group" />
+			<channel-group id="day4" typeId="day4Group" />
+			<channel-group id="day5" typeId="day5Group" />
+			<channel-group id="day6" typeId="day6Group" />
+			<channel-group id="day7" typeId="day7Group" />
+			<channel-group id="day8" typeId="day8Group" />
+		</channel-groups>
+
+		<config-description>
+			<parameter name="observationFtpPath" type="text" required="true">
+				<label>Observation FTP path</label>
+				<description>FTP path to observation data. e.g ftp://ftp.bom.gov.au/anon/gen/fwo/IDW60920.xml</description>
+			</parameter>
+			<parameter name="weatherStationId" type="text" required="true">
+				<label>Weather station ID</label>
+				<description>The weather station ID (wom-id attribute). e.g 94608</description>
+			</parameter>
+			<parameter name="forecastFtpPath" type="text" required="true">
+				<label>Forecast FTP path</label>
+				<description>FTP path to forecast data. e.g ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml</description>
+			</parameter>
+			<parameter name="areaId" type="text" required="true">
+				<label>Area ID</label>
+				<description>The area ID (aac attribute). e.g WA_PT053</description>
+			</parameter>
+			<parameter name="observationRefreshInterval" type="integer">
+				<label>Observation refresh interval in minutes</label>
+				<description>Refresh interval of observation data. Default is 15 minutes.</description>
+				<default>15</default>
+				<required>false</required>
+			</parameter>
+			<parameter name="forecastRefreshInterval" type="integer">
+				<label>Forecast refresh interval</label>
+				<description>Refresh interval of forecast data. Default is 30 minutes.</description>
+				<default>30</default>
+				<required>false</required>
+			</parameter>
+		</config-description>
+
+	</thing-type>
+
+	<channel-group-type id="day1Group">
+		<label>Today's forecast</label>
+		<description>Today's forecast information.</description>
+		<channels>
+			<channel id="observationDateTime" typeId="observationDateTime" />
+			<channel id="dateTime" typeId="dateTime" />
+			<channel id="icon" typeId="icon" />
+			<channel id="precis" typeId="precis" />
+			<channel id="forecast" typeId="forecast" />
+			<channel id="minTemperature" typeId="minTemperature" />
+			<channel id="maxTemperature" typeId="maxTemperature" />
+			<channel id="precipitation" typeId="precipitation" />
+			<channel id="uvAlert" typeId="uvAlert" />
+			<channel id="airTemperature" typeId="airTemperature" />
+			<channel id="dewPoint" typeId="dewPoint" />
+			<channel id="relativeHumidity" typeId="relativeHumidity" />
+			<channel id="pressure" typeId="pressure" />
+			<channel id="windDirection" typeId="windDirection" />
+			<channel id="windDirectionDegrees" typeId="windDirectionDegrees" />
+			<channel id="windSpeedKmh" typeId="windDirectionKmh" />
+			<channel id="windSpeedKnots" typeId="windDirectionKnots" />
+			<channel id="rainfall" typeId="rainfall" />
+		</channels>
+	</channel-group-type>
+
+	<channel-group-type id="day2Group">
+		<label>Tomorrow's forecast</label>
+		<description>Tomorrow's forecast information.</description>
+		<channels>
+			<channel id="dateTime" typeId="dateTime" />
+			<channel id="icon" typeId="icon" />
+			<channel id="precis" typeId="precis" />
+			<channel id="forecast" typeId="forecast" />
+			<channel id="minTemperature" typeId="minTemperature" />
+			<channel id="maxTemperature" typeId="maxTemperature" />
+			<channel id="precipitation" typeId="precipitation" />
+			<channel id="uvAlert" typeId="uvAlert" />
+		</channels>
+	</channel-group-type>
+
+	<channel-group-type id="day3Group">
+		<label>Day 3 forecast</label>
+		<description>Day 3 forecast information.</description>
+		<channels>
+			<channel id="dateTime" typeId="dateTime" />
+			<channel id="icon" typeId="icon" />
+			<channel id="precis" typeId="precis" />
+			<channel id="forecast" typeId="forecast" />
+			<channel id="minTemperature" typeId="minTemperature" />
+			<channel id="maxTemperature" typeId="maxTemperature" />
+			<channel id="precipitation" typeId="precipitation" />
+			<channel id="uvAlert" typeId="uvAlert" />
+		</channels>
+	</channel-group-type>
+
+	<channel-group-type id="day4Group">
+		<label>Day 4 forecast</label>
+		<description>Day 4 forecast information.</description>
+		<channels>
+			<channel id="dateTime" typeId="dateTime" />
+			<channel id="icon" typeId="icon" />
+			<channel id="precis" typeId="precis" />
+			<channel id="forecast" typeId="forecast" />
+			<channel id="minTemperature" typeId="minTemperature" />
+			<channel id="maxTemperature" typeId="maxTemperature" />
+			<channel id="precipitation" typeId="precipitation" />
+			<channel id="uvAlert" typeId="uvAlert" />
+		</channels>
+	</channel-group-type>
+
+	<channel-group-type id="day5Group">
+		<label>Day 5 forecast</label>
+		<description>Day 5 forecast information.</description>
+		<channels>
+			<channel id="dateTime" typeId="dateTime" />
+			<channel id="icon" typeId="icon" />
+			<channel id="precis" typeId="precis" />
+			<channel id="forecast" typeId="forecast" />
+			<channel id="minTemperature" typeId="minTemperature" />
+			<channel id="maxTemperature" typeId="maxTemperature" />
+			<channel id="precipitation" typeId="precipitation" />
+			<channel id="uvAlert" typeId="uvAlert" />
+		</channels>
+	</channel-group-type>
+
+	<channel-group-type id="day6Group">
+		<label>Day 6 forecast</label>
+		<description>Day 6 forecast information.</description>
+		<channels>
+			<channel id="dateTime" typeId="dateTime" />
+			<channel id="icon" typeId="icon" />
+			<channel id="precis" typeId="precis" />
+			<channel id="forecast" typeId="forecast" />
+			<channel id="minTemperature" typeId="minTemperature" />
+			<channel id="maxTemperature" typeId="maxTemperature" />
+			<channel id="precipitation" typeId="precipitation" />
+			<channel id="uvAlert" typeId="uvAlert" />
+		</channels>
+	</channel-group-type>
+
+	<channel-group-type id="day7Group">
+		<label>Day 7 forecast</label>
+		<description>Day 7 forecast information.</description>
+		<channels>
+			<channel id="dateTime" typeId="dateTime" />
+			<channel id="icon" typeId="icon" />
+			<channel id="precis" typeId="precis" />
+			<channel id="forecast" typeId="forecast" />
+			<channel id="minTemperature" typeId="minTemperature" />
+			<channel id="maxTemperature" typeId="maxTemperature" />
+			<channel id="precipitation" typeId="precipitation" />
+			<channel id="uvAlert" typeId="uvAlert" />
+		</channels>
+	</channel-group-type>
+
+	<channel-group-type id="day8Group">
+		<label>Day 8 forecast</label>
+		<description>Day 8 forecast information.</description>
+		<channels>
+			<channel id="dateTime" typeId="dateTime" />
+			<channel id="icon" typeId="icon" />
+			<channel id="precis" typeId="precis" />
+			<channel id="forecast" typeId="forecast" />
+			<channel id="minTemperature" typeId="minTemperature" />
+			<channel id="maxTemperature" typeId="maxTemperature" />
+			<channel id="precipitation" typeId="precipitation" />
+			<channel id="uvAlert" typeId="uvAlert" />
+		</channels>
+	</channel-group-type>
+
+	<channel-type id="dateTime">
+		<item-type>DateTime</item-type>
+		<label>Date and time of the forecast</label>
+		<description>The day of the week.</description>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="icon">
+		<item-type>String</item-type>
+		<label>Forecast icon</label>
+		<description>The icon for forecast.</description>
+		<state readOnly="true" pattern="%s" />
+	</channel-type>
+
+	<channel-type id="precis">
+		<item-type>String</item-type>
+		<label>Forecast abstract</label>
+		<description>The forecast abstract text.</description>
+		<state readOnly="true" pattern="%s" />
+	</channel-type>
+
+	<channel-type id="forecast">
+		<item-type>String</item-type>
+		<label>Forecast description</label>
+		<description>The forecast description.</description>
+		<state readOnly="true" pattern="%s" />
+	</channel-type>
+
+	<channel-type id="minTemperature">
+		<item-type>Number</item-type>
+		<label>Minimum temperature</label>
+		<description>The minimum temperature.</description>
+		<category>Temperature</category>
+		<state readOnly="true" pattern="%d %unit%" />
+	</channel-type>
+	
+	<channel-type id="maxTemperature">
+		<item-type>Number</item-type>
+		<label>Maximum temperature</label>
+		<description>The maximum temperature.</description>
+		<category>Temperature</category>
+		<state readOnly="true" pattern="%d %unit%" />
+	</channel-type>
+	
+	<channel-type id="precipitation">
+		<item-type>String</item-type>
+		<label>Precipitation</label>
+		<description>The probability of precipitation.</description>
+		<state readOnly="true" pattern="%s" />
+	</channel-type>
+	
+	<channel-type id="uvAlert">
+		<item-type>String</item-type>
+		<label>UV alert</label>
+		<description>The UV alert if any.</description>
+		<state readOnly="true" pattern="%s" />
+	</channel-type>
+
+	<channel-type id="observationDateTime">
+		<item-type>DateTime</item-type>
+		<label>Observation date and time</label>
+		<description>The date and time of observation.</description>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="airTemperature">
+		<item-type>Number</item-type>
+		<label>Air temperature</label>
+		<description>The current air temperature.</description>
+		<category>Temperature</category>
+		<state readOnly="true" pattern="%d %unit%" />
+	</channel-type>
+
+	<channel-type id="dewPoint">
+		<item-type>Number</item-type>
+		<label>Dew point</label>
+		<description>The dew point.</description>
+		<category>Temperature</category>
+		<state readOnly="true" pattern="%d %unit%" />
+	</channel-type>
+
+	<channel-type id="relativeHumidity">
+		<item-type>Number</item-type>
+		<label>Relative humidity (percentage)</label>
+		<description>The relative humidity in percentage.</description>
+		<state readOnly="true" pattern="%d" />
+	</channel-type>
+
+	<channel-type id="pressure">
+		<item-type>Number</item-type>
+		<label>Atmospheric pressure (hPa)</label>
+		<description>The atmospheric pressure in hPa.</description>
+		<state readOnly="true" pattern="%d" />
+	</channel-type>
+
+	<channel-type id="windDirection">
+		<item-type>String</item-type>
+		<label>Wind direction</label>
+		<description>The wind direction.</description>
+		<state readOnly="true" pattern="%s" />
+	</channel-type>
+
+	<channel-type id="windDirectionDegrees">
+		<item-type>Number</item-type>
+		<label>Wind direction (degrees)</label>
+		<description>The wind direction in degrees.</description>
+		<state readOnly="true" pattern="%d" />
+	</channel-type>
+
+	<channel-type id="windSpeedKmh">
+		<item-type>Number</item-type>
+		<label>Wind speed (km/h)</label>
+		<description>The wind speed in km/h.</description>
+		<state readOnly="true" pattern="%d" />
+	</channel-type>
+
+	<channel-type id="windSpeedKnots">
+		<item-type>Number</item-type>
+		<label>Wind speed (knots)</label>
+		<description>The wind speed in knots.</description>
+		<state readOnly="true" pattern="%d" />
+	</channel-type>
+
+	<channel-type id="rainfall">
+		<item-type>Number</item-type>
+		<label>Current rainfall (mm)</label>
+		<description>The current rainfall in mm.</description>
+		<state readOnly="true" pattern="%d" />
+	</channel-type>
+
+</thing:thing-descriptions>
