@@ -50,9 +50,9 @@ import org.xml.sax.SAXException;
 public class BomHandler extends BaseThingHandler {
     private final Logger logger = LoggerFactory.getLogger(BomHandler.class);
 
-    private final String[] WEATHER_ICON_MAP = { "sun", "sun", "cloud-sun", "cloud", "haze", "possible-rain", "wind",
-            "fog", "wind", "cloud-rain", "wind", "cloud-snow", "cloud-snow", "cloud-storm", "possible-rain",
-            "cloud-storm", "sun" };
+    private final String[] WEATHER_ICON_MAP = { "sunny", "clear", "mostly-sunny", "cloudy", "hazy", "light-rain",
+            "windy", "fog", "shower", "rain", "dusty", "frost", "snow", "storm", "light-shower", "heavy-shower",
+            "cyclone" };
 
     @Nullable
     private ScheduledFuture<?> observationRefreshJob;
