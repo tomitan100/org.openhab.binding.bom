@@ -167,4 +167,4 @@ Once you have located the forecast data-feed open the file and locate the area c
 
 For example: Perth's aac code in ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml is "WA_PT053".
 
-For more information about data-feed, please go to http://reg.bom.gov.au/catalogue/data-feeds.shtml
+For more information about data-feeds, please go to http://reg.bom.gov.au/catalogue/data-feeds.shtml
