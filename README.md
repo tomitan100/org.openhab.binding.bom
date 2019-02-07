@@ -1,4 +1,4 @@
-# <bindingName> Australian Bureau of Meteorology Binding
+# <bindingName> Australian Bureau of Meteorology Weather Forecast Binding
 
 This Eclipse Smarthome/OpenHAB binding allows retrieval of Australian weather forecast from Bureau of Meteorology.
 
