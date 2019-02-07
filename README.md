@@ -1,4 +1,4 @@
-# <bindingName> Australian Bureau of Meteorology Binding
+# <bindingName> Australian Bureau of Meteorology Weather Forecast Binding
 
 This Eclipse Smarthome/OpenHAB binding allows retrieval of Australian weather forecast from Bureau of Meteorology.
 
@@ -8,7 +8,7 @@ This initial release maps most fields from BOM data-feed.
 For today's observation and forecast these fields are available:
 - Observation time
 - Date and time of forecast
-- Applicable weather icon
+- Forecast icon name
 - Precis (i.e. abstract)
 - Forecast text
 - Minimum temperature
@@ -27,7 +27,7 @@ For today's observation and forecast these fields are available:
 
 For future forecasts the following fields are available:
 - Date and time of forecast
-- Applicable weather icon
+- Forecast icon name
 - Precis (i.e. abstract)
 - Forecast text
 - Minimum temperature
@@ -167,4 +167,82 @@ Once you have located the forecast data-feed open the file and locate the area c
 
 For example: Perth's aac code in ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml is "WA_PT053".
 
-For more information about data-feed, please go to http://reg.bom.gov.au/catalogue/data-feeds.shtml
+For more information about data-feeds, please go to http://reg.bom.gov.au/catalogue/data-feeds.shtml
+
+## Forecast Icons
+The following table show all the possible icon names returned by the channel.
+
+<table>
+<tr align="left">
+  <th>Forecast</th>
+  <th>Icon name</th>
+</tr>
+<tr>
+  <td>Sunny</td>
+  <td>sunny</td>
+</tr>
+<tr>
+  <td>Clear</td>
+  <td>clear</td>
+</tr>
+<tr>
+  <td>Mostly sunny</td>
+  <td>mostly-sunny</td>
+</tr>
+<tr>
+  <td>Cloudy</td>
+  <td>cloudy</td>
+</tr>
+<tr>
+  <td>Hazy</td>
+  <td>hazy</td>
+</tr>
+<tr>
+  <td>Light rain</td>
+  <td>light-rain</td>
+</tr>
+<tr>
+  <td>Windy</td>
+  <td>windy</td>
+</tr>
+<tr>
+  <td>Fog</td>
+  <td>fog</td>
+</tr>
+<tr>
+  <td>Shower</td>
+  <td>shower</td>
+</tr>
+<tr>
+  <td>Rain</td>
+  <td>rain</td>
+</tr>
+<tr>
+  <td>Dusty</td>
+  <td>dusty</td>
+</tr>
+<tr>
+  <td>Frost</td>
+  <td>frost</td>
+</tr>
+<tr>
+  <td>Snow</td>
+  <td>snow</td>
+</tr>
+<tr>
+  <td>Storm</td>
+  <td>storm</td>
+</tr>
+<tr>
+  <td>Light shower</td>
+  <td>light-shower</td>
+</tr>
+<tr>
+  <td>Heavy shower</td>
+  <td>heavy-shower</td>
+</tr>
+<tr>
+  <td>Cyclone</td>
+  <td>cyclone</td>
+</tr>
+</table>  
