@@ -186,6 +186,14 @@ The following table show all the possible icon names returned by the channel.
   <td>clear</td>
 </tr>
 <tr>
+  <td>Mostly sunny</td>
+  <td>mostly-sunny</td>
+</tr>
+<tr>
+  <td>Cloudy</td>
+  <td>cloudy</td>
+</tr>
+<tr>
   <td>Hazy</td>
   <td>hazy</td>
 </tr>
