@@ -5,7 +5,7 @@
 
 	<thing-type id="weather">
 		<label>BOM</label>
-		<description>Australian Bureau of Meteorology Binding</description>
+		<description>Australian Bureau of Meteorology Weather Forecast Binding</description>
 
 		<channel-groups>
 			<channel-group id="day1" typeId="day1Group" />

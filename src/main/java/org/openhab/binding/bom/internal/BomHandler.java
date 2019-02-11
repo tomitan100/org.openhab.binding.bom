@@ -139,47 +139,47 @@ public class BomHandler extends BaseThingHandler {
             Double pressure = getDouble(xmlDocument, xPath, elementXPath + "[@type='pres']");
             String windDirection = getString(xmlDocument, xPath, elementXPath + "[@type='wind_dir']");
             Double windDirectionDegrees = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_dir_deg']");
-            Double windSpeedKmh = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_speed_kmh']");
-            Double windSpeedKnots = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_speed']");
+            Double windSpeedKmh = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_spd_kmh']");
+            Double windSpeedKnots = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_spd']");
             Double rainfall = getDouble(xmlDocument, xPath, elementXPath + "[@type='rainfall']");
 
             getThing().getChannelsOfGroup(BomBindingConstants.CHANNEL_GROUP_TODAY).stream().forEach(channel -> {
                 switch (channel.getUID().getIdWithoutGroup()) {
                     case BomBindingConstants.CHANNEL_MIN_TEMPERATURE:
-                        updateState(channel.getUID(), new DecimalType(minTemperature));
+                        updateChannelState(channel.getUID(), minTemperature);
                         break;
                     case BomBindingConstants.CHANNEL_MAX_TEMPERATURE:
-                        updateState(channel.getUID(), new DecimalType(maxTemperature));
+                        updateChannelState(channel.getUID(), maxTemperature);
                         break;
                     case BomBindingConstants.CHANNEL_AIR_TEMPERATURE:
-                        updateState(channel.getUID(), new DecimalType(airTemperature));
+                        updateChannelState(channel.getUID(), airTemperature);
                         break;
                     case BomBindingConstants.CHANNEL_DEW_POINT:
-                        updateState(channel.getUID(), new DecimalType(dewPoint));
+                        updateChannelState(channel.getUID(), dewPoint);
                         break;
                     case BomBindingConstants.CHANNEL_RELATIVE_HUMIDITY:
-                        updateState(channel.getUID(), new DecimalType(relativeHumidity));
+                        updateChannelState(channel.getUID(), relativeHumidity);
                         break;
                     case BomBindingConstants.CHANNEL_PRESSURE:
-                        updateState(channel.getUID(), new DecimalType(pressure));
+                        updateChannelState(channel.getUID(), pressure);
                         break;
                     case BomBindingConstants.CHANNEL_WIND_DIRECTION:
-                        updateState(channel.getUID(), new StringType(windDirection));
+                        updateChannelState(channel.getUID(), windDirection);
                         break;
                     case BomBindingConstants.CHANNEL_WIND_DIRECTION_DEGREES:
-                        updateState(channel.getUID(), new DecimalType(windDirectionDegrees));
+                        updateChannelState(channel.getUID(), windDirectionDegrees);
                         break;
                     case BomBindingConstants.CHANNEL_WIND_SPEED_KMH:
-                        updateState(channel.getUID(), new DecimalType(windSpeedKmh));
+                        updateChannelState(channel.getUID(), windSpeedKmh);
                         break;
                     case BomBindingConstants.CHANNEL_WIND_SPEED_KNOTS:
-                        updateState(channel.getUID(), new DecimalType(windSpeedKnots));
+                        updateChannelState(channel.getUID(), windSpeedKnots);
                         break;
                     case BomBindingConstants.CHANNEL_RAINFALL:
-                        updateState(channel.getUID(), new DecimalType(rainfall));
+                        updateChannelState(channel.getUID(), rainfall);
                         break;
                     case BomBindingConstants.CHANNEL_OBSERVATION_DATE_TIME:
-                        updateState(channel.getUID(), new DateTimeType(observationZonedDateTime));
+                        updateChannelState(channel.getUID(), observationZonedDateTime);
                         break;
                 }
             });
@@ -237,7 +237,7 @@ public class BomHandler extends BaseThingHandler {
                         continue;
                     }
 
-                    String dateStr = node.getAttributes().getNamedItem("end-time-local").getNodeValue();
+                    String dateStr = node.getAttributes().getNamedItem("start-time-local").getNodeValue();
                     ZonedDateTime zonedDatetime = ZonedDateTime.parse(dateStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
                     String iconCode = null;
@@ -301,7 +301,7 @@ public class BomHandler extends BaseThingHandler {
         }
     }
 
-    private void updateForecastState(String channelGroupId, ZonedDateTime zonedDatetime, String iconCode, String precis,
+    private void updateForecastState(String channelGroupId, ZonedDateTime zonedDateTime, String iconCode, String precis,
             String forecast, Double minTemperature, Double maxTemperature, String precipitation, String uvAlert) {
 
         getThing().getChannelsOfGroup(channelGroupId).stream().forEach(channel -> {
@@ -316,10 +316,10 @@ public class BomHandler extends BaseThingHandler {
                     }
                     break;
                 case BomBindingConstants.CHANNEL_DATE_TIME:
-                    updateState(channel.getUID(), new DateTimeType(zonedDatetime));
+                    updateChannelState(channel.getUID(), zonedDateTime);
                     break;
                 case BomBindingConstants.CHANNEL_PRECIS:
-                    updateState(channel.getUID(), new StringType(precis));
+                    updateChannelState(channel.getUID(), precis);
                     break;
                 case BomBindingConstants.CHANNEL_MIN_TEMPERATURE:
                     updateChannelState(channel.getUID(), minTemperature);
@@ -349,6 +349,12 @@ public class BomHandler extends BaseThingHandler {
     private void updateChannelState(ChannelUID uid, Double value) {
         if (value != null) {
             updateState(uid, new DecimalType(value));
+        }
+    }
+
+    private void updateChannelState(ChannelUID uid, ZonedDateTime dateTime) {
+        if (dateTime != null) {
+            updateState(uid, new DateTimeType(dateTime));
         }
     }
 
