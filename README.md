@@ -3,9 +3,11 @@
 This Eclipse Smarthome/OpenHAB binding allows retrieval of Australian weather forecast from Bureau of Meteorology.
 
 ## Features
+
 This initial release maps most fields from BOM data-feed.
 
 For today's observation and forecast these fields are available:
+
 - Observation time
 - Date and time of forecast
 - Forecast icon name
@@ -26,6 +28,7 @@ For today's observation and forecast these fields are available:
 - Rainfall
 
 For future forecasts the following fields are available:
+
 - Date and time of forecast
 - Forecast icon name
 - Precis (i.e. abstract)
@@ -36,6 +39,7 @@ For future forecasts the following fields are available:
 - UV alert text
 
 ## Configuration
+
 At minimum there are four fields required to process the data-feed.  The FTP path to obvservation data XML, the weather station ID of observation, the FTP path to forecast data XML and the area code.
 
 Observation FTP paths are grouped by state. Use the following table to copy the XML path of your state.
@@ -170,6 +174,7 @@ For example: Perth's aac code in ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml 
 For more information about data-feeds, please go to http://reg.bom.gov.au/catalogue/data-feeds.shtml
 
 ## Forecast Icons
+
 The following table show all the possible icon names returned by the channel.
 
 <table>

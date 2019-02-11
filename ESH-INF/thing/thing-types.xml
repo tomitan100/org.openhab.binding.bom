@@ -70,8 +70,8 @@
 			<channel id="pressure" typeId="pressure" />
 			<channel id="windDirection" typeId="windDirection" />
 			<channel id="windDirectionDegrees" typeId="windDirectionDegrees" />
-			<channel id="windSpeedKmh" typeId="windDirectionKmh" />
-			<channel id="windSpeedKnots" typeId="windDirectionKnots" />
+			<channel id="windSpeedKmh" typeId="windSpeedKmh" />
+			<channel id="windSpeedKnots" typeId="windSpeedKnots" />
 			<channel id="rainfall" typeId="rainfall" />
 		</channels>
 	</channel-group-type>

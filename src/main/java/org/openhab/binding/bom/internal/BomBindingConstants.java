@@ -39,7 +39,7 @@ public class BomBindingConstants {
     public static final String CHANNEL_PRESSURE = "pressure";
     public static final String CHANNEL_WIND_DIRECTION = "windDirection";
     public static final String CHANNEL_WIND_DIRECTION_DEGREES = "windDirectionDegrees";
-    public static final String CHANNEL_WIND_SPEED_KMH = "winSpeedKmh";
+    public static final String CHANNEL_WIND_SPEED_KMH = "windSpeedKmh";
     public static final String CHANNEL_WIND_SPEED_KNOTS = "windSpeedKnots";
     public static final String CHANNEL_RAINFALL = "rainfall";
 
