@@ -259,7 +259,7 @@ The following table show all the possible icon names returned by the channel.
 
 ## Example Screenshots in OpenHAB
 
-The screenshots below are examples of the binding in operation.  The screens use custom theme called Matrix Theme by Patrick (pmpkk).  For more information about the theme please go to https://community.openhab.org/t/matrix-theme-for-habpanel/31100.
+The screenshots below are examples of the binding in operation.  The screens use custom theme called "Matrix Theme" by Patrick (pmpkk).  For more information about the theme please go to https://community.openhab.org/t/matrix-theme-for-habpanel/31100.
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/home.png?raw=true" />
 
