@@ -183,8 +183,8 @@
 
 	<channel-type id="dateTime">
 		<item-type>DateTime</item-type>
-		<label>Date and time of the forecast</label>
-		<description>The day of the week.</description>
+		<label>Forecast date and time</label>
+		<description>The date and time of forecast.</description>
 		<state readOnly="true" />
 	</channel-type>
 
