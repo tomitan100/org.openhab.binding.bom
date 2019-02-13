@@ -1,6 +1,6 @@
 # <bindingName> Australian Bureau of Meteorology Weather Forecast Binding
 
-This Eclipse Smarthome/OpenHAB binding allows retrieval of Australian weather forecast from Bureau of Meteorology.
+This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather forecast from Bureau of Meteorology.
 
 ## Features
 
@@ -257,7 +257,7 @@ The following table show all the possible icon names returned by the channel.
 </tr>
 </table>  
 
-## Example Screenshots in OpenHAB
+## Example Screenshots in openHAB HABPanel
 
 The screenshots below are examples of the binding in operation.  The screens use custom theme called "Matrix Theme" by Patrick (pmpkk).  For more information about the theme please go to https://community.openhab.org/t/matrix-theme-for-habpanel/31100.
 
