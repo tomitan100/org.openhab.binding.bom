@@ -173,6 +173,11 @@ For example: Perth's aac code in ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml 
 
 For more information about data-feeds, please go to http://reg.bom.gov.au/catalogue/data-feeds.shtml
 
+Screenshot below shows the binding configuration screen in Paper UI.
+
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/configuration.png?raw=true" />
+
+
 ## Forecast Icons
 
 The following table show all the possible icon names returned by the channel.
