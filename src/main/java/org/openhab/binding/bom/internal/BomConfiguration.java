@@ -14,15 +14,19 @@ package org.openhab.binding.bom.internal;
  * @author Thomas Tan - Initial contribution
  */
 public class BomConfiguration {
-    public String observationFtpPath;
+    public String ftpPath;
+
+    public String observationProductId;
 
     public String weatherStationId;
 
-    public Integer observationRefreshInterval;
-
-    public String forecastFtpPath;
+    public String precisForecastProductId;
 
     public String areaId;
+
+    public String cityTownForecastProductId;
+
+    public Integer observationRefreshInterval;
 
     public Integer forecastRefreshInterval;
 }

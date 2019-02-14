@@ -102,21 +102,24 @@ public class BomHandler extends BaseThingHandler {
     }
 
     private void refreshObservation() {
-        if (config.observationFtpPath == null || config.weatherStationId == null) {
-            logger.warn("Observation FTP path or weather station ID is required");
-            updateStatus(ThingStatus.UNINITIALIZED);
+        if (config.ftpPath == null || config.ftpPath.trim().length() == 0 || config.observationProductId == null
+                || config.weatherStationId == null) {
+            logger.error("FTP path, observation product ID and weather station ID are required");
+            updateStatus(ThingStatus.OFFLINE);
             return;
         }
 
-        logger.debug("Processing observation data from FTP path: {}, weather station ID: {}", config.observationFtpPath,
+        String observationFtpPath = config.ftpPath + "/" + config.observationProductId.toUpperCase() + ".xml";
+
+        logger.debug("Processing observation data from FTP path: {}, weather station ID: {}", observationFtpPath,
                 config.weatherStationId);
 
         InputStream inputStream = null;
 
         try {
-            logger.debug("Retrieving observation data from " + config.observationFtpPath);
+            logger.debug("Retrieving observation data from " + observationFtpPath);
 
-            URLConnection urlConnection = new URL(config.observationFtpPath).openConnection();
+            URLConnection urlConnection = new URL(observationFtpPath).openConnection();
             inputStream = urlConnection.getInputStream();
 
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -200,18 +203,26 @@ public class BomHandler extends BaseThingHandler {
     }
 
     private void refreshForecast() {
-        if (config.forecastFtpPath == null || config.areaId == null) {
-            logger.warn("Forecast FTP path or area ID is required");
-            updateStatus(ThingStatus.UNINITIALIZED);
+        refreshPrecisForecast();
+        refreshCityOrTownForecast();
+    }
+
+    private void refreshPrecisForecast() {
+        if (config.ftpPath == null || config.ftpPath.trim().length() == 0 || config.precisForecastProductId == null
+                || config.areaId == null) {
+            logger.error("FTP path, precis forecast product ID and area ID are required");
+            updateStatus(ThingStatus.OFFLINE);
             return;
         }
 
-        logger.info("Processing forecast data from FTP path: {}, area ID: {}", config.forecastFtpPath, config.areaId);
+        String forecastFtpPath = config.ftpPath + "/" + config.precisForecastProductId.toUpperCase() + ".xml";
+
+        logger.info("Processing precis forecast from FTP path: {}, area ID: {}", forecastFtpPath, config.areaId);
 
         InputStream inputStream = null;
 
         try {
-            URLConnection urlConnection = new URL(config.forecastFtpPath).openConnection();
+            URLConnection urlConnection = new URL(forecastFtpPath).openConnection();
             inputStream = urlConnection.getInputStream();
 
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
@@ -220,10 +231,6 @@ public class BomHandler extends BaseThingHandler {
             XPath xPath = XPathFactory.newInstance().newXPath();
 
             String areaXPath = "/product/forecast/area[@aac='" + config.areaId + "']";
-            Node areaNode = (Node) xPath.compile(areaXPath).evaluate(xmlDocument, XPathConstants.NODE);
-
-            String parentAreaCode = areaNode.getAttributes().getNamedItem("parent-aac").getNodeValue();
-            String parentAreaXPath = "/product/forecast/area[@aac='" + parentAreaCode + "']";
 
             NodeList nodes = (NodeList) xPath.compile(areaXPath + "/forecast-period").evaluate(xmlDocument,
                     XPathConstants.NODESET);
@@ -245,9 +252,6 @@ public class BomHandler extends BaseThingHandler {
                     Double maxTemperature = null;
                     String precis = "";
                     String precipitation = "";
-                    String uvAlert = "N/A";
-                    String forecast = getString(xmlDocument, xPath,
-                            parentAreaXPath + "/forecast-period[@index='" + idx + "']/text[@type='forecast']");
 
                     for (int j = 0; j < node.getChildNodes().getLength(); j++) {
                         Node childNode = node.getChildNodes().item(j);
@@ -273,22 +277,103 @@ public class BomHandler extends BaseThingHandler {
                             case "probability_of_precipitation":
                                 precipitation = childNode.getTextContent();
                                 break;
+                        }
+                    }
+
+                    updateForecastState(BomBindingConstants.CHANNEL_GROUP_DAY_PREFIX + (idx + 1), zonedDatetime,
+                            iconCode, precis, minTemperature, maxTemperature, precipitation);
+
+                    idx++;
+                }
+
+                logger.info("Successfully processed precis forecast data.");
+            }
+        } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException ex) {
+            logger.error("Unable to process precis forecast data from " + forecastFtpPath, ex);
+            updateStatus(ThingStatus.OFFLINE);
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    logger.warn("Unable to close input streram", e);
+                }
+            }
+        }
+    }
+
+    private void refreshCityOrTownForecast() {
+        if (config.ftpPath == null || config.ftpPath.trim().length() == 0 || config.cityTownForecastProductId == null
+                || config.areaId == null) {
+            logger.error("FTP path, city/town forecast product ID and area ID are required");
+            updateStatus(ThingStatus.OFFLINE);
+            return;
+        }
+
+        String forecastFtpPath = config.ftpPath + "/" + config.cityTownForecastProductId.toUpperCase() + ".xml";
+
+        logger.info("Processing city/town forecast from FTP path: {}, area ID: {}", forecastFtpPath, config.areaId);
+
+        InputStream inputStream = null;
+
+        try {
+            URLConnection urlConnection = new URL(forecastFtpPath).openConnection();
+            inputStream = urlConnection.getInputStream();
+
+            DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = builderFactory.newDocumentBuilder();
+            Document xmlDocument = builder.parse(inputStream);
+            XPath xPath = XPathFactory.newInstance().newXPath();
+
+            String areaXPath = "/product/forecast/area[@aac='" + config.areaId + "']";
+            Node areaNode = (Node) xPath.compile(areaXPath).evaluate(xmlDocument, XPathConstants.NODE);
+
+            String parentAreaCode = areaNode.getAttributes().getNamedItem("parent-aac").getNodeValue();
+            String parentAreaXPath = "/product/forecast/area[@aac='" + parentAreaCode + "']";
+
+            NodeList nodes = (NodeList) xPath.compile(parentAreaXPath + "/forecast-period").evaluate(xmlDocument,
+                    XPathConstants.NODESET);
+
+            if (nodes != null && nodes.getLength() > 0) {
+                int idx = 0;
+                for (int i = 0; i < nodes.getLength() && idx < BomBindingConstants.NUMBER_OF_FORECASTS; i++) {
+                    Node node = nodes.item(i);
+
+                    if (node.getNodeType() != Node.ELEMENT_NODE) {
+                        continue;
+                    }
+
+                    String forecast = "N/A";
+                    String uvAlert = "N/A";
+
+                    for (int j = 0; j < node.getChildNodes().getLength(); j++) {
+                        Node childNode = node.getChildNodes().item(j);
+
+                        if (childNode.getNodeType() != Node.ELEMENT_NODE) {
+                            continue;
+                        }
+
+                        String type = childNode.getAttributes().getNamedItem("type").getNodeValue();
+
+                        switch (type) {
+                            case "forecast":
+                                forecast = childNode.getTextContent();
+                                break;
                             case "uv_alert":
                                 uvAlert = childNode.getTextContent();
                                 break;
                         }
                     }
 
-                    updateForecastState(BomBindingConstants.CHANNEL_GROUP_DAY_PREFIX + (idx + 1), zonedDatetime,
-                            iconCode, precis, forecast, minTemperature, maxTemperature, precipitation, uvAlert);
+                    updateForecastState(BomBindingConstants.CHANNEL_GROUP_DAY_PREFIX + (idx + 1), forecast, uvAlert);
 
                     idx++;
                 }
 
-                logger.info("Completed processing forecast data.");
+                logger.info("Successfully processed city/down forecast data.");
             }
         } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException ex) {
-            logger.error("Unable to process forecast data", ex);
+            logger.error("Unable to process precis forecast data from " + forecastFtpPath, ex);
             updateStatus(ThingStatus.OFFLINE);
         } finally {
             if (inputStream != null) {
@@ -302,7 +387,7 @@ public class BomHandler extends BaseThingHandler {
     }
 
     private void updateForecastState(String channelGroupId, ZonedDateTime zonedDateTime, String iconCode, String precis,
-            String forecast, Double minTemperature, Double maxTemperature, String precipitation, String uvAlert) {
+            Double minTemperature, Double maxTemperature, String precipitation) {
 
         getThing().getChannelsOfGroup(channelGroupId).stream().forEach(channel -> {
             switch (channel.getUID().getIdWithoutGroup()) {
@@ -314,6 +399,7 @@ public class BomHandler extends BaseThingHandler {
                             updateState(channel.getUID(), new StringType(WEATHER_ICON_MAP[iconIdx]));
                         }
                     }
+
                     break;
                 case BomBindingConstants.CHANNEL_DATE_TIME:
                     updateChannelState(channel.getUID(), zonedDateTime);
@@ -330,6 +416,13 @@ public class BomHandler extends BaseThingHandler {
                 case BomBindingConstants.CHANNEL_PRECIPITATION:
                     updateChannelState(channel.getUID(), precipitation);
                     break;
+            }
+        });
+    }
+
+    private void updateForecastState(String channelGroupId, String forecast, String uvAlert) {
+        getThing().getChannelsOfGroup(channelGroupId).stream().forEach(channel -> {
+            switch (channel.getUID().getIdWithoutGroup()) {
                 case BomBindingConstants.CHANNEL_FORECAST:
                     updateChannelState(channel.getUID(), forecast);
                     break;

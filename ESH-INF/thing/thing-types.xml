@@ -19,29 +19,39 @@
 		</channel-groups>
 
 		<config-description>
-			<parameter name="observationFtpPath" type="text" required="true">
-				<label>Observation FTP path</label>
-				<description>FTP path to observation data. e.g ftp://ftp.bom.gov.au/anon/gen/fwo/IDW60920.xml</description>
+            <parameter name="ftpPath" type="text" required="true">
+                <label>FTP path</label>
+                <description>FTP path of the directory containing the XML files. Default is ftp://ftp.bom.gov.au/anon/gen/fwo</description>
+                <default>ftp://ftp.bom.gov.au/anon/gen/fwo</default>
+                <required>false</required>
+            </parameter>
+			<parameter name="observationProductId" type="text" required="true">
+				<label>Observation product ID</label>
+				<description>The observation product ID e.g IDW60920</description>
 			</parameter>
 			<parameter name="weatherStationId" type="text" required="true">
 				<label>Weather station ID</label>
-				<description>The weather station ID (wom-id attribute). e.g 94608</description>
+				<description>The weather station ID (wom-id attribute in observation XML). e.g 94608</description>
 			</parameter>
-			<parameter name="forecastFtpPath" type="text" required="true">
-				<label>Forecast FTP path</label>
-				<description>FTP path to forecast data. e.g ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml</description>
+			<parameter name="precisForecastProductId" type="text" required="true">
+				<label>Precis forecast product ID</label>
+				<description>The precis forecast product ID. e.g IDW14199</description>
 			</parameter>
 			<parameter name="areaId" type="text" required="true">
 				<label>Area ID</label>
-				<description>The area ID (aac attribute). e.g WA_PT053</description>
+				<description>The area ID (aac attribute in forecast XML). e.g WA_PT053</description>
 			</parameter>
-			<parameter name="observationRefreshInterval" type="integer">
+			<parameter name="cityTownForecastProductId" type="text" required="true">
+				<label>City/town forecast product ID</label>
+				<description>The city or town forecast product ID e.g IDW12300</description>
+			</parameter>
+			<parameter name="observationRefreshInterval" type="integer" required="true">
 				<label>Observation refresh interval in minutes</label>
 				<description>Refresh interval of observation data. Default is 15 minutes.</description>
 				<default>15</default>
 				<required>false</required>
 			</parameter>
-			<parameter name="forecastRefreshInterval" type="integer">
+			<parameter name="forecastRefreshInterval" type="integer" required="true">
 				<label>Forecast refresh interval</label>
 				<description>Refresh interval of forecast data. Default is 30 minutes.</description>
 				<default>30</default>
@@ -197,8 +207,8 @@
 
 	<channel-type id="precis">
 		<item-type>String</item-type>
-		<label>Forecast abstract</label>
-		<description>The forecast abstract text.</description>
+		<label>Forecast precis</label>
+		<description>The forecast precis (abstract) text.</description>
 		<state readOnly="true" pattern="%s" />
 	</channel-type>
 
