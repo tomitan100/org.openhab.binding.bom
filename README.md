@@ -38,6 +38,12 @@ For future forecasts the following fields are available:
 - Possibility of precipitation
 - UV alert text
 
+## Installation
+
+For openHAB install "Eclipse IoT Market" add-on under MISC tab in openHAB Paper UI.  Then install "Australian BOM Weather Forecast Binding" from the Bindings page.
+
+For Eclipse SmartHome install from https://marketplace.eclipse.org/content/australian-bom-weather-forecast-binding.
+
 ## Configuration
 
 At minimum there are four fields required to process the data-feed.  The FTP path to obvservation data XML, the weather station ID of observation, the FTP path to forecast data XML and the area code.
