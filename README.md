@@ -1,6 +1,6 @@
 # <bindingName> Australian Bureau of Meteorology Weather Forecast Binding
 
-This Eclipse Smarthome/OpenHAB binding allows retrieval of Australian weather forecast from Bureau of Meteorology.
+This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather forecast from Bureau of Meteorology.
 
 ## Features
 
@@ -37,6 +37,12 @@ For future forecasts the following fields are available:
 - Maximum temperature
 - Possibility of precipitation
 - UV alert text
+
+## Installation
+
+For openHAB install "Eclipse IoT Market" add-on under MISC tab in openHAB Paper UI.  Then install "Australian BOM Weather Forecast Binding" from the Bindings page.
+
+For Eclipse SmartHome install from https://marketplace.eclipse.org/content/australian-bom-weather-forecast-binding.
 
 ## Configuration
 
@@ -173,6 +179,11 @@ For example: Perth's aac code in ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml 
 
 For more information about data-feeds, please go to http://reg.bom.gov.au/catalogue/data-feeds.shtml
 
+Screenshot below shows the binding configuration screen in Paper UI.
+
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/configuration.png?raw=true" />
+
+
 ## Forecast Icons
 
 The following table show all the possible icon names returned by the channel.
@@ -252,9 +263,9 @@ The following table show all the possible icon names returned by the channel.
 </tr>
 </table>  
 
-## Example Screenshots in OpenHAB
+## Example Screenshots in openHAB HABPanel
 
-The screenshots below are examples of the binding in operation.  The screens use custom theme called Matrix Theme by Patrick (pmpkk).  For more information about the theme please go to https://community.openhab.org/t/matrix-theme-for-habpanel/31100.
+The screenshots below are examples of the binding in operation.  The screens use custom theme called "Matrix Theme" by Patrick (pmpkk).  For more information about the theme please go to https://community.openhab.org/t/matrix-theme-for-habpanel/31100.
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/home.png?raw=true" />
 
