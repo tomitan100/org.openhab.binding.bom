@@ -205,7 +205,7 @@ Screenshot below shows an example configuration in Paper UI.
 
 ## Forecast Icons
 
-The following table show all the possible icon names returned by the channel.
+The following table shows all the possible icon names returned by the channel.
 
 <table>
 <tr align="left">
