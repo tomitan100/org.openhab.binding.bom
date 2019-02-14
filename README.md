@@ -48,7 +48,7 @@ For Eclipse SmartHome install from https://marketplace.eclipse.org/content/austr
 
 At minimum there are five fields required to process the data-feed.  The observation product ID, the weather station ID of observation, the precis product ID, the city/town product ID and finally the area code.
 
-Listed below is the observation product ID for your state. Copy the ID you need to the "Observation product ID" field in Paper UI things configuration.
+Listed below is the observation product ID for your state. Enter the ID you need into the "Observation product ID" field in Paper UI things configuration.
 
 <table>
 <tr align="left">
@@ -190,7 +190,7 @@ Below is a list of the forecast product ID's for Australian major cities.
 </tr>
 </table>
 
-NOTE: If the forecast product ID's you are after is not in the list go to this catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml and search for the products.  The type must be "Forecast". Use the Search box on the page.  Locate "Precis Forecast XML Package (<your-state>)" and enter the product ID into the field "Precis forecast product ID" back in Paper UI Thing configuration.  Locate "City Forecast - Perth (<your-state>)" for city forecasts or "Town Forecast - <your-town-name> (<your-state>)" and enter the product ID into the field "City/town forecast ID".
+NOTE: If the forecast product ID's you are after is not in the list go to this catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml and search for the products.  The type must be "Forecast". Use the Search box on the page.  Locate "Precis Forecast XML Package ({your-state})" and enter the product ID into the field "Precis forecast product ID" back in Paper UI Thing configuration.  Locate "City Forecast - Perth ({your-state})" for city forecasts or "Town Forecast - {your-town-name} ({your-state})" and enter the product ID into the field "City/town forecast ID".
 
 Now open either the precis or the city/town forecast XML (ftp://ftp.bom.gov.au/anon/gen/fwo/{the-product-id}.xml) and locate the area code (aac code).
 
