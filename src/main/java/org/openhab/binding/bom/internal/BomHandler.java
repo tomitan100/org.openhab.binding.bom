@@ -347,7 +347,7 @@ public class BomHandler extends BaseThingHandler {
     }
 
     private void updateChannelState(ChannelUID uid, Double value) {
-        if (value != null) {
+        if (value != null && !value.isNaN()) {
             updateState(uid, new DecimalType(value));
         }
     }
