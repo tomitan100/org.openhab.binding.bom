@@ -80,14 +80,14 @@ public class BomHandler extends BaseThingHandler {
         startRefresh();
     }
 
-    private void startRefresh() {
-        observationRefreshJob = scheduler.scheduleWithFixedDelay(this::refreshObservation, 0,
+    private synchronized void startRefresh() {
+        observationRefreshJob = scheduler.scheduleWithFixedDelay(this::refreshObservation, 1,
                 config.observationRefreshInterval, TimeUnit.MINUTES);
-        forecastRefreshJob = scheduler.scheduleWithFixedDelay(this::refreshForecast, 0, config.forecastRefreshInterval,
+        forecastRefreshJob = scheduler.scheduleWithFixedDelay(this::refreshForecast, 1, config.forecastRefreshInterval,
                 TimeUnit.MINUTES);
     }
 
-    private void stopRefresh() {
+    private synchronized void stopRefresh() {
         if (observationRefreshJob != null && !observationRefreshJob.isCancelled()) {
             logger.info("Cancelling observation refresh job");
             observationRefreshJob.cancel(true);
@@ -101,7 +101,7 @@ public class BomHandler extends BaseThingHandler {
         }
     }
 
-    private void refreshObservation() {
+    private synchronized void refreshObservation() {
         if (config.ftpPath == null || config.ftpPath.trim().length() == 0 || config.observationProductId == null
                 || config.weatherStationId == null) {
             logger.error("FTP path, observation product ID and weather station ID are required");
@@ -202,7 +202,7 @@ public class BomHandler extends BaseThingHandler {
         }
     }
 
-    private void refreshForecast() {
+    private synchronized void refreshForecast() {
         refreshPrecisForecast();
         refreshCityOrTownForecast();
     }
