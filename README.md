@@ -46,147 +46,166 @@ For Eclipse SmartHome install from https://marketplace.eclipse.org/content/austr
 
 ## Configuration
 
-At minimum there are four fields required to process the data-feed.  The FTP path to obvservation data XML, the weather station ID of observation, the FTP path to forecast data XML and the area code.
+At minimum there are five fields required to process the data-feed.  The observation product ID, the weather station ID of observation, the precis product ID, the city/town product ID and finally the area code.
 
-Observation FTP paths are grouped by state. Use the following table to copy the XML path of your state.
+Listed below is the observation product ID for your state. Enter the ID you need into the "Observation product ID" field in Paper UI things configuration.
 
 <table>
 <tr align="left">
   <th>State</th>
-  <th>Observation FTP Path</th> 
+  <th>Observation Product ID</th> 
 </tr>
 <tr>
   <td><b>NSW</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDN60920.xml</td>
+  <td>IDN60920</td>
 </tr>
 <tr>
   <td><b>ACT</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDN60920.xml</td>
+  <td>IDN60920</td>
 </tr>
 <tr>
   <td><b>NT</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDD60920.xml</td>
+  <td>IDD60920</td>
 </tr>
 <tr>
   <td><b>QLD</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDQ60920.xml</td>
+  <td>IDQ60920</td>
 </tr>
 <tr>
   <td><b>SA</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDS60920.xml</td>
+  <td>IDS60920</td>
 </tr>
 <tr>
   <td><b>TAS</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDT60920.xml</td>
+  <td>IDT60920</td>
 </tr>
 <tr>
   <td><b>VIC</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDV60920.xml</td>
+  <td>IDV60920</td>
 </tr>
 <tr>
   <td><b>WA</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDW60920.xml</td>
+  <td>IDW60920</td>
 </tr>
 </table>
 
-The next step is to open the XML by clicking on it and locate the weather station of interest.  Copy the "wmo-id" number and use this as the station ID.
+The next step is to open the product XML by loading ftp://ftp.bom.gov.au/anon/gen/fwo/{your-product-id}.xml in your browser and locate the weather station of interest.  Copy the "wmo-id" number and use this as the "Weather station ID".
 
 For example: "PERTH METRO" station ID in the file ftp://ftp.bom.gov.au/anon/gen/fwo/IDW60920.xml is 94608.
 
-Next you will need to provide the FTP path to the forecast file.
+Next you will need to provide the precis forecast product ID and city/town forecast product ID.
 
-Below is a list of forecast paths for Australian major cities.  If the forecast you are interested is not in the list go to this catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml and search for the forecast.  The type must be "Forecast". Use the Search box on the page.  Once located append the product ID to the FTP path ftp://ftp.bom.gov.au/anon/gen/fwo/ and add the ".xml" file extension.
-
+Below is a list of the forecast product ID's for Australian major cities.
 
 <table>
 <tr align="left">
   <th>City</th>
-  <th>Forecast FTP Path</th> 
+  <th>Precis Forecast Product ID</th> 
+  <th>City Forecast Product ID</th> 
 </tr>
 <tr>
   <td><b>Darwin (NT)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDD10150.xml</td>
+  <td>IDD10207</td>
+  <td>IDD10150</td>
 </tr>
 <tr>
   <td><b>Canberra (ACT)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDN10035.xml</td>
+  <td>IDN11060</td>
+  <td>IDN10035</td>
 </tr>
 <tr>
   <td><b>Sydney (NSW)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDN10064.xml</td>
+  <td>IDN11060</td>
+  <td>IDN10064</td>
 </tr>
 <tr>
   <td><b>Newcastle (NSW)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDN11051.xml</td>
+  <td>IDN11060</td>
+  <td>IDN11051</td>
 </tr>
 <tr>
   <td><b>Central Coast (NSW)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDN11052.xml</td>
+  <td>IDN11060</td>
+  <td>IDN11052</td>
 </tr>
 <tr>
   <td><b>Wollongong (NSW)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDN11053.xml</td>
+  <td>IDN11060</td>
+  <td>IDN11053</td>
 </tr>
 <tr>
   <td><b>Alpine Centres (NSW)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDN11055.xml</td>
+  <td>IDN11055</td>
+  <td>IDN11055</td>
 </tr>
 <tr>
   <td><b>Brisbane (QLD)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDQ10095.xml</td>
+  <td>IDQ11295</td>
+  <td>IDQ10095</td>
 </tr>
 <tr>
   <td><b>Gold Coast (QLD)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDQ10610.xml</td>
+  <td>IDQ11295</td>
+  <td>IDQ10610</td>
 </tr>
 <tr>
   <td><b>Sunshine Coast (QLD)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDQ10611.xml</td>
+  <td>IDQ11295</td>
+  <td>IDQ10611</td>
 </tr>
 <tr>
   <td><b>Adelaide (SA)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDS10034.xml</td>
+  <td>IDS10044</td>
+  <td>IDS10034</td>
 </tr>
 <tr>
   <td><b>Hobart (TAS)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDT13600.xml</td>
+  <td>IDT16710</td>
+  <td>IDT13600</td>
 </tr>
 <tr>
   <td><b>Launceston (TAS)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDT13610.xml</td>
+  <td>IDT16710</td>
+  <td>IDT13610</td>
 </tr>
 <tr>
   <td><b>Melbourne (VIC)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDV10450.xml</td>
+  <td>IDV10753</td>
+  <td>IDV10450</td>
 </tr>
 <tr>
   <td><b>Geelong (VIC)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDV10701.xml</td>
+  <td>IDV10753</td>
+  <td>IDV10701</td>
 </tr>
 <tr>
   <td><b>Mornington Peninsula (VIC)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDV10702.xml</td>
+  <td>IDV10753</td>
+  <td>IDV10702</td>
 </tr>
 <tr>
   <td><b>Perth (WA)</b></td>
-  <td>ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml</td>
+  <td>IDW14199</td>
+  <td>IDW12300</td>
 </tr>
 </table>
 
-Once you have located the forecast data-feed open the file and locate the area code (aac) you would like to use.
+NOTE: If the forecast product ID's you are after is not in the list go to this catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml and search for the products.  The type must be "Forecast". Use the Search box on the page.  Locate "Precis Forecast XML Package ({your-state})" and enter the product ID into the field "Precis forecast product ID" back in Paper UI Thing configuration.  Locate "City Forecast - Perth ({your-state})" for city forecasts or "Town Forecast - {your-town-name} ({your-state})" and enter the product ID into the field "City/town forecast product ID".
+
+Now open either the precis or the city/town forecast XML (ftp://ftp.bom.gov.au/anon/gen/fwo/{the-product-id}.xml) and locate the area code (aac code).
 
 For example: Perth's aac code in ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml is "WA_PT053".
 
 For more information about data-feeds, please go to http://reg.bom.gov.au/catalogue/data-feeds.shtml
 
-Screenshot below shows the binding configuration screen in Paper UI.
+Screenshot below shows an example configuration in Paper UI.
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/configuration.png?raw=true" />
 
 
 ## Forecast Icons
 
-The following table show all the possible icon names returned by the channel.
+The following table shows all the possible icon names returned by the channel.
 
 <table>
 <tr align="left">
