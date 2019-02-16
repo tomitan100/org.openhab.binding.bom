@@ -47,13 +47,13 @@
 			</parameter>
 			<parameter name="observationRefreshInterval" type="integer" required="true">
 				<label>Observation refresh interval in minutes</label>
-				<description>Refresh interval of observation data. Default is 15 minutes.</description>
+				<description>Refresh interval of observation data. Default to 15 minutes.</description>
 				<default>15</default>
 				<required>false</required>
 			</parameter>
 			<parameter name="forecastRefreshInterval" type="integer" required="true">
-				<label>Forecast refresh interval</label>
-				<description>Refresh interval of forecast data. Default is 30 minutes.</description>
+				<label>Forecast refresh interval in minutes</label>
+				<description>Refresh interval of forecast data. Default to 30 minutes.</description>
 				<default>30</default>
 				<required>false</required>
 			</parameter>
