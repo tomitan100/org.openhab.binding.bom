@@ -74,6 +74,7 @@
 			<channel id="maxTemperature" typeId="maxTemperature" />
 			<channel id="precipitation" typeId="precipitation" />
 			<channel id="uvAlert" typeId="uvAlert" />
+			<channel id="apparentTemperature" typeId="apparentTemperature" />
 			<channel id="airTemperature" typeId="airTemperature" />
 			<channel id="dewPoint" typeId="dewPoint" />
 			<channel id="relativeHumidity" typeId="relativeHumidity" />
@@ -254,6 +255,14 @@
 		<label>Observation date and time</label>
 		<description>The date and time of observation.</description>
 		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="apparentTemperature">
+		<item-type>Number</item-type>
+		<label>Apparent temperature</label>
+		<description>The apparent air temperature.</description>
+		<category>Temperature</category>
+		<state readOnly="true" pattern="%d %unit%" />
 	</channel-type>
 
 	<channel-type id="airTemperature">

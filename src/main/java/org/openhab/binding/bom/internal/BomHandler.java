@@ -136,7 +136,8 @@ public class BomHandler extends BaseThingHandler {
 
             Double minTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='minimum_air_temperature']");
             Double maxTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='maximum_air_temperature']");
-            Double airTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='air_temperature']");
+            Double airTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='apparent_temp']");
+            Double apparentTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='air_temperature']");
             Double dewPoint = getDouble(xmlDocument, xPath, elementXPath + "[@type='dew_point']");
             Double relativeHumidity = getDouble(xmlDocument, xPath, elementXPath + "[@type='rel-humidity']");
             Double pressure = getDouble(xmlDocument, xPath, elementXPath + "[@type='pres']");
@@ -153,6 +154,9 @@ public class BomHandler extends BaseThingHandler {
                         break;
                     case BomBindingConstants.CHANNEL_MAX_TEMPERATURE:
                         updateChannelState(channel.getUID(), maxTemperature);
+                        break;
+                    case BomBindingConstants.CHANNEL_APPARENT_TEMPERATURE:
+                        updateChannelState(channel.getUID(), apparentTemperature);
                         break;
                     case BomBindingConstants.CHANNEL_AIR_TEMPERATURE:
                         updateChannelState(channel.getUID(), airTemperature);
