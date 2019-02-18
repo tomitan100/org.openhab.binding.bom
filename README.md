@@ -93,7 +93,7 @@ The next step is to open the product XML by loading ftp://ftp.bom.gov.au/anon/ge
 
 For example: "PERTH METRO" station ID in the file ftp://ftp.bom.gov.au/anon/gen/fwo/IDW60920.xml is 94608.
 
-Next you will need to provide the precis forecast product ID and city/town forecast product ID.
+Next you will need to provide the precis forecast product ID and city/town/district forecast product ID.
 
 Below is a list of the forecast product ID's for Australian major cities.
 
@@ -195,7 +195,7 @@ NOTE: If the forecast product ID's you are after is not in the list go to this c
 1. Locate "Precis Forecast XML Package ({your-state})" and enter the product ID into the field "Precis forecast product ID" back in Paper UI Thing configuration.
 2. Locate "City Forecast - {your-city} ({your-state})" for city forecasts OR "Town Forecast - {your-town} ({your-state})" for town forecasts OR "District Forecast - {your-district} ({your-state})" for district forecasts.  Enter the product ID into the configuration field "City/town/district forecast product ID" in Paper UI.
 
-Now open either the precis or the city/town forecast XML (ftp://ftp.bom.gov.au/anon/gen/fwo/{product-id}.xml) and locate the area code (aac code).
+Now open either the precis or the city/town/district forecast XML (ftp://ftp.bom.gov.au/anon/gen/fwo/{product-id}.xml) and locate the area code (aac code).
 
 For example: Perth's aac code in ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml is "WA_PT053".
 
