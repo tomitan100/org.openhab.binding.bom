@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://eclipse.org/smarthome/schemas/binding/v1.0.0 http://eclipse.org/smarthome/schemas/binding-1.0.0.xsd">
 
 	<name>BOM Binding</name>
-	<description>This is the binding for Australian Bureau of Meteorology Weather Forecast.</description>
+	<description>Binding for Australian Bureau of Meteorology Weather Forecast.</description>
 	<author>Thomas Tan</author>
 
 </binding:binding>

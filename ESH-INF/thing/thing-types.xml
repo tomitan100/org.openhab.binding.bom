@@ -42,8 +42,8 @@
 				<description>The area ID (aac attribute in forecast XML). e.g WA_PT053</description>
 			</parameter>
 			<parameter name="cityTownForecastProductId" type="text" required="true">
-				<label>City/town forecast product ID</label>
-				<description>The city or town forecast product ID e.g IDW12300</description>
+				<label>City/town/district forecast product ID</label>
+				<description>The city, town or district forecast product ID e.g IDW12300</description>
 			</parameter>
 			<parameter name="observationRefreshInterval" type="integer" required="true">
 				<label>Observation refresh interval in minutes</label>
