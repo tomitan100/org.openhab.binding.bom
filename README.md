@@ -89,7 +89,7 @@ Listed below is the observation product ID for your state. Enter the ID you need
 </tr>
 </table>
 
-The next step is to open the product XML by loading ftp://ftp.bom.gov.au/anon/gen/fwo/{your-product-id}.xml in your browser and locate the weather station of interest.  Copy the "wmo-id" number and use this as the "Weather station ID".
+The next step is to open the product XML by loading ftp://ftp.bom.gov.au/anon/gen/fwo/{product-id}.xml in your browser and locate the weather station of interest.  Copy the "wmo-id" number and use this as the "Weather station ID".
 
 For example: "PERTH METRO" station ID in the file ftp://ftp.bom.gov.au/anon/gen/fwo/IDW60920.xml is 94608.
 
@@ -195,7 +195,7 @@ NOTE: If the forecast product ID's you are after is not in the list go to this c
 1. Locate "Precis Forecast XML Package ({your-state})" and enter the product ID into the field "Precis forecast product ID" back in Paper UI Thing configuration.
 2. Locate "City Forecast - {your-city} ({your-state})" for city forecasts or "Town Forecast - {your-town} ({your-state})" for town forecasts and enter the product ID into the field "City/town forecast product ID".
 
-Now open either the precis or the city/town forecast XML (ftp://ftp.bom.gov.au/anon/gen/fwo/{the-product-id}.xml) and locate the area code (aac code).
+Now open either the precis or the city/town forecast XML (ftp://ftp.bom.gov.au/anon/gen/fwo/{product-id}.xml) and locate the area code (aac code).
 
 For example: Perth's aac code in ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml is "WA_PT053".
 
