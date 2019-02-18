@@ -129,69 +129,81 @@ public class BomHandler extends BaseThingHandler {
 
             String stationXPath = "/product/observations/station[@wmo-id='" + config.weatherStationId + "']";
             String observationDateTimeStr = getNodeAttribute(xmlDocument, xPath, stationXPath + "/period/@time-local");
-            ZonedDateTime observationZonedDateTime = ZonedDateTime.parse(observationDateTimeStr,
-                    DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
-            String elementXPath = stationXPath + "/period/level/element";
+            if (observationDateTimeStr != null && observationDateTimeStr != "") {
+                String weatherStation = getNodeAttribute(xmlDocument, xPath, stationXPath + "/@description");
 
-            Double minTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='minimum_air_temperature']");
-            Double maxTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='maximum_air_temperature']");
-            Double airTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='apparent_temp']");
-            Double apparentTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='air_temperature']");
-            Double dewPoint = getDouble(xmlDocument, xPath, elementXPath + "[@type='dew_point']");
-            Double relativeHumidity = getDouble(xmlDocument, xPath, elementXPath + "[@type='rel-humidity']");
-            Double pressure = getDouble(xmlDocument, xPath, elementXPath + "[@type='pres']");
-            String windDirection = getString(xmlDocument, xPath, elementXPath + "[@type='wind_dir']");
-            Double windDirectionDegrees = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_dir_deg']");
-            Double windSpeedKmh = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_spd_kmh']");
-            Double windSpeedKnots = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_spd']");
-            Double rainfall = getDouble(xmlDocument, xPath, elementXPath + "[@type='rainfall']");
+                ZonedDateTime observationZonedDateTime = ZonedDateTime.parse(observationDateTimeStr,
+                        DateTimeFormatter.ISO_OFFSET_DATE_TIME);
 
-            getThing().getChannelsOfGroup(BomBindingConstants.CHANNEL_GROUP_TODAY).stream().forEach(channel -> {
-                switch (channel.getUID().getIdWithoutGroup()) {
-                    case BomBindingConstants.CHANNEL_MIN_TEMPERATURE:
-                        updateChannelState(channel.getUID(), minTemperature);
-                        break;
-                    case BomBindingConstants.CHANNEL_MAX_TEMPERATURE:
-                        updateChannelState(channel.getUID(), maxTemperature);
-                        break;
-                    case BomBindingConstants.CHANNEL_APPARENT_TEMPERATURE:
-                        updateChannelState(channel.getUID(), apparentTemperature);
-                        break;
-                    case BomBindingConstants.CHANNEL_AIR_TEMPERATURE:
-                        updateChannelState(channel.getUID(), airTemperature);
-                        break;
-                    case BomBindingConstants.CHANNEL_DEW_POINT:
-                        updateChannelState(channel.getUID(), dewPoint);
-                        break;
-                    case BomBindingConstants.CHANNEL_RELATIVE_HUMIDITY:
-                        updateChannelState(channel.getUID(), relativeHumidity);
-                        break;
-                    case BomBindingConstants.CHANNEL_PRESSURE:
-                        updateChannelState(channel.getUID(), pressure);
-                        break;
-                    case BomBindingConstants.CHANNEL_WIND_DIRECTION:
-                        updateChannelState(channel.getUID(), windDirection);
-                        break;
-                    case BomBindingConstants.CHANNEL_WIND_DIRECTION_DEGREES:
-                        updateChannelState(channel.getUID(), windDirectionDegrees);
-                        break;
-                    case BomBindingConstants.CHANNEL_WIND_SPEED_KMH:
-                        updateChannelState(channel.getUID(), windSpeedKmh);
-                        break;
-                    case BomBindingConstants.CHANNEL_WIND_SPEED_KNOTS:
-                        updateChannelState(channel.getUID(), windSpeedKnots);
-                        break;
-                    case BomBindingConstants.CHANNEL_RAINFALL:
-                        updateChannelState(channel.getUID(), rainfall);
-                        break;
-                    case BomBindingConstants.CHANNEL_OBSERVATION_DATE_TIME:
-                        updateChannelState(channel.getUID(), observationZonedDateTime);
-                        break;
-                }
-            });
+                String elementXPath = stationXPath + "/period/level/element";
 
-            updateStatus(ThingStatus.ONLINE);
+                Double minTemperature = getDouble(xmlDocument, xPath,
+                        elementXPath + "[@type='minimum_air_temperature']");
+                Double maxTemperature = getDouble(xmlDocument, xPath,
+                        elementXPath + "[@type='maximum_air_temperature']");
+                Double airTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='apparent_temp']");
+                Double apparentTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='air_temperature']");
+                Double dewPoint = getDouble(xmlDocument, xPath, elementXPath + "[@type='dew_point']");
+                Double relativeHumidity = getDouble(xmlDocument, xPath, elementXPath + "[@type='rel-humidity']");
+                Double pressure = getDouble(xmlDocument, xPath, elementXPath + "[@type='pres']");
+                String windDirection = getString(xmlDocument, xPath, elementXPath + "[@type='wind_dir']");
+                Double windDirectionDegrees = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_dir_deg']");
+                Double windSpeedKmh = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_spd_kmh']");
+                Double windSpeedKnots = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_spd']");
+                Double rainfall = getDouble(xmlDocument, xPath, elementXPath + "[@type='rainfall']");
+
+                getThing().getChannelsOfGroup(BomBindingConstants.CHANNEL_GROUP_TODAY).stream().forEach(channel -> {
+                    switch (channel.getUID().getIdWithoutGroup()) {
+                        case BomBindingConstants.CHANNEL_MIN_TEMPERATURE:
+                            updateChannelState(channel.getUID(), minTemperature);
+                            break;
+                        case BomBindingConstants.CHANNEL_MAX_TEMPERATURE:
+                            updateChannelState(channel.getUID(), maxTemperature);
+                            break;
+                        case BomBindingConstants.CHANNEL_APPARENT_TEMPERATURE:
+                            updateChannelState(channel.getUID(), apparentTemperature);
+                            break;
+                        case BomBindingConstants.CHANNEL_AIR_TEMPERATURE:
+                            updateChannelState(channel.getUID(), airTemperature);
+                            break;
+                        case BomBindingConstants.CHANNEL_DEW_POINT:
+                            updateChannelState(channel.getUID(), dewPoint);
+                            break;
+                        case BomBindingConstants.CHANNEL_RELATIVE_HUMIDITY:
+                            updateChannelState(channel.getUID(), relativeHumidity);
+                            break;
+                        case BomBindingConstants.CHANNEL_PRESSURE:
+                            updateChannelState(channel.getUID(), pressure);
+                            break;
+                        case BomBindingConstants.CHANNEL_WIND_DIRECTION:
+                            updateChannelState(channel.getUID(), windDirection);
+                            break;
+                        case BomBindingConstants.CHANNEL_WIND_DIRECTION_DEGREES:
+                            updateChannelState(channel.getUID(), windDirectionDegrees);
+                            break;
+                        case BomBindingConstants.CHANNEL_WIND_SPEED_KMH:
+                            updateChannelState(channel.getUID(), windSpeedKmh);
+                            break;
+                        case BomBindingConstants.CHANNEL_WIND_SPEED_KNOTS:
+                            updateChannelState(channel.getUID(), windSpeedKnots);
+                            break;
+                        case BomBindingConstants.CHANNEL_RAINFALL:
+                            updateChannelState(channel.getUID(), rainfall);
+                            break;
+                        case BomBindingConstants.CHANNEL_OBSERVATION_DATE_TIME:
+                            updateChannelState(channel.getUID(), observationZonedDateTime);
+                            break;
+                        case BomBindingConstants.CHANNEL_WEATHER_STATION:
+                            updateChannelState(channel.getUID(), weatherStation);
+                            break;
+                    }
+                });
+
+                updateStatus(ThingStatus.ONLINE);
+            } else {
+                logger.error("Unable to find weather station ID {} in {}", config.weatherStationId, observationFtpPath);
+            }
         } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException ex) {
             logger.error("Unable to process observation data", ex);
             updateStatus(ThingStatus.OFFLINE);
@@ -291,6 +303,8 @@ public class BomHandler extends BaseThingHandler {
                 }
 
                 logger.info("Successfully processed precis forecast data.");
+            } else {
+                logger.warn("There is no precis forecast found for area ID {} in {}", config.areaId, forecastFtpPath);
             }
         } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException ex) {
             logger.error("Unable to process precis forecast data from " + forecastFtpPath, ex);
@@ -375,6 +389,9 @@ public class BomHandler extends BaseThingHandler {
                 }
 
                 logger.info("Successfully processed city/down forecast data.");
+            } else {
+                logger.warn("There is no city/down/district forecast found for area ID {} in {}", config.areaId,
+                        forecastFtpPath);
             }
         } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException ex) {
             logger.error("Unable to process precis forecast data from " + forecastFtpPath, ex);

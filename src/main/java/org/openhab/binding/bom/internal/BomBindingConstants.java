@@ -32,6 +32,7 @@ public class BomBindingConstants {
     public static final String CHANNEL_MAX_TEMPERATURE = "maxTemperature";
     public static final String CHANNEL_PRECIPITATION = "precipitation";
     public static final String CHANNEL_UV_ALERT = "uvAlert";
+    public static final String CHANNEL_WEATHER_STATION = "weatherStation";
     public static final String CHANNEL_OBSERVATION_DATE_TIME = "observationDateTime";
     public static final String CHANNEL_APPARENT_TEMPERATURE = "apparentTemperature";
     public static final String CHANNEL_AIR_TEMPERATURE = "airTemperature";

@@ -65,6 +65,7 @@
 		<label>Today's Forecast</label>
 		<description>Today's forecast information.</description>
 		<channels>
+			<channel id="weatherStation" typeId="weatherStation" />
 			<channel id="observationDateTime" typeId="observationDateTime" />
 			<channel id="dateTime" typeId="dateTime" />
 			<channel id="icon" typeId="icon" />
@@ -247,6 +248,13 @@
 		<item-type>String</item-type>
 		<label>UV Alert</label>
 		<description>The UV alert if any.</description>
+		<state readOnly="true" pattern="%s" />
+	</channel-type>
+
+	<channel-type id="weatherStation">
+		<item-type>String</item-type>
+		<label>Weather Station</label>
+		<description>The weather station.</description>
 		<state readOnly="true" pattern="%s" />
 	</channel-type>
 
