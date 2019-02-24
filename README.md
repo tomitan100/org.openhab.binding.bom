@@ -8,6 +8,7 @@ This initial release maps most fields from BOM data-feed.
 
 For today's observation and forecast these fields are available:
 
+- Weather station
 - Observation time
 - Date and time of forecast
 - Forecast icon name
@@ -17,7 +18,8 @@ For today's observation and forecast these fields are available:
 - Maximum temperature
 - Possibility of precipitation
 - UV alert text
-- Current air temperature
+- Apparent temperature
+- Air temperature
 - Dew point
 - Relative humidity
 - Atmospheric pressure
