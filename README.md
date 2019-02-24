@@ -296,13 +296,13 @@ The following table shows all the possible icon names returned by the channel.
 </table>  
 
 ## Items mapping file
-Creating items and linking them for eight days of forecasts can be tedious.  Provided below is the items mapping file that you can drop into the "items" folder, typically in `/etc/openhab2/items`.  The prerequisite is to name the BOM Thing ID `default`.  If you would like name your BOM Thing ID as something else, edit the file and rename accordingly.
+Creating items and linking them for eight days of forecasts can be tedious.  Provided below is the items mapping file that you can drop into the "items" folder, typically in `/etc/openhab2/items`.  The prerequisite is to name the BOM Thing ID "default".  If you would like name your BOM Thing ID as something else, edit the file and rename accordingly.
 
 https://github.com/tomitan100/org.openhab.binding.bom/raw/master/doc/bom.items
 
 ## Example Screenshots in openHAB HABPanel
 
-The screenshots below are examples of the binding in operation.  The screens use custom theme called "Matrix Theme" by Patrick (pmpkk).  For more information about the theme please go to https://community.openhab.org/t/matrix-theme-for-habpanel/31100.
+The screenshots below are examples of the binding in operation.  The screens use custom theme called "Matrix Theme" by Patrick (`@pmpkk`).  For more information about the theme please go to https://community.openhab.org/t/matrix-theme-for-habpanel/31100.
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/home.png?raw=true" />
 
