@@ -207,7 +207,7 @@ NOTE: If the forecast product ID's you are after are not in the list go to this 
 
 Now open either the precis or the city/town/district forecast XML (`ftp://ftp.bom.gov.au/anon/gen/fwo/{product-id}.xml`) and locate the area code (`aac` code).
 
-For example: Perth's aac code in ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml is `WA_PT053`.
+For example: Perth's aac code in `ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml` is `WA_PT053`.
 
 For more information about data-feeds, please go to http://reg.bom.gov.au/catalogue/data-feeds.shtml
 
