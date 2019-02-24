@@ -40,6 +40,10 @@ For future forecasts the following fields are available:
 - Possibility of precipitation
 - UV alert text
 
+## Prerequisite
+- openHAB 2.4 or above.
+- Java 1.8
+
 ## Installation
 
 For openHAB install "Eclipse IoT Market" add-on under MISC tab in openHAB Paper UI.  Then install "Australian BOM Weather Forecast Binding" from the Bindings page.
@@ -50,7 +54,9 @@ For Eclipse SmartHome install from https://marketplace.eclipse.org/content/austr
 
 At minimum there are five fields required to process the data-feed.  The observation product ID, the weather station ID of observation, the precis product ID, the city/town product ID and finally the area code.
 
-Listed below is the observation product ID for your state. Enter the ID you need into the "Observation product ID" field in Paper UI things configuration.
+Observation data-feed is required to show the current weather information.
+
+Listed below is the observation product ID's for the states. Enter the ID you need into the "Observation product ID" field in Paper UI things configuration.
 
 <table>
 <tr align="left">
@@ -96,6 +102,8 @@ The next step is to open the product XML by loading ftp://ftp.bom.gov.au/anon/ge
 For example: "PERTH METRO" station ID in the file ftp://ftp.bom.gov.au/anon/gen/fwo/IDW60920.xml is 94608.
 
 Next you will need to provide the precis forecast product ID and city/town/district forecast product ID.
+
+Precis forecast data provides brief forecast information for the next 5-8 days.  City/town/district forecast data provides the forecast description.
 
 Below is a list of the forecast product ID's for Australian major cities.
 
@@ -192,10 +200,10 @@ Below is a list of the forecast product ID's for Australian major cities.
 </tr>
 </table>
 
-NOTE: If the forecast product ID's you are after is not in the list go to this catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml and search for the products.  The type must be "Forecast". Use the Search box on the page by entering, e.g "(WA)", or something more specific like "City Forecast":
+NOTE: If the forecast product ID's you are after are not in the list go to this catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml and search for the products.  The type must be "Forecast". Use the Search box on the page by entering, e.g "(WA)", or something more specific like "City Forecast":
 
-1. Locate "Precis Forecast XML Package ({your-state})" and enter the product ID into the field "Precis forecast product ID" back in Paper UI Thing configuration.
-2. Locate "City Forecast - {your-city} ({your-state})" for city forecasts OR "Town Forecast - {your-town} ({your-state})" for town forecasts OR "District Forecast - {your-district} ({your-state})" for district forecasts.  Enter the product ID into the configuration field "City/town/district forecast product ID" in Paper UI.
+1. Locate "Precis Forecast XML Package ({your-state})" from the search results and enter the product ID into the field "Precis forecast product ID" back in Paper UI Thing configuration.
+2. Locate "City Forecast - {your-city} ({your-state})" for city forecasts OR "Town Forecast - {your-town} ({your-state})" for town forecasts OR "District Forecast - {your-district} ({your-state})" for district forecasts from the search results.  Enter the product ID into the configuration field "City/town/district forecast product ID" in Paper UI.
 
 Now open either the precis or the city/town/district forecast XML (ftp://ftp.bom.gov.au/anon/gen/fwo/{product-id}.xml) and locate the area code (aac code).
 
@@ -286,6 +294,11 @@ The following table shows all the possible icon names returned by the channel.
   <td>cyclone</td>
 </tr>
 </table>  
+
+## Items mapping file
+Creating items and linking them for eight days of forecasts can be tedious.  Provided below is the items mapping file that you can drop into the "items" folder, typically in /etc/openhab2/items.  The prerequisite is to name the BOM Thing ID "default".  If you would like name your BOM Thing ID as something else, edit the file and rename accordingly.
+
+https://github.com/tomitan100/org.openhab.binding.bom/raw/master/doc/bom.items
 
 ## Example Screenshots in openHAB HABPanel
 
