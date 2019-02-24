@@ -41,8 +41,8 @@ For future forecasts the following fields are available:
 - UV alert text
 
 ## Prerequisite
-- openHAB 2.4 or above.
-- Java 1.8
+- openHAB 2.4 and above.
+- Java 1.8 and above.
 
 ## Installation
 
