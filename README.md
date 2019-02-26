@@ -28,6 +28,7 @@ For today's observation and forecast these fields are available:
 - Wind speed in km/h
 - Wind speed in Knots
 - Rainfall
+- 24 Hour rainfall
 
 For future forecasts the following fields are available:
 
@@ -37,10 +38,13 @@ For future forecasts the following fields are available:
 - Forecast text
 - Minimum temperature
 - Maximum temperature
-- Possibility of precipitation
+- Probability of precipitation
+- Minimum precipitation
+- Maximum precipitation
 - UV alert text
 
 ## Prerequisite
+
 - openHAB 2.4 and above.
 - Java 1.8 and above.
 
@@ -296,6 +300,7 @@ The following table shows all the possible icon names returned by the channel.
 </table>  
 
 ## Items mapping file
+
 Creating items and linking them for eight days of forecasts can be tedious.  Provided below is the items mapping file that you can drop into the "items" folder, typically in `/etc/openhab2/items`.  The prerequisite is to name the BOM Thing ID "default".  If you would like name your BOM Thing ID as something else, edit the file and rename accordingly.
 
 https://github.com/tomitan100/org.openhab.binding.bom/raw/master/doc/bom.items

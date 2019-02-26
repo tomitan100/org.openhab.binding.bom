@@ -31,6 +31,8 @@ public class BomBindingConstants {
     public static final String CHANNEL_MIN_TEMPERATURE = "minTemperature";
     public static final String CHANNEL_MAX_TEMPERATURE = "maxTemperature";
     public static final String CHANNEL_PRECIPITATION = "precipitation";
+    public static final String CHANNEL_MIN_PRECIPITATION = "minPrecipitation";
+    public static final String CHANNEL_MAX_PRECIPITATION = "maxPrecipitation";
     public static final String CHANNEL_UV_ALERT = "uvAlert";
     public static final String CHANNEL_WEATHER_STATION = "weatherStation";
     public static final String CHANNEL_OBSERVATION_DATE_TIME = "observationDateTime";
@@ -44,6 +46,7 @@ public class BomBindingConstants {
     public static final String CHANNEL_WIND_SPEED_KMH = "windSpeedKmh";
     public static final String CHANNEL_WIND_SPEED_KNOTS = "windSpeedKnots";
     public static final String CHANNEL_RAINFALL = "rainfall";
+    public static final String CHANNEL_RAINFALL_24_HOUR = "rainfall24Hour";
 
     public static final String CHANNEL_GROUP_TODAY = "day1";
     public static final String CHANNEL_GROUP_DAY_PREFIX = "day";

@@ -18,6 +18,7 @@ Number BOM_Day1_MinimumTemperature "Minimum Temperature [%.1f °C]" {channel="bo
 Number BOM_Day1_MaximumTemperature "Maximum Temperature [%.1f °C]" {channel="bom:weather:default:day1#maxTemperature"}
 String BOM_Day1_ProbabilityOfPrecipitation "Probably of Precipitation" {channel="bom:weather:default:day1#precipitation"}
 Number BOM_Day1_CurrentRainfallMm "Current Rainfall (mm) [%.0f]" {channel="bom:weather:default:day1#rainfall"}
+Number BOM_Day1_Rainfall24HourMm "24 Hour Rainfall (mm) [%.0f]" {channel="bom:weather:default:day1#rainfall24Hour"}
 String BOM_Day1_UVAlert "UV Alert" {channel="bom:weather:default:day1#uvAlert"}
 
 DateTime BOM_Day2_ForecastDateAndTime "Forecast Date and Time" {channel="bom:weather:default:day2#dateTime"}
@@ -27,7 +28,8 @@ String BOM_Day2_ForecastDescription "Forecast Description" {channel="bom:weather
 Number BOM_Day2_MinimumTemperature "Minimum Temperature [%.1f °C]" {channel="bom:weather:default:day2#minTemperature"}
 Number BOM_Day2_MaximumTemperature "Maximum Temperature [%.1f °C]" {channel="bom:weather:default:day2#maxTemperature"}
 String BOM_Day2_ProbabilityOfPrecipitation "Probably of Precipitation" {channel="bom:weather:default:day2#precipitation"}
-Number BOM_Day2_CurrentRainfallMm "Current Rainfall (mm) [%.0f]" {channel="bom:weather:default:day2#rainfall"}
+String BOM_Day2_MinimumPrecipitation "Minimum Precipitation" {channel="bom:weather:default:day2#minPrecipitation"}
+String BOM_Day2_MaximumPrecipitation "Maximum Precipitation" {channel="bom:weather:default:day2#maxPrecipitation"}
 String BOM_Day2_UVAlert "UV Alert" {channel="bom:weather:default:day2#uvAlert"}
 
 DateTime BOM_Day3_ForecastDateAndTime "Forecast Date and Time" {channel="bom:weather:default:day3#dateTime"}
@@ -37,7 +39,8 @@ String BOM_Day3_ForecastDescription "Forecast Description" {channel="bom:weather
 Number BOM_Day3_MinimumTemperature "Minimum Temperature [%.1f °C]" {channel="bom:weather:default:day3#minTemperature"}
 Number BOM_Day3_MaximumTemperature "Maximum Temperature [%.1f °C]" {channel="bom:weather:default:day3#maxTemperature"}
 String BOM_Day3_ProbabilityOfPrecipitation "Probably of Precipitation" {channel="bom:weather:default:day3#precipitation"}
-Number BOM_Day3_CurrentRainfallMm "Current Rainfall (mm) [%.0f]" {channel="bom:weather:default:day3#rainfall"}
+String BOM_Day3_MinimumPrecipitation "Minimum Precipitation" {channel="bom:weather:default:day3#minPrecipitation"}
+String BOM_Day3_MaximumPrecipitation "Maximum Precipitation" {channel="bom:weather:default:day3#maxPrecipitation"}
 String BOM_Day3_UVAlert "UV Alert" {channel="bom:weather:default:day3#uvAlert"}
 
 DateTime BOM_Day4_ForecastDateAndTime "Forecast Date and Time" {channel="bom:weather:default:day4#dateTime"}
@@ -47,7 +50,8 @@ String BOM_Day4_ForecastDescription "Forecast Description" {channel="bom:weather
 Number BOM_Day4_MinimumTemperature "Minimum Temperature [%.1f °C]" {channel="bom:weather:default:day4#minTemperature"}
 Number BOM_Day4_MaximumTemperature "Maximum Temperature [%.1f °C]" {channel="bom:weather:default:day4#maxTemperature"}
 String BOM_Day4_ProbabilityOfPrecipitation "Probably of Precipitation" {channel="bom:weather:default:day4#precipitation"}
-Number BOM_Day4_CurrentRainfallMm "Current Rainfall (mm) [%.0f]" {channel="bom:weather:default:day4#rainfall"}
+String BOM_Day4_MinimumPrecipitation "Minimum Precipitation" {channel="bom:weather:default:day4#minPrecipitation"}
+String BOM_Day4_MaximumPrecipitation "Maximum Precipitation" {channel="bom:weather:default:day4#maxPrecipitation"}
 String BOM_Day4_UVAlert "UV Alert" {channel="bom:weather:default:day4#uvAlert"}
 
 DateTime BOM_Day5_ForecastDateAndTime "Forecast Date and Time" {channel="bom:weather:default:day5#dateTime"}
@@ -57,7 +61,8 @@ String BOM_Day5_ForecastDescription "Forecast Description" {channel="bom:weather
 Number BOM_Day5_MinimumTemperature "Minimum Temperature [%.1f °C]" {channel="bom:weather:default:day5#minTemperature"}
 Number BOM_Day5_MaximumTemperature "Maximum Temperature [%.1f °C]" {channel="bom:weather:default:day5#maxTemperature"}
 String BOM_Day5_ProbabilityOfPrecipitation "Probably of Precipitation" {channel="bom:weather:default:day5#precipitation"}
-Number BOM_Day5_CurrentRainfallMm "Current Rainfall (mm) [%.0f]" {channel="bom:weather:default:day5#rainfall"}
+String BOM_Day5_MinimumPrecipitation "Minimum Precipitation" {channel="bom:weather:default:day5#minPrecipitation"}
+String BOM_Day5_MaximumPrecipitation "Maximum Precipitation" {channel="bom:weather:default:day5#maxPrecipitation"}
 String BOM_Day5_UVAlert "UV Alert" {channel="bom:weather:default:day5#uvAlert"}
 
 DateTime BOM_Day6_ForecastDateAndTime "Forecast Date and Time" {channel="bom:weather:default:day6#dateTime"}
@@ -67,7 +72,8 @@ String BOM_Day6_ForecastDescription "Forecast Description" {channel="bom:weather
 Number BOM_Day6_MinimumTemperature "Minimum Temperature [%.1f °C]" {channel="bom:weather:default:day6#minTemperature"}
 Number BOM_Day6_MaximumTemperature "Maximum Temperature [%.1f °C]" {channel="bom:weather:default:day6#maxTemperature"}
 String BOM_Day6_ProbabilityOfPrecipitation "Probably of Precipitation" {channel="bom:weather:default:day6#precipitation"}
-Number BOM_Day6_CurrentRainfallMm "Current Rainfall (mm) [%.0f]" {channel="bom:weather:default:day6#rainfall"}
+String BOM_Day6_MinimumPrecipitation "Minimum Precipitation" {channel="bom:weather:default:day6#minPrecipitation"}
+String BOM_Day6_MaximumPrecipitation "Maximum Precipitation" {channel="bom:weather:default:day6#maxPrecipitation"}
 String BOM_Day6_UVAlert "UV Alert" {channel="bom:weather:default:day6#uvAlert"}
 
 DateTime BOM_Day7_ForecastDateAndTime "Forecast Date and Time" {channel="bom:weather:default:day7#dateTime"}
@@ -77,7 +83,8 @@ String BOM_Day7_ForecastDescription "Forecast Description" {channel="bom:weather
 Number BOM_Day7_MinimumTemperature "Minimum Temperature [%.1f °C]" {channel="bom:weather:default:day7#minTemperature"}
 Number BOM_Day7_MaximumTemperature "Maximum Temperature [%.1f °C]" {channel="bom:weather:default:day7#maxTemperature"}
 String BOM_Day7_ProbabilityOfPrecipitation "Probably of Precipitation" {channel="bom:weather:default:day7#precipitation"}
-Number BOM_Day7_CurrentRainfallMm "Current Rainfall (mm) [%.0f]" {channel="bom:weather:default:day7#rainfall"}
+String BOM_Day7_MinimumPrecipitation "Minimum Precipitation" {channel="bom:weather:default:day7#minPrecipitation"}
+String BOM_Day7_MaximumPrecipitation "Maximum Precipitation" {channel="bom:weather:default:day7#maxPrecipitation"}
 String BOM_Day7_UVAlert "UV Alert" {channel="bom:weather:default:day7#uvAlert"}
 
 DateTime BOM_Day8_ForecastDateAndTime "Forecast Date and Time" {channel="bom:weather:default:day8#dateTime"}
@@ -87,5 +94,6 @@ String BOM_Day8_ForecastDescription "Forecast Description" {channel="bom:weather
 Number BOM_Day8_MinimumTemperature "Minimum Temperature [%.1f °C]" {channel="bom:weather:default:day8#minTemperature"}
 Number BOM_Day8_MaximumTemperature "Maximum Temperature [%.1f °C]" {channel="bom:weather:default:day8#maxTemperature"}
 String BOM_Day8_ProbabilityOfPrecipitation "Probably of Precipitation" {channel="bom:weather:default:day8#precipitation"}
-Number BOM_Day8_CurrentRainfallMm "Current Rainfall (mm) [%.0f]" {channel="bom:weather:default:day8#rainfall"}
+String BOM_Day8_MinimumPrecipitation "Minimum Precipitation" {channel="bom:weather:default:day8#minPrecipitation"}
+String BOM_Day8_MaximumPrecipitation "Maximum Precipitation" {channel="bom:weather:default:day8#maxPrecipitation"}
 String BOM_Day8_UVAlert "UV Alert" {channel="bom:weather:default:day8#uvAlert"}

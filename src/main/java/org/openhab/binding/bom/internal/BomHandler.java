@@ -16,6 +16,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -25,7 +27,6 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.library.types.DateTimeType;
 import org.eclipse.smarthome.core.library.types.DecimalType;
 import org.eclipse.smarthome.core.library.types.StringType;
@@ -54,13 +55,13 @@ public class BomHandler extends BaseThingHandler {
             "light-rain", "unknown", "windy", "fog", "shower", "rain", "dusty", "frost", "snow", "storm",
             "light-shower", "heavy-shower", "cyclone" };
 
-    @Nullable
+    private final Pattern PATTERN_PRECIPITATION_RANAGE = Pattern
+            .compile("([\\d]*\\.?[\\d]+)\\D*([\\d]*\\.?[\\d]+)\\D*");
+
     private ScheduledFuture<?> observationRefreshJob;
 
-    @Nullable
     private ScheduledFuture<?> forecastRefreshJob;
 
-    @Nullable
     private BomConfiguration config;
 
     public BomHandler(Thing thing) {
@@ -80,10 +81,16 @@ public class BomHandler extends BaseThingHandler {
         startRefresh();
     }
 
+    @Override
+    public void dispose() {
+        stopRefresh();
+        super.dispose();
+    }
+
     private synchronized void startRefresh() {
-        observationRefreshJob = scheduler.scheduleWithFixedDelay(this::refreshObservation, 1,
+        observationRefreshJob = scheduler.scheduleWithFixedDelay(this::refreshObservation, 0,
                 config.observationRefreshInterval, TimeUnit.MINUTES);
-        forecastRefreshJob = scheduler.scheduleWithFixedDelay(this::refreshForecast, 1, config.forecastRefreshInterval,
+        forecastRefreshJob = scheduler.scheduleWithFixedDelay(this::refreshForecast, 0, config.forecastRefreshInterval,
                 TimeUnit.MINUTES);
     }
 
@@ -152,6 +159,7 @@ public class BomHandler extends BaseThingHandler {
                 Double windSpeedKmh = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_spd_kmh']");
                 Double windSpeedKnots = getDouble(xmlDocument, xPath, elementXPath + "[@type='wind_spd']");
                 Double rainfall = getDouble(xmlDocument, xPath, elementXPath + "[@type='rainfall']");
+                Double rainfall24Hour = getDouble(xmlDocument, xPath, elementXPath + "[@type='rainfall_24hr']");
 
                 getThing().getChannelsOfGroup(BomBindingConstants.CHANNEL_GROUP_TODAY).stream().forEach(channel -> {
                     switch (channel.getUID().getIdWithoutGroup()) {
@@ -191,6 +199,9 @@ public class BomHandler extends BaseThingHandler {
                         case BomBindingConstants.CHANNEL_RAINFALL:
                             updateChannelState(channel.getUID(), rainfall);
                             break;
+                        case BomBindingConstants.CHANNEL_RAINFALL_24_HOUR:
+                            updateChannelState(channel.getUID(), rainfall24Hour);
+                            break;
                         case BomBindingConstants.CHANNEL_OBSERVATION_DATE_TIME:
                             updateChannelState(channel.getUID(), observationZonedDateTime);
                             break;
@@ -220,7 +231,7 @@ public class BomHandler extends BaseThingHandler {
 
     private synchronized void refreshForecast() {
         refreshPrecisForecast();
-        refreshCityOrTownForecast();
+        refreshCityTownDistrictForecast();
     }
 
     private void refreshPrecisForecast() {
@@ -268,6 +279,8 @@ public class BomHandler extends BaseThingHandler {
                     Double maxTemperature = null;
                     String precis = "";
                     String precipitation = "";
+                    Double minPrecipitation = null;
+                    Double maxPrecipitation = null;
 
                     for (int j = 0; j < node.getChildNodes().getLength(); j++) {
                         Node childNode = node.getChildNodes().item(j);
@@ -293,11 +306,26 @@ public class BomHandler extends BaseThingHandler {
                             case "probability_of_precipitation":
                                 precipitation = childNode.getTextContent();
                                 break;
+                            case "precipitation_range":
+                                Matcher matcher = PATTERN_PRECIPITATION_RANAGE
+                                        .matcher(childNode.getTextContent().trim());
+
+                                if (matcher.matches()) {
+                                    try {
+                                        minPrecipitation = Double.parseDouble(matcher.group(1));
+                                        maxPrecipitation = Double.parseDouble(matcher.group(2));
+                                    } catch (NumberFormatException ex) {
+                                        logger.warn("Unable to convert precipitation range \"{}\" for day {}",
+                                                childNode.getTextContent(), (idx + 1));
+                                    }
+                                }
+                                break;
                         }
                     }
 
                     updateForecastState(BomBindingConstants.CHANNEL_GROUP_DAY_PREFIX + (idx + 1), zonedDatetime,
-                            iconCode, precis, minTemperature, maxTemperature, precipitation);
+                            iconCode, precis, minTemperature, maxTemperature, precipitation, minPrecipitation,
+                            maxPrecipitation);
 
                     idx++;
                 }
@@ -320,17 +348,18 @@ public class BomHandler extends BaseThingHandler {
         }
     }
 
-    private void refreshCityOrTownForecast() {
+    private void refreshCityTownDistrictForecast() {
         if (config.ftpPath == null || config.ftpPath.trim().length() == 0 || config.cityTownForecastProductId == null
                 || config.areaId == null) {
-            logger.error("FTP path, city/town forecast product ID and area ID are required");
+            logger.error("FTP path, city/town/district forecast product ID and area ID are required");
             updateStatus(ThingStatus.OFFLINE);
             return;
         }
 
         String forecastFtpPath = config.ftpPath + "/" + config.cityTownForecastProductId.toUpperCase() + ".xml";
 
-        logger.info("Processing city/town forecast from FTP path: {}, area ID: {}", forecastFtpPath, config.areaId);
+        logger.info("Processing city/town/district forecast from FTP path: {}, area ID: {}", forecastFtpPath,
+                config.areaId);
 
         InputStream inputStream = null;
 
@@ -388,7 +417,7 @@ public class BomHandler extends BaseThingHandler {
                     idx++;
                 }
 
-                logger.info("Successfully processed city/down forecast data.");
+                logger.info("Successfully processed city/down/district forecast data.");
             } else {
                 logger.warn("There is no city/down/district forecast found for area ID {} in {}", config.areaId,
                         forecastFtpPath);
@@ -408,7 +437,8 @@ public class BomHandler extends BaseThingHandler {
     }
 
     private void updateForecastState(String channelGroupId, ZonedDateTime zonedDateTime, String iconCode, String precis,
-            Double minTemperature, Double maxTemperature, String precipitation) {
+            Double minTemperature, Double maxTemperature, String precipitation, Double minPrecipitation,
+            Double maxPrecipitation) {
 
         getThing().getChannelsOfGroup(channelGroupId).stream().forEach(channel -> {
             switch (channel.getUID().getIdWithoutGroup()) {
@@ -436,6 +466,12 @@ public class BomHandler extends BaseThingHandler {
                     break;
                 case BomBindingConstants.CHANNEL_PRECIPITATION:
                     updateChannelState(channel.getUID(), precipitation);
+                    break;
+                case BomBindingConstants.CHANNEL_MIN_PRECIPITATION:
+                    updateChannelState(channel.getUID(), minPrecipitation);
+                    break;
+                case BomBindingConstants.CHANNEL_MAX_PRECIPITATION:
+                    updateChannelState(channel.getUID(), maxPrecipitation);
                     break;
             }
         });

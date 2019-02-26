@@ -19,12 +19,12 @@
 		</channel-groups>
 
 		<config-description>
-            <parameter name="ftpPath" type="text" required="true">
-                <label>FTP path</label>
-                <description>FTP path of the directory containing the XML files. Default is ftp://ftp.bom.gov.au/anon/gen/fwo</description>
-                <default>ftp://ftp.bom.gov.au/anon/gen/fwo</default>
-                <required>false</required>
-            </parameter>
+			<parameter name="ftpPath" type="text" required="true">
+				<label>FTP path</label>
+				<description>FTP path of the directory containing the XML files. Default is ftp://ftp.bom.gov.au/anon/gen/fwo</description>
+				<default>ftp://ftp.bom.gov.au/anon/gen/fwo</default>
+				<required>false</required>
+			</parameter>
 			<parameter name="observationProductId" type="text" required="true">
 				<label>Observation product ID</label>
 				<description>The observation product ID e.g IDW60920</description>
@@ -74,6 +74,8 @@
 			<channel id="minTemperature" typeId="minTemperature" />
 			<channel id="maxTemperature" typeId="maxTemperature" />
 			<channel id="precipitation" typeId="precipitation" />
+			<channel id="minPrecipitation" typeId="minPrecipitation" />
+			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
 			<channel id="uvAlert" typeId="uvAlert" />
 			<channel id="apparentTemperature" typeId="apparentTemperature" />
 			<channel id="airTemperature" typeId="airTemperature" />
@@ -85,6 +87,7 @@
 			<channel id="windSpeedKmh" typeId="windSpeedKmh" />
 			<channel id="windSpeedKnots" typeId="windSpeedKnots" />
 			<channel id="rainfall" typeId="rainfall" />
+			<channel id="rainfall24Hour" typeId="rainfall24Hour" />
 		</channels>
 	</channel-group-type>
 
@@ -99,6 +102,8 @@
 			<channel id="minTemperature" typeId="minTemperature" />
 			<channel id="maxTemperature" typeId="maxTemperature" />
 			<channel id="precipitation" typeId="precipitation" />
+			<channel id="minPrecipitation" typeId="minPrecipitation" />
+			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
 			<channel id="uvAlert" typeId="uvAlert" />
 		</channels>
 	</channel-group-type>
@@ -114,6 +119,8 @@
 			<channel id="minTemperature" typeId="minTemperature" />
 			<channel id="maxTemperature" typeId="maxTemperature" />
 			<channel id="precipitation" typeId="precipitation" />
+			<channel id="minPrecipitation" typeId="minPrecipitation" />
+			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
 			<channel id="uvAlert" typeId="uvAlert" />
 		</channels>
 	</channel-group-type>
@@ -129,6 +136,8 @@
 			<channel id="minTemperature" typeId="minTemperature" />
 			<channel id="maxTemperature" typeId="maxTemperature" />
 			<channel id="precipitation" typeId="precipitation" />
+			<channel id="minPrecipitation" typeId="minPrecipitation" />
+			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
 			<channel id="uvAlert" typeId="uvAlert" />
 		</channels>
 	</channel-group-type>
@@ -144,6 +153,8 @@
 			<channel id="minTemperature" typeId="minTemperature" />
 			<channel id="maxTemperature" typeId="maxTemperature" />
 			<channel id="precipitation" typeId="precipitation" />
+			<channel id="minPrecipitation" typeId="minPrecipitation" />
+			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
 			<channel id="uvAlert" typeId="uvAlert" />
 		</channels>
 	</channel-group-type>
@@ -159,6 +170,8 @@
 			<channel id="minTemperature" typeId="minTemperature" />
 			<channel id="maxTemperature" typeId="maxTemperature" />
 			<channel id="precipitation" typeId="precipitation" />
+			<channel id="minPrecipitation" typeId="minPrecipitation" />
+			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
 			<channel id="uvAlert" typeId="uvAlert" />
 		</channels>
 	</channel-group-type>
@@ -174,6 +187,8 @@
 			<channel id="minTemperature" typeId="minTemperature" />
 			<channel id="maxTemperature" typeId="maxTemperature" />
 			<channel id="precipitation" typeId="precipitation" />
+			<channel id="minPrecipitation" typeId="minPrecipitation" />
+			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
 			<channel id="uvAlert" typeId="uvAlert" />
 		</channels>
 	</channel-group-type>
@@ -189,6 +204,8 @@
 			<channel id="minTemperature" typeId="minTemperature" />
 			<channel id="maxTemperature" typeId="maxTemperature" />
 			<channel id="precipitation" typeId="precipitation" />
+			<channel id="minPrecipitation" typeId="minPrecipitation" />
+			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
 			<channel id="uvAlert" typeId="uvAlert" />
 		</channels>
 	</channel-group-type>
@@ -244,6 +261,20 @@
 		<state readOnly="true" pattern="%s" />
 	</channel-type>
 	
+	<channel-type id="minPrecipitation">
+		<item-type>Number</item-type>
+		<label>Minimum Precipitation</label>
+		<description>The minimum precipitation in mm.</description>
+		<state readOnly="true" pattern="%s" />
+	</channel-type>
+
+	<channel-type id="maxPrecipitation">
+		<item-type>Number</item-type>
+		<label>Maximum Precipitation</label>
+		<description>The maximum precipitation in mm.</description>
+		<state readOnly="true" pattern="%s" />
+	</channel-type>
+
 	<channel-type id="uvAlert">
 		<item-type>String</item-type>
 		<label>UV Alert</label>
@@ -335,6 +366,13 @@
 		<item-type>Number</item-type>
 		<label>Current Rainfall (mm)</label>
 		<description>The current rainfall in mm.</description>
+		<state readOnly="true" pattern="%d" />
+	</channel-type>
+
+	<channel-type id="rainfall24Hour">
+		<item-type>Number</item-type>
+		<label>24 Hour Rainfall (mm)</label>
+		<description>The 24 Hour rainfall in mm.</description>
 		<state readOnly="true" pattern="%d" />
 	</channel-type>
 
