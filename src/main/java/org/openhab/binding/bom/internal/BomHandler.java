@@ -145,12 +145,8 @@ public class BomHandler extends BaseThingHandler {
 
                 String elementXPath = stationXPath + "/period/level/element";
 
-                Double minTemperature = getDouble(xmlDocument, xPath,
-                        elementXPath + "[@type='minimum_air_temperature']");
-                Double maxTemperature = getDouble(xmlDocument, xPath,
-                        elementXPath + "[@type='maximum_air_temperature']");
-                Double airTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='apparent_temp']");
-                Double apparentTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='air_temperature']");
+                Double airTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='air_temperature']");
+                Double apparentTemperature = getDouble(xmlDocument, xPath, elementXPath + "[@type='apparent_temp']");
                 Double dewPoint = getDouble(xmlDocument, xPath, elementXPath + "[@type='dew_point']");
                 Double relativeHumidity = getDouble(xmlDocument, xPath, elementXPath + "[@type='rel-humidity']");
                 Double pressure = getDouble(xmlDocument, xPath, elementXPath + "[@type='pres']");
@@ -163,12 +159,6 @@ public class BomHandler extends BaseThingHandler {
 
                 getThing().getChannelsOfGroup(BomBindingConstants.CHANNEL_GROUP_TODAY).stream().forEach(channel -> {
                     switch (channel.getUID().getIdWithoutGroup()) {
-                        case BomBindingConstants.CHANNEL_MIN_TEMPERATURE:
-                            updateChannelState(channel.getUID(), minTemperature);
-                            break;
-                        case BomBindingConstants.CHANNEL_MAX_TEMPERATURE:
-                            updateChannelState(channel.getUID(), maxTemperature);
-                            break;
                         case BomBindingConstants.CHANNEL_APPARENT_TEMPERATURE:
                             updateChannelState(channel.getUID(), apparentTemperature);
                             break;
