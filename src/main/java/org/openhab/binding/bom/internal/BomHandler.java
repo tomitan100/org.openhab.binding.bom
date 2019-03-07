@@ -52,7 +52,7 @@ public class BomHandler extends BaseThingHandler {
     private final Logger logger = LoggerFactory.getLogger(BomHandler.class);
 
     private final String[] WEATHER_ICON_MAP = { "sunny", "clear", "mostly-sunny", "cloudy", "unknown", "hazy",
-            "light-rain", "unknown", "windy", "fog", "shower", "rain", "dusty", "frost", "snow", "storm",
+            "unknown", "light-rain", "windy", "fog", "shower", "rain", "dusty", "frost", "snow", "storm",
             "light-shower", "heavy-shower", "cyclone" };
 
     private final Pattern PATTERN_PRECIPITATION_RANAGE = Pattern
