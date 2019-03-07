@@ -320,6 +320,7 @@ __08/03/2019__
 
 __03/03/2019__
 - Fixed apparent vs air temperature mix up
+- Fixed today's min/max temperature
 
 __26/02/2019__
 - Added 24 hour rainfall channel
