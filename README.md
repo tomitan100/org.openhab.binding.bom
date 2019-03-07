@@ -313,3 +313,33 @@ The screenshots below are examples of the binding in operation.  The screens use
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/forecast.png?raw=true" />
 
+## Change log
+
+__08/03/2019__
+- Fixed icon mapping for light rain
+
+__03/03/2019__
+- Fixed apparent vs air temperature mix up
+
+__26/02/2019__
+- Added 24 hour rainfall channel
+- Added minimum and maximum precipitation
+
+__18/02/2019__
+- Added weather station channel and additional logging
+
+__17/02/2019__
+- Updated channel label names
+
+__16/02/2019__
+- Added apparent temperature from observation
+
+__14/02/2019__
+- Added support for city/town and district forecast data
+- Handled NaN values from data
+
+__13/02/2019__
+- Updated forecast date and time label
+
+__12/02/2019__
+- Initial release
