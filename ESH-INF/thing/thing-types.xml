@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<thing:thing-descriptions bindingId="bom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:thing="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0"
-	xsi:schemaLocation="http://eclipse.org/smarthome/schemas/thing-description/v1.0.0 http://eclipse.org/smarthome/schemas/thing-description-1.0.0.xsd">
+<thing:thing-descriptions bindingId="bom"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+		xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
 
 	<thing-type id="weather">
 		<label>BOM</label>
@@ -57,8 +58,116 @@
 				<default>30</default>
 				<required>false</required>
 			</parameter>
+			<parameter name="retainMinMaxTemperature" type="boolean" required="false">
+				<label>Retain minimum and maximum temperature</label>
+				<description>Retain minimum temperature for today, use minimum/maximum temperature of tomorrow if data does not exist.</description>
+				<default>true</default>
+				<required>false</required>
+			</parameter>
 		</config-description>
+	</thing-type>
 
+	<thing-type id="image">
+		<label>BOM Image</label>
+		<description>Australian Bureau of Meteorology Image Monitor and Generator</description>
+		
+		<channels>
+			<channel id="lastCheckDateTime" typeId="lastCheckDateTime" />
+			<channel id="lastUpdateDateTime" typeId="lastUpdateDateTime" />
+			<channel id="sourceImages" typeId="sourceImages" />
+			<channel id="generatedGif" typeId="generatedGif" />
+			<channel id="generatedPngs" typeId="generatedPngs" />
+		</channels>
+		
+		<config-description>
+			<parameter-group name="imageSources">
+				<label>Image Sources</label>
+				<description>BOM Image Sources</description>
+			</parameter-group>
+			
+			<parameter-group name="imageGeneration">
+				<label>Image Generation</label>
+				<description>Image generation configuration</description>
+			</parameter-group>
+		
+			<parameter name="ftpServer" type="text" required="true" groupName="imageSources">
+				<label>FTP server</label>
+				<description>FTP path of the directory containing the images. Default is ftp://ftp.bom.gov.au.</description>
+				<default>ftp://ftp.bom.gov.au</default>
+				<required>false</required>
+			</parameter>
+			<parameter name="imagesPath" type="text" required="true" groupName="imageSources">
+				<label>Images directory path</label>
+				<description>The path to the images to monitor e.g /anon/gen/radar/.</description>
+				<default>/anon/gen/radar/</default>
+				<required>true</required>
+			</parameter>
+			<parameter name="productId" type="text" required="true" groupName="imageSources">
+				<label>Images product ID</label>
+				<description>The product ID of images e.g IDR701.</description>
+				<default>IDR701</default>
+				<required>true</required>
+			</parameter>
+			<parameter name="transparenciesPath" type="text" required="false" groupName="imageSources">
+				<label>Transparencies directory path</label>
+				<description>The path to the directory where transparent images are stored e.g /anon/gen/radar_transparencies/.</description>
+				<default>/anon/gen/radar_transparencies/</default>
+				<required>false</required>
+			</parameter>
+			<parameter name="monitoringInterval" type="integer" required="true" min="1" groupName="imageSources">
+				<label>Monitoring interval in minutes</label>
+				<description>The interval to check for new images in minutes.  Default is 15 minutes.</description>
+				<default>15</default>
+				<required>false</required>
+			</parameter>
+			<parameter name="layersConfiguration" type="text" required="false" groupName="imageSources">
+				<label>Image layers configuration</label>
+				<description>The image layers configuration.  See documentation.</description>
+				<default>image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png</default>
+				<required>false</required>
+			</parameter>
+			<parameter name="generatePngs" type="boolean" required="false" groupName="imageGeneration">
+				<label>Generate PNG images</label>
+				<description>Generate PNG images from series. Default is off.</description>
+				<default>false</default>
+				<required>false</required>
+			</parameter>
+            <parameter name="generateGif" type="boolean" required="false" groupName="imageGeneration">
+                <label>Generate animated GIF</label>
+                <description>Generate animated GIF from a series of images. Default is off.</description>
+                <default>false</default>
+                <required>false</required>
+            </parameter>
+			<parameter name="gifImageDelay" type="integer" required="false" min="100" max="100000" groupName="imageGeneration">
+				<label>GIF image delay in ms</label>
+				<description>The delay between each GIF image.  Default is 1000 ms (1 second).</description>
+				<default>1000</default>
+				<required>false</required>
+			</parameter>
+			<parameter name="gifImageLoop" type="boolean" required="false" groupName="imageGeneration">
+				<label>Enable GIF loop</label>
+				<description>Enable animated GIF image loop.</description>
+				<default>true</default>
+				<required>false</required>
+			</parameter>
+			<parameter name="imagePostProcessing" type="text" required="false" groupName="imageGeneration">
+				<label>Image post-processing</label>
+				<description>Final image post-processing properties.  See documentation.</description>
+				<required>false</required>
+			</parameter>
+			<parameter name="imageOutputPath" type="text" required="false" groupName="imageGeneration">
+				<label>Image output path</label>
+				<description>The path to the directory where generated image(s) will be saved to.</description>
+				<default>/etc/openhab2/html/</default>
+				<required>false</required>
+			</parameter>
+			<parameter name="imageOutputFilename" type="text" required="false" groupName="imageGeneration">
+				<label>Image output filename</label>
+				<description>The name of the generated image filename.  Do not include file extension. e.g ${pid} or radar-512km.</description>
+				<default>${pid}</default>
+				<required>false</required>
+			</parameter>
+		</config-description>
 	</thing-type>
 
 	<channel-group-type id="day1Group">
@@ -374,6 +483,41 @@
 		<label>24 Hour Rainfall (mm)</label>
 		<description>The 24 Hour rainfall in mm.</description>
 		<state readOnly="true" pattern="%d" />
+	</channel-type>
+
+	<channel-type id="lastCheckDateTime">
+		<item-type>DateTime</item-type>
+		<label>Last Check Date and Time</label>
+		<description>The last time the server is checked for update.</description>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="lastUpdateDateTime">
+		<item-type>DateTime</item-type>
+		<label>Last Update Date and Time</label>
+		<description>The last time changes are detected and local image(s) is generated, if applicable.</description>
+		<state readOnly="true" />
+	</channel-type>
+
+	<channel-type id="sourceImages">
+		<item-type>String</item-type>
+		<label>Source Images</label>
+		<description>List of source images.</description>
+		<state readOnly="true" pattern="%s" />
+	</channel-type>
+
+	<channel-type id="generatedGif">
+		<item-type>String</item-type>
+		<label>Generated GIF</label>
+		<description>The generated animated GIF of series.</description>
+		<state readOnly="true" pattern="%s" />
+	</channel-type>
+	
+	<channel-type id="generatedPngs">
+		<item-type>String</item-type>
+		<label>Generated PNG's</label>
+		<description>The list of generated images series.</description>
+		<state readOnly="true" pattern="%s" />
 	</channel-type>
 
 </thing:thing-descriptions>

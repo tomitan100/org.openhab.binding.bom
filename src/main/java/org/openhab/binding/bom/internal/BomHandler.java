@@ -1,10 +1,14 @@
 /**
- * Copyright (c) 2010-2019 by the respective copyright holders.
+ * Copyright (c) 2010-2019 Contributors to the openHAB project
  *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ * See the NOTICE file(s) distributed with this work for additional
+ * information.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0
+ *
+ * SPDX-License-Identifier: EPL-2.0
  */
 package org.openhab.binding.bom.internal;
 
@@ -14,6 +18,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -63,6 +69,8 @@ public class BomHandler extends BaseThingHandler {
     private ScheduledFuture<?> forecastRefreshJob;
 
     private BomConfiguration config;
+
+    private Double retainedMinTemperature;
 
     public BomHandler(Thing thing) {
         super(thing);
@@ -253,6 +261,8 @@ public class BomHandler extends BaseThingHandler {
                     XPathConstants.NODESET);
 
             if (nodes != null && nodes.getLength() > 0) {
+                List<Forecast> forecasts = new ArrayList<>();
+
                 int idx = 0;
                 for (int i = 0; i < nodes.getLength() && idx < BomBindingConstants.NUMBER_OF_FORECASTS; i++) {
                     Node node = nodes.item(i);
@@ -261,16 +271,11 @@ public class BomHandler extends BaseThingHandler {
                         continue;
                     }
 
-                    String dateStr = node.getAttributes().getNamedItem("start-time-local").getNodeValue();
-                    ZonedDateTime zonedDatetime = ZonedDateTime.parse(dateStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME);
+                    Forecast forecast = new Forecast();
+                    forecasts.add(forecast);
 
-                    String iconCode = null;
-                    Double minTemperature = null;
-                    Double maxTemperature = null;
-                    String precis = "";
-                    String precipitation = "";
-                    Double minPrecipitation = null;
-                    Double maxPrecipitation = null;
+                    String dateStr = node.getAttributes().getNamedItem("start-time-local").getNodeValue();
+                    forecast.setZonedDatetime(ZonedDateTime.parse(dateStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME));
 
                     for (int j = 0; j < node.getChildNodes().getLength(); j++) {
                         Node childNode = node.getChildNodes().item(j);
@@ -283,18 +288,18 @@ public class BomHandler extends BaseThingHandler {
 
                         switch (type) {
                             case "forecast_icon_code":
-                                iconCode = childNode.getTextContent();
+                                forecast.setIconCode(childNode.getTextContent());
                             case "precis":
-                                precis = childNode.getTextContent();
+                                forecast.setPrecis(childNode.getTextContent());
                                 break;
                             case "air_temperature_minimum":
-                                minTemperature = Double.parseDouble(childNode.getTextContent());
+                                forecast.setMinTemperature(Double.parseDouble(childNode.getTextContent()));
                                 break;
                             case "air_temperature_maximum":
-                                maxTemperature = Double.parseDouble(childNode.getTextContent());
+                                forecast.setMaxTemperature(Double.parseDouble(childNode.getTextContent()));
                                 break;
                             case "probability_of_precipitation":
-                                precipitation = childNode.getTextContent();
+                                forecast.setPrecipitation(childNode.getTextContent());
                                 break;
                             case "precipitation_range":
                                 Matcher matcher = PATTERN_PRECIPITATION_RANAGE
@@ -302,8 +307,8 @@ public class BomHandler extends BaseThingHandler {
 
                                 if (matcher.matches()) {
                                     try {
-                                        minPrecipitation = Double.parseDouble(matcher.group(1));
-                                        maxPrecipitation = Double.parseDouble(matcher.group(2));
+                                        forecast.setMinPrecipitation(Double.parseDouble(matcher.group(1)));
+                                        forecast.setMaxPrecipitation(Double.parseDouble(matcher.group(2)));
                                     } catch (NumberFormatException ex) {
                                         logger.warn("Unable to convert precipitation range \"{}\" for day {}",
                                                 childNode.getTextContent(), (idx + 1));
@@ -312,12 +317,12 @@ public class BomHandler extends BaseThingHandler {
                                 break;
                         }
                     }
+                }
 
-                    updateForecastState(BomBindingConstants.CHANNEL_GROUP_DAY_PREFIX + (idx + 1), zonedDatetime,
-                            iconCode, precis, minTemperature, maxTemperature, precipitation, minPrecipitation,
-                            maxPrecipitation);
+                fillTemperatureGaps(forecasts);
 
-                    idx++;
+                for (int i = 0; i < forecasts.size(); i++) {
+                    updateForecastState(BomBindingConstants.CHANNEL_GROUP_DAY_PREFIX + (i + 1), forecasts.get(i));
                 }
 
                 logger.info("Successfully processed precis forecast data.");
@@ -334,6 +339,30 @@ public class BomHandler extends BaseThingHandler {
                 } catch (IOException e) {
                     logger.warn("Unable to close input streram", e);
                 }
+            }
+        }
+    }
+
+    private void fillTemperatureGaps(List<Forecast> forecasts) {
+        if (config.retainMinMaxTemperature && !forecasts.isEmpty()) {
+            Forecast today = forecasts.get(0);
+
+            // If max temperature is null get min and max from tomorrow's forecast.
+            // This logic follows BOM's website. BOM usually does not provide today's
+            // min and max after ~8pm.
+            if (today.getMaxTemperature() == null && forecasts.size() > 1) {
+                Forecast tomorrow = forecasts.get(1);
+                today.setMaxTemperature(tomorrow.getMaxTemperature());
+
+                if (today.getMinTemperature() == null) {
+                    today.setMinTemperature(tomorrow.getMinTemperature() != null ? tomorrow.getMinTemperature()
+                            : this.retainedMinTemperature);
+                    this.retainedMinTemperature = today.getMinTemperature();
+                }
+            } else if (today.getMinTemperature() == null) {
+                today.setMinTemperature(this.retainedMinTemperature);
+            } else if (today.getMinTemperature() != null) {
+                this.retainedMinTemperature = today.getMinTemperature();
             }
         }
     }
@@ -426,42 +455,39 @@ public class BomHandler extends BaseThingHandler {
         }
     }
 
-    private void updateForecastState(String channelGroupId, ZonedDateTime zonedDateTime, String iconCode, String precis,
-            Double minTemperature, Double maxTemperature, String precipitation, Double minPrecipitation,
-            Double maxPrecipitation) {
+    private void updateForecastState(String channelGroupId, Forecast forecast) {
 
         getThing().getChannelsOfGroup(channelGroupId).stream().forEach(channel -> {
             switch (channel.getUID().getIdWithoutGroup()) {
                 case BomBindingConstants.CHANNEL_ICON:
-                    if (iconCode != null) {
-                        int iconIdx = Integer.parseInt(iconCode) - 1;
+                    if (forecast.getIconCode() != null) {
+                        int iconIdx = Integer.parseInt(forecast.getIconCode()) - 1;
 
                         if (iconIdx >= 0 && iconIdx < WEATHER_ICON_MAP.length) {
                             updateState(channel.getUID(), new StringType(WEATHER_ICON_MAP[iconIdx]));
                         }
                     }
-
                     break;
                 case BomBindingConstants.CHANNEL_DATE_TIME:
-                    updateChannelState(channel.getUID(), zonedDateTime);
+                    updateChannelState(channel.getUID(), forecast.getZonedDatetime());
                     break;
                 case BomBindingConstants.CHANNEL_PRECIS:
-                    updateChannelState(channel.getUID(), precis);
+                    updateChannelState(channel.getUID(), forecast.getPrecis());
                     break;
                 case BomBindingConstants.CHANNEL_MIN_TEMPERATURE:
-                    updateChannelState(channel.getUID(), minTemperature);
+                    updateChannelState(channel.getUID(), forecast.getMinTemperature());
                     break;
                 case BomBindingConstants.CHANNEL_MAX_TEMPERATURE:
-                    updateChannelState(channel.getUID(), maxTemperature);
+                    updateChannelState(channel.getUID(), forecast.getMaxTemperature());
                     break;
                 case BomBindingConstants.CHANNEL_PRECIPITATION:
-                    updateChannelState(channel.getUID(), precipitation);
+                    updateChannelState(channel.getUID(), forecast.getPrecipitation());
                     break;
                 case BomBindingConstants.CHANNEL_MIN_PRECIPITATION:
-                    updateChannelState(channel.getUID(), minPrecipitation);
+                    updateChannelState(channel.getUID(), forecast.getMinPrecipitation());
                     break;
                 case BomBindingConstants.CHANNEL_MAX_PRECIPITATION:
-                    updateChannelState(channel.getUID(), maxPrecipitation);
+                    updateChannelState(channel.getUID(), forecast.getMaxPrecipitation());
                     break;
             }
         });
