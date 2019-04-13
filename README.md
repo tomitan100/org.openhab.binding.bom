@@ -355,7 +355,7 @@ For example (taken from default configuration):
 Explanation:
 - There are five layers that make up the final image: background, topography, ${series} image, locations and range.
 - Layer 1 will be obscured by layer 2, layer 2 will be obscured by layer 3, and so on.
-- Layer 3, `image=${series}` is the placholder for the image series.
+- Layer 3, `image=${series}`, is the placeholder for the image series.
 - `${pid}` is the placeholder for product ID.  If your product ID is IDR701 then it is equivalent to use image=IDR701.background.png as the first layer.
 - These images are sourced from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/.  Other transparancies available are: `${pid}.wthrDistricts.png`, `${pid}.waterways.png`, `${pid}.roads.png`, `${pid}.rail.png`, `${pid}.catchments.png`.  To see what else are available go to the FTP directory.
 - When using _Rainfall_ series, you must not use `${pid}` as there does not seem to be equivalently named transparencies.  You will have to hardcode the one of the radar product code in the layers configuration.
