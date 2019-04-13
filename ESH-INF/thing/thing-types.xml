@@ -132,12 +132,12 @@
 				<default>false</default>
 				<required>false</required>
 			</parameter>
-            <parameter name="generateGif" type="boolean" required="false" groupName="imageGeneration">
-                <label>Generate animated GIF</label>
-                <description>Generate animated GIF from a series of images. Default is off.</description>
-                <default>false</default>
-                <required>false</required>
-            </parameter>
+			<parameter name="generateGif" type="boolean" required="false" groupName="imageGeneration">
+				<label>Generate animated GIF</label>
+				<description>Generate animated GIF from a series of images. Default is off.</description>
+				<default>false</default>
+				<required>false</required>
+			</parameter>
 			<parameter name="gifImageDelay" type="integer" required="false" min="100" max="100000" groupName="imageGeneration">
 				<label>GIF image delay in ms</label>
 				<description>The delay between each GIF image.  Default is 1000 ms (1 second).</description>

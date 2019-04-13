@@ -366,7 +366,7 @@ public class BomImageHandler extends BaseThingHandler {
             String remoteFilePath = imagesDirPath + ftpFile.getName();
 
             try {
-                logger.info("Downloading {}", remoteFilePath);
+                logger.debug("Downloading {}", remoteFilePath);
                 in = ftp.retrieveFileStream(remoteFilePath);
 
                 BufferedImage downloadedImage = ImageIO.read(in);
@@ -408,7 +408,7 @@ public class BomImageHandler extends BaseThingHandler {
                     String remoteFilePath = imagesDirPath + imagePath;
 
                     try {
-                        logger.info("Downloading {}", remoteFilePath);
+                        logger.debug("Downloading {}", remoteFilePath);
                         in = ftp.retrieveFileStream(remoteFilePath);
                         BufferedImage downloadedImage = ImageIO.read(in);
 
