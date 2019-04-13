@@ -346,7 +346,7 @@ __Image Layers Configuration__
 
 Each layer is separated by a semicolon and each setting for the layer is separated by a comma.  The order of the layer determines the layer merge order.
 
-Each layer at minimum have the image name.  The layer where each of the series/sequence images to be assigned must be named `${series}`.
+Each layer at minimum must contain the full image file name.  The layer where each of the series/sequence images to be assigned must be named `${series}`.
 
 For example (taken from default configuration):
 
