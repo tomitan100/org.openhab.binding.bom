@@ -390,7 +390,7 @@ __If you want to use generated PNG's or animated GIF__
 
 Use an Image widget and link to the generated image `/static/<whatever-name-you-give-in-config>.gif` or link to the image in your custom template.
 
-__If you choose to not generate PNG's or animated GIF__
+__If you choose not to use generate PNG's or animated GIF__
 
 In your custom template you will have to write AngularJS/Javascript to handle the display of the image layers and animating the radar images.  The benefit of this method is you can make it user interactive and frame rate, etc is not baked in. This is similar to what BOM site does and it is beyond the scope of this documentation.
 
