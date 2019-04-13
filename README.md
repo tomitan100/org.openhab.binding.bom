@@ -386,13 +386,13 @@ _Example usage in image post-processing field:_
 
 ## How to use the image(s)
 
-__If you generated PNG's or animated GIF__
+__If you want to use generated PNG's or animated GIF__
 
 Use an Image widget and link to the generated image `/static/<whatever-name-you-give-in-config>.gif` or link to the image in your custom template.
 
-__If you do not generate PNG's or animated GIF__
+__If you choose to not generate PNG's or animated GIF__
 
-In your custom template you will have to write AngularJS/Javascript to handle the display of the image layers and animating the radar images.  This is similar to what BOM site does and it is beyond the scope of this documentation.
+In your custom template you will have to write AngularJS/Javascript to handle the display of the image layers and animating the radar images.  The benefit of this method is you can make it user interactive and frame rate, etc is not baked in. This is similar to what BOM site does and it is beyond the scope of this documentation.
 
 The list of radar image sequences are available as a channel (Source Images).  Unfortunately it is represented as a comma-separated string.  You will have to split into an array to be useful.
 
