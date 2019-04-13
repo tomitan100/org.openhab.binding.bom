@@ -384,6 +384,18 @@ _Example usage in image post-processing field:_
 
 `crop=0 10 512 502, resize=600 600`
 
+## How to use the image(s)
+
+__If you generated PNG's or animated GIF__
+
+Use an Image widget and link to the generated image `/static/<whatever-name-you-give-in-config>.gif` or link to the image in your custom template.
+
+__If you do not generate PNG's or animated GIF__
+
+In your custom template you will have to write AngularJS/Javascript to handle the display of the image layers and animating the radar images.  This is similar to what BOM site does and it is beyond the scope of this documentation.
+
+The list of radar image sequences are available as a channel (Source Images).  Unfortunately it is represented as a comma-separated string.  You will have to split into an array to be useful.
+
 ## Example Screenshots in openHAB HABPanel
 
 The screenshots below are examples of the binding in operation.  The screens use custom theme called "Matrix Theme" by Patrick (`@pmpkk`).  For more information about the theme please go to https://community.openhab.org/t/matrix-theme-for-habpanel/31100.
