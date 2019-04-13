@@ -325,7 +325,7 @@ Radar images are stored in ftp://ftp.bom.gov.au/anon/gen/radar/ while transparan
 
 ## BOM Images Configuration
 
-The first step is to figure out the product ID of the images you are after.  You can do this easily by searching "IDR" in BOM's catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml.
+The first step is to figure out the product ID of the images you are after.  You can do this easily by searching "IDR" in BOM's catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml.  Another way is to note the product ID in the "Rainfall Radars" URL itself.  e.g http://www.bom.gov.au/products/IDR701.loop.shtml.
 
 Note that each radar range is under different product ID.
 
