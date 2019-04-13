@@ -372,7 +372,7 @@ Opacity accepts one argument, a value between 0 and 1, inclusive. e.g `opacity=0
 
 Resize requires two arguments: width and height in pixels. e.g `resize=600 600`
 
-Crop requires four arguments:  x, y, width and height. e.g `0 12 512 500`
+Crop requires four arguments:  x, y, width and height. e.g `crop=0 12 512 500`
 
 You can chain those operations in each layer or final image.
 
