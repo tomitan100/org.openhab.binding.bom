@@ -1,8 +1,8 @@
 # <bindingName> Australian Bureau of Meteorology Weather Forecast Binding
 
-This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather forecast from Bureau of Meteorology.
+This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather forecast and meteorological images from Bureau of Meteorology.
 
-## Features
+## Observation and Forecast Features
 
 This initial release maps most fields from BOM data-feed.
 
@@ -42,6 +42,15 @@ For future forecasts the following fields are available:
 - Minimum precipitation
 - Maximum precipitation
 - UV alert text
+
+## BOM Images
+
+BOM images, like radar rain images, can retrieved and processed.  You have the option of:
+- Retrieve the image series filenames (e.g radar loop images) for use in custom template with custom AngularJS animation code.
+- Generate animated GIF of the images.
+- Generate a series merged of PNG's of the images.
+
+See below for more details.
 
 ## Prerequisite
 
@@ -305,6 +314,88 @@ Creating items and linking them for eight days of forecasts can be tedious.  Pro
 
 https://github.com/tomitan100/org.openhab.binding.bom/raw/master/doc/bom.items
 
+## BOM Images
+
+__Background__
+BOM images, like rain radar loop, are made up of a series of transparent PNG files, which get updated frequently as data is available.  These images contain only the radar scans and do not include the background image, topography, locations, etc of Australia.  These images are known as transparencies.  To get the final image each of the radar images must be merged with the transparencies in the correct order.
+
+BOM Image binding can create the final images of each series as PNG's and/or animated GIF.  This makes it easier to display radar loops in the web browser without having to code Javascript to loop through the images.
+
+Radar images are stored in ftp://ftp.bom.gov.au/anon/gen/radar/ while transparancies are stored in ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/
+
+## BOM Images Configuration
+
+The first step is to figure out the product ID of the images you are after.  You can do this easily by searching "IDR" in BOM's catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml.  Another way is to note the product ID in the "Rainfall Radars" URL itself.  e.g http://www.bom.gov.au/products/IDR701.loop.shtml.
+
+Note that each radar range is under different product ID.
+
+Examples for Perth radar loop:
+- IDR701 - 512 km
+- IDR702 - 256 km
+- IDR703 - 128 km
+- IDR704 - 64 km
+
+In the configuration screen as shown below, typically you would only care about changing the Product ID to the one you would like to show, and turning on Generated animated GIF.
+
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/configuration-image-sources.png?raw=true" />
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/configuration-image-generation.png?raw=true" />
+
+On this screen you also have the option to modify the layer ordering, add additional layer, generate PNG images, change the delay between GIF images in the animated gif, enable GIF looping, apply post processing to the image, change image output path and output filename.
+
+__Image Layers Configuration__
+
+Each layer is separated by a semicolon and each setting for the layer is separated by a comma.  The order of the layer determines the layer merge order.
+
+Each layer at minimum must contain the full image file name.  The layer where each of the series/sequence images to be assigned must be named `${series}`.
+
+For example (taken from default configuration):
+
+`image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png`
+
+Explanation:
+- There are five layers that make up the final image: background, topography, ${series} image, locations and range.
+- Layer 1 will be obscured by layer 2, layer 2 will be obscured by layer 3, and so on.
+- Layer 3, `image=${series}`, is the placeholder for the image series.
+- `${pid}` is the placeholder for product ID.  If your product ID is IDR701 then it is equivalent to use image=IDR701.background.png as the first layer.
+- These images are sourced from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/.  Other transparancies available are: `${pid}.wthrDistricts.png`, `${pid}.waterways.png`, `${pid}.roads.png`, `${pid}.rail.png`, `${pid}.catchments.png`.  To see what else are available go to the FTP directory.
+- When using _Rainfall_ series, you must not use `${pid}` as there does not seem to be equivalently named transparencies.  You will have to use one of the radar product codes in the layers configuration.
+- It is possible to add image processing operation for each layer.  See below for more details.
+
+__Image Processing__
+
+Currently there are three image operations available to each layer and to the final image:
+- Opacity - changes the opacity of the layer/final image.
+- Resize - resizes the layer/final image.
+- Crop - crops the layer/final image.
+
+Opacity accepts one argument, a value between 0 and 1, inclusive. e.g `opacity=0.5`
+
+Resize requires two arguments: width and height in pixels. e.g `resize=600 600`
+
+Crop requires four arguments:  x, y, width and height. e.g `crop=0 12 512 500`
+
+You can chain those operations in each layer or final image.
+
+_Example usage in a layer:_
+
+`image=${pid}.range.png, opacity=0.5`
+
+_Example usage in image post-processing field:_
+
+`crop=0 10 512 502, resize=600 600`
+
+## How to use the image(s)
+
+__If you want to use generated PNG's or animated GIF__
+
+Use an Image widget and link to the generated image `/static/<whatever-name-you-give-in-config>.gif` or link to the image in your custom template.
+
+__If you choose not to use generate PNG's or animated GIF__
+
+In your custom template you will have to write AngularJS/Javascript to handle the display of the image layers and animating the radar images.  The benefit of this method is you can make it user interactive and frame rate, etc is not baked in. This is similar to what BOM site does and it is beyond the scope of this documentation.
+
+The list of radar image sequences are available as a channel (Source Images).  Unfortunately it is represented as a comma-separated string.  You will have to split into an array to be useful.
+
 ## Example Screenshots in openHAB HABPanel
 
 The screenshots below are examples of the binding in operation.  The screens use custom theme called "Matrix Theme" by Patrick (`@pmpkk`).  For more information about the theme please go to https://community.openhab.org/t/matrix-theme-for-habpanel/31100.
@@ -313,7 +404,13 @@ The screenshots below are examples of the binding in operation.  The screens use
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/forecast.png?raw=true" />
 
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar-loop.gif?raw=true" />
+
 ## Change log
+
+__14/04/2019__
+- Added retain min/max temperatures for today
+- Added BOM radar/rainfall image generation support
 
 __08/03/2019__
 - Fixed icon mapping for light rain
