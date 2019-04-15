@@ -24,27 +24,25 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Tan - Initial contribution
  */
-public class CropProcessor implements ImageProcessor {
+public class CropProcessor extends ImageProcessor {
     private final Logger logger = LoggerFactory.getLogger(CropProcessor.class);
 
     @Override
     public BufferedImage process(BufferedImage image, String properties) {
-        String cleanProperties = properties.replaceAll("\\s+", " ");
+        String[] params = parseParams(properties);
 
-        String[] values = cleanProperties.split(" ");
-
-        if (values.length != 4) {
-            logger.warn("Invalid parameters provided to crop image \"{}\"", cleanProperties);
+        if (params == null || params.length != 4) {
+            logger.warn("Invalid parameters provided to crop image \"{}\"", properties);
             return image;
         }
 
         try {
-            Rectangle rectangle = new Rectangle(Integer.parseInt(values[0]), Integer.parseInt(values[1]),
-                    Integer.parseInt(values[2]), Integer.parseInt(values[3]));
+            Rectangle rectangle = new Rectangle(Integer.parseInt(params[0]), Integer.parseInt(params[1]),
+                    Integer.parseInt(params[2]), Integer.parseInt(params[3]));
 
             return ImageUtils.cropImage(image, rectangle);
         } catch (NumberFormatException ex) {
-            logger.warn("Invalid parameters provided to crop image \"{}\"", cleanProperties);
+            logger.warn("Invalid parameters provided to crop image \"{}\"", properties);
         }
 
         return image;

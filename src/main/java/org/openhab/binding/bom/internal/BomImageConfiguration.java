@@ -29,6 +29,8 @@ public class BomImageConfiguration {
     public boolean generateGif;
     public Integer gifImageDelay;
     public boolean gifImageLoop;
+    public boolean embedLocalTimestamp;
+    public String localTimestampProperties;
     public String imagePostProcessing;
     public String imageOutputPath;
     public String imageOutputFilename;

@@ -150,6 +150,18 @@
 				<default>true</default>
 				<required>false</required>
 			</parameter>
+			<parameter name="embedLocalTimestamp" type="boolean" required="false" groupName="imageGeneration">
+				<label>Embed local timestamp</label>
+				<description>Embed local timestamp into each GIF sequence.</description>
+				<default>false</default>
+			<required>false</required>
+			</parameter>
+			<parameter name="localTimestampProperties" type="text" required="false" groupName="imageGeneration">
+				<label>Local timestamp properties</label>
+				<description>Local time properties configuration.</description>
+				<default>format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=18, font-colour=#808080, font-weight=bold</default>
+				<required>false</required>
+			</parameter>
 			<parameter name="imagePostProcessing" type="text" required="false" groupName="imageGeneration">
 				<label>Image post-processing</label>
 				<description>Final image post-processing properties.  See documentation.</description>

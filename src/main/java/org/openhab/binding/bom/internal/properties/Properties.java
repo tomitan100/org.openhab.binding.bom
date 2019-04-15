@@ -28,20 +28,30 @@ public class Properties extends HashMap<String, String> {
     public static Properties create(String properties) {
         Properties props = new Properties();
 
-        String[] pairs = properties.split(PAIR_SEPARATOR);
+        if (properties != null) {
+            String[] pairs = properties.split(PAIR_SEPARATOR);
 
-        for (String pair : pairs) {
-            String[] kv = pair.split(KEY_VALUE_SEPARATOR);
+            for (String pair : pairs) {
+                String[] kv = pair.split(KEY_VALUE_SEPARATOR);
 
-            if (kv.length == 2) {
-                props.put(kv[0].trim(), kv[1].trim());
+                if (kv.length == 2) {
+                    props.put(kv[0].trim(), kv[1].trim());
+                }
             }
         }
 
         return props;
     }
 
+    public static Properties copy(Properties sourceProperties) {
+        return new Properties(sourceProperties);
+    }
+
     private Properties() {
         super();
+    }
+
+    private Properties(Properties otherProperties) {
+        super(otherProperties);
     }
 }

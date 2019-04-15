@@ -19,27 +19,29 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The {@link ResizeProcessor} class resizes an image to the desired size.
+ * The {@link CropProcessor} class crops an image into the specified size
  *
  * @author Thomas Tan - Initial contribution
  */
-public class ResizeProcessor extends ImageProcessor {
-    private final Logger logger = LoggerFactory.getLogger(ResizeProcessor.class);
+public class PositionProcessor extends ImageProcessor {
+    private final Logger logger = LoggerFactory.getLogger(PositionProcessor.class);
 
     @Override
     public BufferedImage process(BufferedImage image, String properties) {
         String[] params = parseParams(properties);
 
-        if (params.length != 2) {
-            logger.warn("Invalid parameters provided to resize image \"{}\"", properties);
+        if (params == null || params.length != 2) {
+            logger.warn("Invalid parameters provided to reposition an image \"{}\"", properties);
             return image;
         }
 
         try {
-            return ImageUtils.resizeImage(image, Integer.parseInt(params[0].trim()),
-                    Integer.parseInt(params[1].trim()));
+            int x = Integer.parseInt(params[0]);
+            int y = Integer.parseInt(params[1]);
+
+            return ImageUtils.transform(image, x, y);
         } catch (NumberFormatException ex) {
-            logger.warn("Invalid parameters provided to resize image \"{}\"", properties);
+            logger.warn("Invalid parameters provided to reposition an image \"{}\"", properties);
         }
 
         return image;

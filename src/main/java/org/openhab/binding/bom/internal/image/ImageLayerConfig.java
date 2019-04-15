@@ -20,22 +20,25 @@ import org.openhab.binding.bom.internal.properties.Properties;
  * @author Thomas Tan - Initial contribution
  */
 public class ImageLayerConfig {
-    public enum LayerGroup {
-        BACKGROUND,
-        MIDDLEGROUND,
-        FOREGROUND
-    }
-
     public static final String KEY_IMAGE = "image";
 
     private final String imagePath;
-    private final LayerGroup layerGroup;
+    private final ImageType type;
+    private final ImageLayerGroup layerGroup;
+    private final ImageGeneratorType generatorType;
 
     private final Properties properties;
 
-    public ImageLayerConfig(String imagePath, LayerGroup layerGroup, Properties properties) {
+    public ImageLayerConfig(String imagePath, ImageType type, ImageLayerGroup layerGroup, Properties properties) {
+        this(imagePath, type, layerGroup, null, properties);
+    }
+
+    public ImageLayerConfig(String imagePath, ImageType type, ImageLayerGroup layerGroup,
+            ImageGeneratorType generatorType, Properties properties) {
         this.imagePath = imagePath;
+        this.type = type;
         this.layerGroup = layerGroup;
+        this.generatorType = generatorType;
         this.properties = properties;
     }
 
@@ -43,8 +46,16 @@ public class ImageLayerConfig {
         return imagePath;
     }
 
-    public LayerGroup getLayerGroup() {
+    public ImageType getType() {
+        return type;
+    }
+
+    public ImageLayerGroup getLayerGroup() {
         return layerGroup;
+    }
+
+    public ImageGeneratorType getGeneratorType() {
+        return generatorType;
     }
 
     public Properties getProperties() {

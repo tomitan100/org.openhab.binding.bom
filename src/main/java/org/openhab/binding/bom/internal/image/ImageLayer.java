@@ -21,7 +21,12 @@ import java.awt.image.BufferedImage;
  */
 public class ImageLayer {
     private final ImageLayerConfig imageLayerConfig;
-    private final BufferedImage image;
+    private BufferedImage image;
+
+    public ImageLayer(ImageLayerConfig imageLayerConfig) {
+        this.imageLayerConfig = imageLayerConfig;
+        this.image = null;
+    }
 
     public ImageLayer(ImageLayerConfig imageLayerConfig, BufferedImage image) {
         this.imageLayerConfig = imageLayerConfig;

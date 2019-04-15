@@ -20,6 +20,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -33,6 +34,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.smarthome.core.library.types.DateTimeType;
 import org.eclipse.smarthome.core.library.types.DecimalType;
 import org.eclipse.smarthome.core.library.types.StringType;
@@ -116,9 +118,18 @@ public class BomHandler extends BaseThingHandler {
         }
     }
 
+    @Override
+    public void handleConfigurationUpdate(Map<String, Object> configurationParameters) {
+        super.handleConfigurationUpdate(configurationParameters);
+
+        config = getConfigAs(BomConfiguration.class);
+        refreshObservation();
+        refreshForecast();
+    }
+
     private synchronized void refreshObservation() {
-        if (config.ftpPath == null || config.ftpPath.trim().length() == 0 || config.observationProductId == null
-                || config.weatherStationId == null) {
+        if (StringUtils.isBlank(config.ftpPath) || StringUtils.isBlank(config.observationProductId)
+                || StringUtils.isBlank(config.weatherStationId)) {
             logger.error("FTP path, observation product ID and weather station ID are required");
             updateStatus(ThingStatus.OFFLINE);
             return;
@@ -233,8 +244,8 @@ public class BomHandler extends BaseThingHandler {
     }
 
     private void refreshPrecisForecast() {
-        if (config.ftpPath == null || config.ftpPath.trim().length() == 0 || config.precisForecastProductId == null
-                || config.areaId == null) {
+        if (StringUtils.isBlank(config.ftpPath) || StringUtils.isBlank(config.precisForecastProductId)
+                || StringUtils.isBlank(config.areaId)) {
             logger.error("FTP path, precis forecast product ID and area ID are required");
             updateStatus(ThingStatus.OFFLINE);
             return;
@@ -368,8 +379,8 @@ public class BomHandler extends BaseThingHandler {
     }
 
     private void refreshCityTownDistrictForecast() {
-        if (config.ftpPath == null || config.ftpPath.trim().length() == 0 || config.cityTownForecastProductId == null
-                || config.areaId == null) {
+        if (StringUtils.isBlank(config.ftpPath) || StringUtils.isBlank(config.cityTownForecastProductId)
+                || StringUtils.isBlank(config.areaId)) {
             logger.error("FTP path, city/town/district forecast product ID and area ID are required");
             updateStatus(ThingStatus.OFFLINE);
             return;

@@ -2,7 +2,8 @@ Manifest-Version: 1.0
 Automatic-Module-Name: org.openhab.binding.bom
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
- lib/commons-net-3.6.jar
+ lib/commons-net-3.6.jar,
+ lib/commons-lang3-3.8.1.jar
 Bundle-ManifestVersion: 2
 Bundle-Name: Bom Binding
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

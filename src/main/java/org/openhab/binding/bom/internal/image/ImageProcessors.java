@@ -16,9 +16,11 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.openhab.binding.bom.internal.image.processor.CanvasProcessor;
 import org.openhab.binding.bom.internal.image.processor.CropProcessor;
 import org.openhab.binding.bom.internal.image.processor.ImageProcessor;
 import org.openhab.binding.bom.internal.image.processor.OpacityProcessor;
+import org.openhab.binding.bom.internal.image.processor.PositionProcessor;
 import org.openhab.binding.bom.internal.image.processor.ResizeProcessor;
 import org.openhab.binding.bom.internal.properties.Properties;
 import org.slf4j.Logger;
@@ -35,9 +37,11 @@ public class ImageProcessors {
     private final static Map<String, ImageProcessor> imageProcessors = new HashMap<>();
 
     static {
+        imageProcessors.put("canvas", new CanvasProcessor());
         imageProcessors.put("crop", new CropProcessor());
-        imageProcessors.put("resize", new ResizeProcessor());
         imageProcessors.put("opacity", new OpacityProcessor());
+        imageProcessors.put("position", new PositionProcessor());
+        imageProcessors.put("resize", new ResizeProcessor());
     }
 
     public static BufferedImage process(ImageLayer imageLayer) {

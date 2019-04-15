@@ -14,11 +14,21 @@ package org.openhab.binding.bom.internal.image.processor;
 
 import java.awt.image.BufferedImage;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * The {@link ImageProcessor} interface.
  *
  * @author Thomas Tan - Initial contribution
  */
-public interface ImageProcessor {
-    BufferedImage process(BufferedImage image, String properties);
+public abstract class ImageProcessor {
+    public abstract BufferedImage process(BufferedImage image, String properties);
+
+    protected String[] parseParams(String properties) {
+        if (StringUtils.isBlank(properties)) {
+            return null;
+        }
+
+        return properties.replaceAll("\\s+", " ").trim().split(" ");
+    }
 }

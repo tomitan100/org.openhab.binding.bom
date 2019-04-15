@@ -96,7 +96,7 @@ public class ImageUtils {
         int width = srcImage.getWidth();
         int height = srcImage.getHeight();
 
-        BufferedImage bufferedImage = new BufferedImage(width, height, srcImage.getType());
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = bufferedImage.createGraphics();
 
         g.drawImage(srcImage, 0, 0, width, height, width, 0, 0, height, null);
@@ -119,7 +119,7 @@ public class ImageUtils {
     public static BufferedImage rotate(BufferedImage srcImage, int angle) {
         int width = srcImage.getWidth();
         int height = srcImage.getHeight();
-        BufferedImage bufferedImage = new BufferedImage(width, height, srcImage.getType());
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = bufferedImage.createGraphics();
         g.rotate(Math.toRadians(angle), width / 2, height / 2);
         g.drawImage(srcImage, null, 0, 0);
@@ -127,10 +127,10 @@ public class ImageUtils {
         return bufferedImage;
     }
 
-    public static BufferedImage resize(BufferedImage srcImage, int newWidth, int newHeight) {
+    public static BufferedImage resizeImage(BufferedImage srcImage, int newWidth, int newHeight) {
         int width = srcImage.getWidth();
         int height = srcImage.getHeight();
-        BufferedImage bufferedImage = new BufferedImage(newWidth, newHeight, srcImage.getType());
+        BufferedImage bufferedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = bufferedImage.createGraphics();
         g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
         g.drawImage(srcImage, 0, 0, newWidth, newHeight, 0, 0, width, height, null);
@@ -139,7 +139,7 @@ public class ImageUtils {
         return bufferedImage;
     }
 
-    public static BufferedImage resizeHq(BufferedImage img, int scaledWidth, int scaledHeight) {
+    public static BufferedImage resizeImageHighQuality(BufferedImage img, int scaledWidth, int scaledHeight) {
         Image resizedImage = img.getScaledInstance(scaledWidth, scaledHeight, Image.SCALE_SMOOTH);
 
         // This code ensures that all the pixels in the image are loaded.
@@ -147,7 +147,7 @@ public class ImageUtils {
 
         // Create the buffered image.
         BufferedImage bufferedImage = new BufferedImage(temp.getWidth(null), temp.getHeight(null),
-                BufferedImage.TYPE_INT_RGB);
+                BufferedImage.TYPE_INT_ARGB);
 
         // Copy image to buffered image.
         Graphics g = bufferedImage.createGraphics();
@@ -170,8 +170,45 @@ public class ImageUtils {
     }
 
     public static BufferedImage cropImage(Image src, Rectangle rect) {
-        return (new BufferedImage(src.getWidth(null), src.getHeight(null), BufferedImage.TYPE_INT_RGB)).getSubimage(0,
+        return (new BufferedImage(src.getWidth(null), src.getHeight(null), BufferedImage.TYPE_INT_ARGB)).getSubimage(0,
                 0, rect.width, rect.height);
+    }
+
+    public static BufferedImage transform(BufferedImage src, int x, int y) {
+        int width = src.getWidth() + x;
+        int height = src.getHeight() + y;
+
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g = bufferedImage.createGraphics();
+        g.drawImage(src, x, y, null);
+
+        return bufferedImage;
+    }
+
+    public static BufferedImage transform(BufferedImage src, int width, int height, int x, int y) {
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g = bufferedImage.createGraphics();
+        g.drawImage(src, x, y, null);
+
+        return bufferedImage;
+    }
+
+    public static BufferedImage resizeCanvas(BufferedImage src, int width, int height, int x, int y, Color bgColor) {
+        BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g = bufferedImage.createGraphics();
+
+        if (bgColor != null) {
+            g.setColor(bgColor);
+            g.fillRect(0, 0, width, height);
+        }
+
+        g.drawImage(src, x, y, null);
+        g.dispose();
+
+        return bufferedImage;
     }
 
     public static byte[] toByteArray(BufferedImage image, String format) {
@@ -195,7 +232,7 @@ public class ImageUtils {
         return imageByteArray;
     }
 
-    public static BufferedImage mergeBufferedImage(BufferedImage img1, BufferedImage img2) {
+    public static BufferedImage merge(BufferedImage img1, BufferedImage img2) {
         int w = Math.max(img1.getWidth(), img2.getWidth());
         int h = Math.max(img1.getHeight(), img2.getHeight());
         BufferedImage combined = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);

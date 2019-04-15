@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Thomas Tan - Initial contribution
  */
-public class OpacityProcessor implements ImageProcessor {
+public class OpacityProcessor extends ImageProcessor {
     private final Logger logger = LoggerFactory.getLogger(OpacityProcessor.class);
 
     @Override

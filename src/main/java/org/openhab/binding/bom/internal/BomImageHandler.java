@@ -15,8 +15,8 @@ package org.openhab.binding.bom.internal;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +29,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -41,11 +42,14 @@ import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
 import org.eclipse.smarthome.core.types.Command;
 import org.openhab.binding.bom.internal.image.GifSequenceWriter;
+import org.openhab.binding.bom.internal.image.ImageGenerators;
 import org.openhab.binding.bom.internal.image.ImageLayer;
 import org.openhab.binding.bom.internal.image.ImageLayerConfig;
-import org.openhab.binding.bom.internal.image.ImageLayerConfig.LayerGroup;
+import org.openhab.binding.bom.internal.image.ImageLayerGroup;
 import org.openhab.binding.bom.internal.image.ImageProcessors;
+import org.openhab.binding.bom.internal.image.ImageType;
 import org.openhab.binding.bom.internal.image.ImageUtils;
+import org.openhab.binding.bom.internal.image.SeriesImageLayer;
 import org.openhab.binding.bom.internal.net.FtpFileComparator;
 import org.openhab.binding.bom.internal.net.FtpImageFileFilter;
 import org.openhab.binding.bom.internal.properties.Properties;
@@ -63,8 +67,12 @@ public class BomImageHandler extends BaseThingHandler {
     private static final String TAG_PRODUCT_ID = "${pid}";
     private static final String TAG_SERIES = "${series}";
     private static final int GIF_IMAGE_TYPE = 5;
+    private static final DateTimeFormatter DEFAULT_DATE_TIME_FORMATTER = DateTimeFormatter
+            .ofPattern("dd/MM/yyyy HH:mm:ss z");
 
     private final Logger logger = LoggerFactory.getLogger(BomImageHandler.class);
+
+    private BomImageDownloader imageDownloader = new BomImageDownloader();
 
     private ScheduledFuture<?> monitorImagesJob;
 
@@ -75,6 +83,7 @@ public class BomImageHandler extends BaseThingHandler {
     private List<ImageLayerConfig> imageLayerConfigs;
 
     private Properties imagePostProcessingProperties;
+    private Properties localTimestampProperties;
 
     public BomImageHandler(Thing thing) {
         super(thing);
@@ -115,21 +124,26 @@ public class BomImageHandler extends BaseThingHandler {
 
         config = getConfigAs(BomImageConfiguration.class);
         parseConfigs();
+        refreshImage();
     }
 
     private synchronized void parseConfigs() {
         this.imageLayerConfigs = parseImageLayersProperties(config.layersConfiguration);
 
-        if (config.imagePostProcessing != null && config.imagePostProcessing.length() > 0) {
+        if (StringUtils.isNotBlank(config.imagePostProcessing)) {
             this.imagePostProcessingProperties = Properties.create(config.imagePostProcessing);
+        }
+
+        if (config.embedLocalTimestamp && StringUtils.isNotBlank(config.localTimestampProperties)) {
+            this.localTimestampProperties = Properties.create(config.localTimestampProperties);
         }
 
         logger.info("Parsed configuration");
     }
 
-    private void refreshImage() {
-        if (config.ftpServer == null || config.ftpServer.length() == 0 || config.imagesPath == null
-                || config.imagesPath.length() == 0 || config.productId == null || config.productId.length() == 0) {
+    private synchronized void refreshImage() {
+        if (StringUtils.isBlank(config.ftpServer) || StringUtils.isBlank(config.imagesPath)
+                || StringUtils.isBlank(config.productId)) {
             logger.error("FTP server, images path and product ID are required.");
             updateStatus(ThingStatus.UNKNOWN);
             return;
@@ -162,9 +176,11 @@ public class BomImageHandler extends BaseThingHandler {
                 Arrays.sort(imageFtpFiles, FtpFileComparator.SORT_BY_TIMESTAMP_ASC);
 
                 if (config.generatePngs || config.generateGif) {
-                    List<BufferedImage> seriesImages = retrieveImages(ftp, config.imagesPath, imageFtpFiles);
-                    List<ImageLayer> imageLayers = retrieveImages(ftp, config.transparenciesPath, imageLayerConfigs);
-                    generateImages(seriesImages, imageLayers);
+                    List<SeriesImageLayer> seriesImageLayers = imageDownloader.retrieveSeriesImages(ftp,
+                            config.imagesPath, imageFtpFiles, imageLayerConfigs);
+                    List<ImageLayer> imageLayers = imageDownloader.retrieveImages(ftp, config.transparenciesPath,
+                            imageLayerConfigs);
+                    generateImages(seriesImageLayers, imageLayers);
                 }
 
                 updateChannels(imageFtpFiles);
@@ -253,28 +269,29 @@ public class BomImageHandler extends BaseThingHandler {
         });
     }
 
-    private void generateImages(List<BufferedImage> seriesImages, List<ImageLayer> imageLayers) {
+    private void generateImages(List<SeriesImageLayer> seriesImageLayers, List<ImageLayer> imageLayers) {
         List<ImageLayer> backgroundLayers = imageLayers.stream()
-                .filter(layer -> layer.getImageLayerConfig().getLayerGroup() == ImageLayerConfig.LayerGroup.BACKGROUND)
+                .filter(layer -> layer.getImageLayerConfig().getLayerGroup() == ImageLayerGroup.BACKGROUND)
                 .collect(Collectors.toList());
         List<ImageLayer> foregroundLayers = imageLayers.stream()
-                .filter(layer -> layer.getImageLayerConfig().getLayerGroup() == ImageLayerConfig.LayerGroup.FOREGROUND)
+                .filter(layer -> layer.getImageLayerConfig().getLayerGroup() == ImageLayerGroup.FOREGROUND)
                 .collect(Collectors.toList());
-        ImageLayer middlegroundLayer = imageLayers.stream().filter(
-                layer -> layer.getImageLayerConfig().getLayerGroup() == ImageLayerConfig.LayerGroup.MIDDLEGROUND)
-                .findAny().orElse(null);
 
         BufferedImage backgroundImage = processAndCombineImageLayers(backgroundLayers);
         BufferedImage foregroundImage = processAndCombineImageLayers(foregroundLayers);
 
         List<BufferedImage> finalImages = new ArrayList<>();
 
-        for (BufferedImage seriesImage : seriesImages) {
-            BufferedImage middlegroundImage = ImageProcessors.process(seriesImage,
-                    middlegroundLayer.getImageLayerConfig().getProperties());
+        for (SeriesImageLayer seriesImageLayer : seriesImageLayers) {
+            BufferedImage middlegroundImage = ImageProcessors.process(seriesImageLayer.getImage(),
+                    seriesImageLayer.getImageLayerConfig().getProperties());
 
-            BufferedImage finalImage = ImageUtils.mergeBufferedImage(backgroundImage, middlegroundImage);
-            finalImage = ImageUtils.mergeBufferedImage(finalImage, foregroundImage);
+            BufferedImage finalImage = ImageUtils.merge(backgroundImage, middlegroundImage);
+            finalImage = ImageUtils.merge(finalImage, foregroundImage);
+
+            if (config.embedLocalTimestamp) {
+                finalImage = embedLocalTimestamp(finalImage, seriesImageLayer.getTimestamp());
+            }
 
             if (this.imagePostProcessingProperties != null) {
                 finalImage = ImageProcessors.process(finalImage, this.imagePostProcessingProperties);
@@ -297,6 +314,37 @@ public class BomImageHandler extends BaseThingHandler {
                 generatePngs(finalImages, outputFilePath);
             }
         }
+    }
+
+    private BufferedImage embedLocalTimestamp(BufferedImage baseImage, ZonedDateTime timestamp) {
+        Properties clonedProperties = this.localTimestampProperties != null
+                ? Properties.copy(this.localTimestampProperties)
+                : Properties.create(null);
+
+        String format = clonedProperties.get("format");
+        DateTimeFormatter formatter = StringUtils.isBlank(format) ? DEFAULT_DATE_TIME_FORMATTER
+                : DateTimeFormatter.ofPattern(format);
+
+        StringBuilder sb = new StringBuilder();
+        String prefix = clonedProperties.get("prefix");
+        String suffix = clonedProperties.get("stuffix");
+
+        if (StringUtils.isNotEmpty(prefix)) {
+            sb.append(prefix.trim()).append(" ");
+        }
+
+        if (StringUtils.isNotEmpty(suffix)) {
+            sb.append(" ").append(suffix);
+        }
+
+        sb.append(formatter.format(timestamp));
+
+        clonedProperties.put("text", sb.toString());
+
+        BufferedImage textImage = ImageGenerators.get("text").generate(baseImage.getWidth(), baseImage.getHeight(),
+                clonedProperties);
+
+        return textImage != null ? ImageUtils.merge(baseImage, textImage) : baseImage;
     }
 
     private void generateGifv(List<BufferedImage> images, String outputFilePath) {
@@ -347,7 +395,7 @@ public class BomImageHandler extends BaseThingHandler {
 
         for (ImageLayer imageLayer : imageLayers) {
             if (!first) {
-                result = ImageUtils.mergeBufferedImage(result, ImageProcessors.process(imageLayer));
+                result = ImageUtils.merge(result, ImageProcessors.process(imageLayer));
             } else {
                 result = ImageProcessors.process(imageLayer);
                 first = false;
@@ -355,84 +403,6 @@ public class BomImageHandler extends BaseThingHandler {
         }
 
         return result;
-    }
-
-    private List<BufferedImage> retrieveImages(FTPClient ftp, String dirPath, FTPFile[] imageFtpFiles) {
-        List<BufferedImage> images = new ArrayList<>();
-        String imagesDirPath = dirPath.charAt(dirPath.length() - 1) != '/' ? dirPath + "/" : dirPath;
-        InputStream in = null;
-
-        for (FTPFile ftpFile : imageFtpFiles) {
-            String remoteFilePath = imagesDirPath + ftpFile.getName();
-
-            try {
-                logger.debug("Downloading {}", remoteFilePath);
-                in = ftp.retrieveFileStream(remoteFilePath);
-
-                BufferedImage downloadedImage = ImageIO.read(in);
-
-                if (ftp.completePendingCommand()) {
-                    images.add(downloadedImage);
-                }
-            } catch (IOException ex) {
-                logger.error("Unable to retrieve " + remoteFilePath, ex);
-            } finally {
-                if (in != null) {
-                    try {
-                        in.close();
-                    } catch (IOException ex) {
-                        logger.warn("Unable to close stream", ex);
-                    }
-                }
-            }
-        }
-
-        return images;
-    }
-
-    private List<ImageLayer> retrieveImages(FTPClient ftp, String dirPath, List<ImageLayerConfig> layerConfigs) {
-        final List<ImageLayer> imageLayers = new ArrayList<>();
-        String imagesDirPath = dirPath.charAt(dirPath.length() - 1) != '/' ? dirPath + "/" : dirPath;
-
-        layerConfigs.stream().forEach(layerConfig -> {
-            if (layerConfig.getLayerGroup() == ImageLayerConfig.LayerGroup.MIDDLEGROUND) {
-                imageLayers.add(new ImageLayer(layerConfig, null));
-            } else {
-                String imagePath = layerConfig.getImagePath();
-                String imagePathLc = imagePath.toLowerCase();
-
-                if (imagePathLc.indexOf("http") == 0 || imagePathLc.indexOf("ftp") == 0) {
-                    // TODO
-                } else {
-                    InputStream in = null;
-                    String remoteFilePath = imagesDirPath + imagePath;
-
-                    try {
-                        logger.debug("Downloading {}", remoteFilePath);
-                        in = ftp.retrieveFileStream(remoteFilePath);
-                        BufferedImage downloadedImage = ImageIO.read(in);
-
-                        if (ftp.completePendingCommand()) {
-                            imageLayers.add(new ImageLayer(layerConfig, downloadedImage));
-                        } else {
-                            logger.warn("Unable to retrieve {}" + remoteFilePath);
-                        }
-                    } catch (IOException ex) {
-                        logger.warn("Unable to retrieve " + remoteFilePath, ex);
-                    } finally {
-                        if (in != null) {
-                            try {
-                                in.close();
-                            } catch (IOException ex) {
-                                logger.warn("Unable to close image stream " + remoteFilePath, ex);
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-        return imageLayers;
     }
 
     private boolean filesUpdated(FTPFile[] files) {
@@ -493,20 +463,24 @@ public class BomImageHandler extends BaseThingHandler {
                 String image = layerProperties.get(ImageLayerConfig.KEY_IMAGE);
 
                 if (image != null) {
-                    LayerGroup layerGroup;
+                    ImageType imageType;
+                    ImageLayerGroup imageLayerGroup;
 
                     if (TAG_SERIES.equalsIgnoreCase(image)) {
-                        layerGroup = LayerGroup.MIDDLEGROUND;
+                        imageType = ImageType.SERIES;
+                        imageLayerGroup = ImageLayerGroup.MIDDLEGROUND;
                         foundMiddleground = true;
                     } else if (!foundMiddleground) {
-                        layerGroup = LayerGroup.BACKGROUND;
+                        imageType = ImageType.STATIC;
+                        imageLayerGroup = ImageLayerGroup.BACKGROUND;
                     } else {
-                        layerGroup = LayerGroup.FOREGROUND;
+                        imageType = ImageType.STATIC;
+                        imageLayerGroup = ImageLayerGroup.FOREGROUND;
                     }
 
                     layerProperties.remove(ImageLayerConfig.KEY_IMAGE);
 
-                    imageLayers.add(new ImageLayerConfig(image, layerGroup, layerProperties));
+                    imageLayers.add(new ImageLayerConfig(image, imageType, imageLayerGroup, layerProperties));
                 }
             }
         }
