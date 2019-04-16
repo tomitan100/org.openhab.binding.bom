@@ -457,7 +457,7 @@ Configuration used:
 
 __Local timestamp configuration:__
 
-When"Embed local timestamp" is enabled, each GIF frame will display the local timestamp.  The timestamp format and properties can be specified.  By default the following properties are used:
+When"Embed local timestamp" is enabled, each PNG/GIF frame will display the local timestamp.  The timestamp format and text properties can be specified.  By default the following properties are used:
 
 `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 20`
 
@@ -471,6 +471,8 @@ The configuration string is optional.
   <tr>
     <td>format</td>
     <td>The date format in Java.</td>
+  </tr>
+  <tr>
     <td>font-face</td>
     <td>The font face to use.  Default is Arial.  What fonts are available are system dependent.</td>
   </tr>
