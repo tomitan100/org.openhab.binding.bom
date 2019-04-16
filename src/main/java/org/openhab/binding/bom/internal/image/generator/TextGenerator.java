@@ -28,7 +28,7 @@ import org.openhab.binding.bom.internal.properties.Properties;
  *
  * @author Thomas Tan - Initial contribution
  */
-public class TextGenerator implements ImageGenerator {
+public class TextGenerator extends ImageGenerator {
     @Override
     public BufferedImage generate(int width, int height, Properties properties) {
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -37,8 +37,15 @@ public class TextGenerator implements ImageGenerator {
         String hexColor = getString(properties.get("font-color"), "#000000");
         String fontFace = getString(properties.get("font-face"), "Arial");
         int fontSize = getInt(properties.get("font-size"), 20);
-        int posX = getInt(properties.get("x"), 0);
-        int posY = getInt(properties.get("y"), 0);
+        String[] coord = parseParams(properties.get("position"));
+
+        int posX = 0;
+        int posY = 0;
+
+        if (coord != null && coord.length == 2) {
+            posX = getInt(coord[0], 0);
+            posY = getInt(coord[1], 0);
+        }
 
         Graphics graphics = bufferedImage.getGraphics();
 

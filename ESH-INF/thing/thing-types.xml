@@ -159,7 +159,7 @@
 			<parameter name="localTimestampProperties" type="text" required="false" groupName="imageGeneration">
 				<label>Local timestamp properties</label>
 				<description>Local time properties configuration.</description>
-				<default>format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=18, font-colour=#808080, font-weight=bold</default>
+				<default>format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=15, font-colour=#606060, font-weight=bold, position=256 15</default>
 				<required>false</required>
 			</parameter>
 			<parameter name="imagePostProcessing" type="text" required="false" groupName="imageGeneration">

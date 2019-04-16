@@ -14,6 +14,7 @@ package org.openhab.binding.bom.internal.image.generator;
 
 import java.awt.image.BufferedImage;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openhab.binding.bom.internal.properties.Properties;
 
 /**
@@ -23,6 +24,14 @@ import org.openhab.binding.bom.internal.properties.Properties;
  *
  * @author Various
  */
-public interface ImageGenerator {
-    BufferedImage generate(int width, int height, Properties properties);
+public abstract class ImageGenerator {
+    public abstract BufferedImage generate(int width, int height, Properties properties);
+
+    protected String[] parseParams(String properties) {
+        if (StringUtils.isBlank(properties)) {
+            return null;
+        }
+
+        return properties.replaceAll("\\s+", " ").trim().split(" ");
+    }
 }

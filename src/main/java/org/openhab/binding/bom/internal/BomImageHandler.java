@@ -122,8 +122,11 @@ public class BomImageHandler extends BaseThingHandler {
     public void handleConfigurationUpdate(Map<String, Object> configurationParameters) {
         super.handleConfigurationUpdate(configurationParameters);
 
+        latestImageTimestamp = 0;
+
         config = getConfigAs(BomImageConfiguration.class);
         parseConfigs();
+
         refreshImage();
     }
 
