@@ -127,6 +127,8 @@ public class BomImageHandler extends BaseThingHandler {
         config = getConfigAs(BomImageConfiguration.class);
         parseConfigs();
 
+        logger.info("Reloaded configuration");
+
         refreshImage();
     }
 
@@ -140,8 +142,6 @@ public class BomImageHandler extends BaseThingHandler {
         if (config.embedLocalTimestamp && StringUtils.isNotBlank(config.localTimestampProperties)) {
             this.localTimestampProperties = Properties.create(config.localTimestampProperties);
         }
-
-        logger.info("Parsed configuration");
     }
 
     private synchronized void refreshImage() {

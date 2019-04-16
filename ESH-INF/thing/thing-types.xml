@@ -123,7 +123,7 @@
 			<parameter name="layersConfiguration" type="text" required="false" groupName="imageSources">
 				<label>Image layers configuration</label>
 				<description>The image layers configuration.  See documentation.</description>
-				<default>image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png</default>
+				<default>image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png</default>
 				<required>false</required>
 			</parameter>
 			<parameter name="generatePngs" type="boolean" required="false" groupName="imageGeneration">
