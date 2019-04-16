@@ -357,24 +357,87 @@ Explanation:
 - Layer 1 will be obscured by layer 2, layer 2 will be obscured by layer 3, and so on.
 - Layer 3, `image=${series}`, is the placeholder for the image series.
 - `${pid}` is the placeholder for product ID.  If your product ID is IDR701 then it is equivalent to use image=IDR701.background.png as the first layer.
-- These images are sourced from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/.  Other transparancies available are: `${pid}.wthrDistricts.png`, `${pid}.waterways.png`, `${pid}.roads.png`, `${pid}.rail.png`, `${pid}.catchments.png`.  To see what else are available go to the FTP directory.
+- These images are sourced from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/ by default.  You can specify a URL instead to include images from sources.  Other transparancies available from the BOM ftp site are: `${pid}.wthrDistricts.png`, `${pid}.waterways.png`, `${pid}.roads.png`, `${pid}.rail.png`, `${pid}.catchments.png`.  To see what else are available go to the FTP directory.
 - When using _Rainfall_ series, you must not use `${pid}` as there does not seem to be equivalently named transparencies.  You will have to use one of the radar product codes in the layers configuration.
 - It is possible to add image processing operation for each layer.  See below for more details.
 
+Supported image sources:
+
+<table>
+  <tr>
+    <th>URL Type</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>http</td>
+    <td>HTTP protocol</td>
+    <td>image=http://www.openhab.org/openhab-logo.png</td>
+  </tr>
+  <tr>
+    <td>https</td>
+    <td>Secure HTTP protocol</td>
+    <td>image=https://www.openhab.org/openhab-logo.png</td>
+  </tr>
+  <tr>
+    <td>ftp</td>
+    <td>FTP protocol</td>
+    <td>image=ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/IDR.legend.0.png</td>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>Local file</td>
+    <td>image=file:///etc/openhab2/html/location_24.png</td>
+  </tr>
+<table>
+  
 __Image Processing__
 
-Currently there are three image operations available to each layer and to the final image:
+Currently there are five image operations available to each layer and to the final image:
 - Opacity - changes the opacity of the layer/final image.
 - Resize - resizes the layer/final image.
 - Crop - crops the layer/final image.
+- Position - repositions image in the layer/final image.
+- Resize canvas - reizes the canvas.
 
-Opacity accepts one argument, a value between 0 and 1, inclusive. e.g `opacity=0.5`
-
-Resize requires two arguments: width and height in pixels. e.g `resize=600 600`
-
-Crop requires four arguments:  x, y, width and height. e.g `crop=0 12 512 500`
-
-You can chain those operations in each layer or final image.
+<table>
+<tr align="left">
+  <th>Operation</th>
+  <th>Parameters</th> 
+  <th>Example</th> 
+  <th>Notes</th>
+</tr>
+<tr>
+  <td>opacity</td>
+  <td>opacity</td>
+  <td>opacity=0.5</td>
+  <td>Valid values are 0.0 to 1.0</td>
+</tr>
+<tr>
+  <td>resize</td>
+  <td>width height</td>
+  <td>resize=600 600</td>
+  <td>Must be positive numbers</td>
+</tr>
+<tr>
+  <td>crop</td>
+  <td>x y width height</td>
+  <td>crop=0 12 512 500</td>
+  <td></td>
+</tr>
+<tr>
+  <td>position</td>
+  <td>x y</td>
+  <td>position=200 148</td>
+  <td></td>
+</tr>
+<tr>
+  <td>canvas</td>
+  <td>width height x y background-colour</td>
+  <td>canvas=512 700 0 0 #606060</td>
+  <td>If no background-colour the background will remain transparent.</td>
+</tr>
+</table>
 
 _Example usage in a layer:_
 
@@ -383,6 +446,59 @@ _Example usage in a layer:_
 _Example usage in image post-processing field:_
 
 `crop=0 10 512 502, resize=600 600`
+
+_Example use case:_
+
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar_1.png?raw=true" />
+
+Configuration used:
+
+`image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png, opacity=0.6; image=file:///etc/openhab2/html/location_24.png, opacity=0.8, position=248 212`
+
+__Local timestamp configuration:__
+
+When"Embed local timestamp" is enabled, each GIF frame will display the local timestamp.  The timestamp format and properties can be specified.  By default the following properties are used:
+
+`format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 20`
+
+The configuration string is optional.
+
+<table>
+  <tr>
+    <th>Attribute</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>format</td>
+    <td>The date format in Java.</td>
+    <td>font-face</td>
+    <td>The font face to use.  Default is Arial.  What fonts are available are system dependent.</td>
+  </tr>
+  <tr>
+    <td>font-size</td>
+    <td>The font's point size.</td>
+  </tr>
+  <tr>
+    <td>font-color</td>
+    <td>The colour of the font in hexadecimal.</td>
+  </tr>
+  <tr>
+    <td>font-weight</td>
+    <td>The font's thickness. Valid values: normal, bold.</td>
+  </tr>
+  <tr>
+    <td>font-style</td>
+    <td>The font's posture. Valid values: normal, italic.</td>
+  </tr>
+  <tr>
+    <td>font-decoration</td>
+    <td>The font's decoration. Valid values: none, underline.</td>
+  </tr>
+  <tr>
+    <td>position</td>
+    <td>The text's position in x and y coordinate.</td>
+  </tr>
+</table>
 
 ## How to use the image(s)
 
