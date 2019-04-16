@@ -526,36 +526,40 @@ The screenshots below are examples of the binding in operation.  The screens use
 
 ## Change log
 
+__15/04/2019__
+- Added timestamp option.
+- Fix sourcing of images from external sources.
+
 __14/04/2019__
-- Added retain min/max temperatures for today
-- Added BOM radar/rainfall image generation support
+- Added retain min/max temperatures for today.
+- Added BOM radar/rainfall image generation support.
 
 __08/03/2019__
-- Fixed icon mapping for light rain
+- Fixed icon mapping for light rain.
 
 __03/03/2019__
-- Fixed apparent vs air temperature mix up
-- Fixed today's min/max temperature
+- Fixed apparent vs air temperature mix up.
+- Fixed today's min/max temperature.
 
 __26/02/2019__
-- Added 24 hour rainfall channel
-- Added minimum and maximum precipitation
+- Added 24 hour rainfall channel.
+- Added minimum and maximum precipitation.
 
 __18/02/2019__
-- Added weather station channel and additional logging
+- Added weather station channel and additional logging.
 
 __17/02/2019__
-- Updated channel label names
+- Updated channel label names.
 
 __16/02/2019__
-- Added apparent temperature from observation
+- Added apparent temperature from observation.
 
 __14/02/2019__
-- Added support for city/town and district forecast data
-- Handled NaN values from data
+- Added support for city/town and district forecast data.
+- Handled NaN values from data.
 
 __13/02/2019__
-- Updated forecast date and time label
+- Updated forecast date and time label.
 
 __12/02/2019__
-- Initial release
+- Initial release.
