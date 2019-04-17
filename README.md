@@ -412,13 +412,13 @@ Currently there are five image operations available to each layer and the final 
   <td>opacity</td>
   <td>opacity</td>
   <td>opacity=0.5</td>
-  <td>Valid values are 0.0 to 1.0</td>
+  <td>Valid values are 0.0 to 1.0.</td>
 </tr>
 <tr>
   <td>resize</td>
   <td>width height</td>
   <td>resize=600 600</td>
-  <td>Must be positive numbers</td>
+  <td>In number of pixels, must be positive numbers.</td>
 </tr>
 <tr>
   <td>crop</td>
@@ -443,6 +443,7 @@ Currently there are five image operations available to each layer and the final 
 _Example usage in a layer:_
 
 `image=${pid}.range.png, opacity=0.5`
+
 `image=file:///C:/openhab2/html/location_24.png, opacity=0.5, position=218 148`
 
 _Example usage in image post-processing field:_
