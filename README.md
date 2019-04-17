@@ -454,7 +454,7 @@ _Example use case:_
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar_1.png?raw=true" />
 
-Configuration used:
+Configuration properties used:
 
 `image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png, opacity=0.6; image=file:///etc/openhab2/html/location_24.png, opacity=0.8, position=248 212`
 
@@ -511,9 +511,9 @@ __If you want to use generated PNG's or animated GIF__
 
 Use an Image widget and link to the generated image `/static/<output-filename>.gif` or link to the image in your custom template.
 
-For PNG images the sequence is appended to the image name.  i.e. `<output-filename>.<sequence>.png`.  e.g `IDR701.0.png`, `IDR701.1.png` and so on.  The list of PNG's is available in the _Generated PNG's_ channel.
+For PNG images the sequence number is appended to the image name.  i.e. `<output-filename>.<sequence>.png`.  e.g `IDR701.0.png`, `IDR701.1.png` and so on.  The list of PNG's is available in the _Generated PNG's_ channel.
 
-__If you choose not to use generate PNG's or animated GIF__
+__If you choose NOT to use generate PNG's or animated GIF__
 
 In your custom template you will have to write AngularJS/Javascript to handle the display of the image layers and animating the radar images.  The benefit of this method is you can make it user interactive and frame rate, etc is not baked in. This is similar to what BOM site does and it is beyond the scope of this documentation.
 
