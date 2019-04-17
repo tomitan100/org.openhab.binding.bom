@@ -21,6 +21,8 @@ public class BomImageConfiguration {
     public String ftpServer;
     public String imagesPath;
     public String productId;
+    public String filenameRegex;
+    public String dateRange;
     public Integer monitoringInterval;
     public String transparenciesPath;
     public String layersConfiguration;

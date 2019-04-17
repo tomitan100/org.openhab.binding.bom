@@ -103,8 +103,8 @@
 				<required>true</required>
 			</parameter>
 			<parameter name="productId" type="text" required="true" groupName="imageSources">
-				<label>Images product ID</label>
-				<description>The product ID of images e.g IDR701.</description>
+				<label>Image product ID</label>
+				<description>The product ID the images e.g IDR701.</description>
 				<default>IDR701</default>
 				<required>true</required>
 			</parameter>
@@ -114,10 +114,16 @@
 				<default>/anon/gen/radar_transparencies/</default>
 				<required>false</required>
 			</parameter>
-			<parameter name="monitoringInterval" type="integer" required="true" min="1" groupName="imageSources">
-				<label>Monitoring interval in minutes</label>
-				<description>The interval to check for new images in minutes.  Default is 15 minutes.</description>
-				<default>15</default>
+				<parameter name="filenameRegex" type="text" required="false" groupName="imageSources">
+				<label>Regular expression for image file filter</label>
+				<description>Use regular expression to match image files. This is optional.</description>
+				<default></default>
+				<required>false</required>
+			</parameter>
+			<parameter name="dateRange" type="text" required="false" groupName="imageSources">
+				<label>Date range to search</label>
+				<description>The date range of files to process.  Default is last_24h (last 24 hours)/</description>
+				<default>last_24h</default>
 				<required>false</required>
 			</parameter>
 			<parameter name="layersConfiguration" type="text" required="false" groupName="imageSources">
@@ -126,6 +132,13 @@
 				<default>image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png</default>
 				<required>false</required>
 			</parameter>
+			<parameter name="monitoringInterval" type="integer" required="true" min="1" groupName="imageSources">
+				<label>Monitoring interval in minutes</label>
+				<description>The interval to check for new images in minutes.  Default is 15 minutes.</description>
+				<default>15</default>
+				<required>false</required>
+			</parameter>
+
 			<parameter name="generatePngs" type="boolean" required="false" groupName="imageGeneration">
 				<label>Generate PNG images</label>
 				<description>Generate PNG images from series. Default is off.</description>
@@ -135,7 +148,7 @@
 			<parameter name="generateGif" type="boolean" required="false" groupName="imageGeneration">
 				<label>Generate animated GIF</label>
 				<description>Generate animated GIF from a series of images. Default is off.</description>
-				<default>false</default>
+				<default>true</default>
 				<required>false</required>
 			</parameter>
 			<parameter name="gifImageDelay" type="integer" required="false" min="100" max="100000" groupName="imageGeneration">
@@ -159,7 +172,7 @@
 			<parameter name="localTimestampProperties" type="text" required="false" groupName="imageGeneration">
 				<label>Local timestamp properties</label>
 				<description>Local time properties configuration.</description>
-				<default>format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 20</default>
+				<default>format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 488</default>
 				<required>false</required>
 			</parameter>
 			<parameter name="imagePostProcessing" type="text" required="false" groupName="imageGeneration">

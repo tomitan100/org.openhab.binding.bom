@@ -138,7 +138,7 @@ public class BomImageDownloader {
         ZonedDateTime sourceTimestamp = ZonedDateTime.of(timestamp.get(Calendar.YEAR),
                 timestamp.get(Calendar.MONTH) + 1, timestamp.get(Calendar.DAY_OF_MONTH),
                 timestamp.get(Calendar.HOUR_OF_DAY), timestamp.get(Calendar.MINUTE), timestamp.get(Calendar.SECOND), 0,
-                ZoneId.of("UTC"));
+                Constants.ZONE_ID_UTC);
 
         return sourceTimestamp.withZoneSameInstant(ZoneId.systemDefault()).minusMinutes(BOM_REPORT_TIME_DELAY_MINS);
     }

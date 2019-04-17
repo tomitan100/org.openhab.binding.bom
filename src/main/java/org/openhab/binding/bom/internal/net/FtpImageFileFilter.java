@@ -12,8 +12,13 @@
  */
 package org.openhab.binding.bom.internal.net;
 
+import java.time.ZonedDateTime;
+import java.util.Calendar;
+
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPFileFilter;
+import org.openhab.binding.bom.internal.Constants;
+import org.openhab.binding.bom.internal.DateTimeRange;
 
 /**
  * The {@link FtpImageFileFilter} class defines the FTP image filter.
@@ -21,14 +26,30 @@ import org.apache.commons.net.ftp.FTPFileFilter;
  * @author Thomas Tan - Initial contribution
  */
 public class FtpImageFileFilter implements FTPFileFilter {
-    private String filePrefix;
+    protected String filenamePattern;
+    protected DateTimeRange dateTimeRange;
 
-    public FtpImageFileFilter(String filePrefix) {
-        this.filePrefix = filePrefix;
+    public FtpImageFileFilter(String filenamePattern, DateTimeRange dateTimeRange) {
+        this.filenamePattern = filenamePattern;
+        this.dateTimeRange = dateTimeRange;
+    }
+
+    protected boolean filenameMatches(FTPFile ftpFile) {
+        return !ftpFile.getName().contains(".gif") && ftpFile.getName().indexOf(filenamePattern) == 0;
     }
 
     @Override
     public boolean accept(FTPFile ftpFile) {
-        return ftpFile.getName().indexOf(filePrefix) == 0 && !ftpFile.getName().equals(filePrefix + ".gif");
+        if (filenameMatches(ftpFile)) {
+            ZonedDateTime sourceTimestamp = ZonedDateTime.of(ftpFile.getTimestamp().get(Calendar.YEAR),
+                    ftpFile.getTimestamp().get(Calendar.MONTH) + 1, ftpFile.getTimestamp().get(Calendar.DAY_OF_MONTH),
+                    ftpFile.getTimestamp().get(Calendar.HOUR_OF_DAY), ftpFile.getTimestamp().get(Calendar.MINUTE),
+                    ftpFile.getTimestamp().get(Calendar.SECOND), 0, Constants.ZONE_ID_UTC);
+
+            return !(sourceTimestamp.isBefore(dateTimeRange.getStartDateTime())
+                    || sourceTimestamp.isAfter(dateTimeRange.getEndDateTime()));
+        }
+
+        return false;
     }
 }

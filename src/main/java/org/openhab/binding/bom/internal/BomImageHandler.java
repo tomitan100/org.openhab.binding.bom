@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
@@ -52,6 +54,7 @@ import org.openhab.binding.bom.internal.image.ImageUtils;
 import org.openhab.binding.bom.internal.image.SeriesImageLayer;
 import org.openhab.binding.bom.internal.net.FtpFileComparator;
 import org.openhab.binding.bom.internal.net.FtpImageFileFilter;
+import org.openhab.binding.bom.internal.net.FtpRegexImageFileFilter;
 import org.openhab.binding.bom.internal.properties.Properties;
 import org.openhab.binding.bom.internal.properties.PropertiesList;
 import org.slf4j.Logger;
@@ -64,13 +67,20 @@ import org.slf4j.LoggerFactory;
  * @author Thomas Tan - Initial contribution
  */
 public class BomImageHandler extends BaseThingHandler {
+    private final Logger logger = LoggerFactory.getLogger(BomImageHandler.class);
+
     private static final String TAG_PRODUCT_ID = "${pid}";
+
     private static final String TAG_SERIES = "${series}";
+
     private static final int GIF_IMAGE_TYPE = 5;
+
+    private static final int SERIES_HARD_LIMIT = 100;
+
     private static final DateTimeFormatter DEFAULT_DATE_TIME_FORMATTER = DateTimeFormatter
             .ofPattern("dd/MM/yyyy HH:mm:ss z");
 
-    private final Logger logger = LoggerFactory.getLogger(BomImageHandler.class);
+    private final Pattern DATE_RANGE_LAST_PATTERN = Pattern.compile("last_(\\d+)([dhms])");
 
     private BomImageDownloader imageDownloader = new BomImageDownloader();
 
@@ -163,8 +173,16 @@ public class BomImageHandler extends BaseThingHandler {
 
         updateStatus(ThingStatus.ONLINE);
 
+        DateTimeRange dateTimeRange = getDateTimeRange(config.dateRange);
+
         try {
-            FTPFileFilter filter = new FtpImageFileFilter(config.productId);
+            FTPFileFilter filter;
+
+            if (StringUtils.isNotBlank(config.filenameRegex)) {
+                filter = new FtpRegexImageFileFilter(config.filenameRegex, dateTimeRange);
+            } else {
+                filter = new FtpImageFileFilter(config.productId, dateTimeRange);
+            }
 
             FTPFile[] imageFtpFiles = listFtpFiles(ftp, config.imagesPath, filter);
 
@@ -172,6 +190,12 @@ public class BomImageHandler extends BaseThingHandler {
 
             if (imageFtpFiles == null) {
                 logger.debug("No new images found");
+                return;
+            }
+
+            if (imageFtpFiles.length > SERIES_HARD_LIMIT) {
+                logger.warn("The number of files have hit a hard limit of " + SERIES_HARD_LIMIT
+                        + ".  Refine your product ID with regular expression.  Processing will not continue.");
                 return;
             }
 
@@ -197,6 +221,42 @@ public class BomImageHandler extends BaseThingHandler {
                     logger.warn("Unable to disconnect from FTP server.", ex);
                 }
             }
+        }
+    }
+
+    private DateTimeRange getDateTimeRange(String dateRange) {
+        String range = dateRange.trim().toLowerCase();
+        long lastTimeValue = 24;
+        String lastTimeUnit = "h";
+
+        Matcher matcher = DATE_RANGE_LAST_PATTERN.matcher(dateRange);
+
+        if (matcher.matches()) {
+            lastTimeValue = Long.parseLong(matcher.group(1));
+            lastTimeUnit = matcher.group(2);
+            range = "";
+        }
+
+        switch (range) {
+            case "today":
+                ZonedDateTime nowToday = ZonedDateTime.now(Constants.ZONE_ID_UTC);
+                return new DateTimeRange(nowToday.toLocalDate().atStartOfDay(Constants.ZONE_ID_UTC), nowToday);
+            case "yesterday":
+                ZonedDateTime startOfToday = ZonedDateTime.now(Constants.ZONE_ID_UTC).toLocalDate()
+                        .atStartOfDay(Constants.ZONE_ID_UTC);
+                return new DateTimeRange(startOfToday.minusDays(1), startOfToday);
+            default:
+                ZonedDateTime nowDefault = ZonedDateTime.now(Constants.ZONE_ID_UTC);
+
+                if ("d".equals(lastTimeUnit)) {
+                    return new DateTimeRange(nowDefault.minusDays(lastTimeValue), nowDefault);
+                } else if ("m".equals(lastTimeUnit)) {
+                    return new DateTimeRange(nowDefault.minusMinutes(lastTimeValue), nowDefault);
+                } else if ("s".equals(lastTimeUnit)) {
+                    return new DateTimeRange(nowDefault.minusSeconds(lastTimeValue), nowDefault);
+                }
+
+                return new DateTimeRange(nowDefault.minusHours(lastTimeValue), nowDefault);
         }
     }
 
@@ -289,8 +349,15 @@ public class BomImageHandler extends BaseThingHandler {
             BufferedImage middlegroundImage = ImageProcessors.process(seriesImageLayer.getImage(),
                     seriesImageLayer.getImageLayerConfig().getProperties());
 
-            BufferedImage finalImage = ImageUtils.merge(backgroundImage, middlegroundImage);
-            finalImage = ImageUtils.merge(finalImage, foregroundImage);
+            BufferedImage finalImage = middlegroundImage;
+
+            if (backgroundImage != null) {
+                finalImage = ImageUtils.merge(backgroundImage, middlegroundImage);
+            }
+
+            if (foregroundImage != null) {
+                finalImage = ImageUtils.merge(finalImage, foregroundImage);
+            }
 
             if (config.embedLocalTimestamp) {
                 finalImage = embedLocalTimestamp(finalImage, seriesImageLayer.getTimestamp());
@@ -303,7 +370,9 @@ public class BomImageHandler extends BaseThingHandler {
             finalImages.add(finalImage);
         }
 
-        if (!finalImages.isEmpty()) {
+        if (!finalImages.isEmpty())
+
+        {
             String outputPath = config.imageOutputPath.charAt(config.imageOutputPath.length() - 1) != File.separatorChar
                     ? config.imageOutputPath + File.separator
                     : config.imageOutputPath;
