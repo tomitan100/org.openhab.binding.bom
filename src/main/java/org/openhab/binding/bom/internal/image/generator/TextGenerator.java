@@ -33,11 +33,11 @@ public class TextGenerator extends ImageGenerator {
     public BufferedImage generate(int width, int height, Properties properties) {
         BufferedImage bufferedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
-        String text = getString(properties.get("text"), "?");
-        String hexColor = getString(properties.get("font-color"), "#000000");
-        String fontFace = getString(properties.get("font-face"), "Arial");
-        int fontSize = getInt(properties.get("font-size"), 20);
-        String[] coord = parseParams(properties.get("position"));
+        String text = getString(properties.getValue("text"), "?");
+        String hexColor = getString(properties.getValue("font-color"), "#000000");
+        String fontFace = getString(properties.getValue("font-face"), "Arial");
+        int fontSize = getInt(properties.getValue("font-size"), 20);
+        String[] coord = parseParams(properties.getValue("position"));
 
         int posX = 0;
         int posY = 0;
@@ -60,15 +60,15 @@ public class TextGenerator extends ImageGenerator {
     private Font getFont(Font font, Properties properties) {
         Map<TextAttribute, Object> attributes = new HashMap<>();
 
-        if ("italic".equalsIgnoreCase(properties.get("font-style"))) {
+        if ("italic".equalsIgnoreCase(properties.getValue("font-style"))) {
             attributes.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
         }
 
-        if ("bold".equalsIgnoreCase(properties.get("font-weight"))) {
+        if ("bold".equalsIgnoreCase(properties.getValue("font-weight"))) {
             attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
         }
 
-        if ("underline".equalsIgnoreCase(properties.get("text-decoration"))) {
+        if ("underline".equalsIgnoreCase(properties.getValue("text-decoration"))) {
             attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
         }
 

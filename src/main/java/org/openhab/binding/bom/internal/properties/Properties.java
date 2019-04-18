@@ -12,14 +12,14 @@
  */
 package org.openhab.binding.bom.internal.properties;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * The {@link Properties} class contain map of key and values.
  *
  * @author Thomas Tan - Initial contribution
  */
-public class Properties extends HashMap<String, String> {
+public class Properties extends ArrayList<Property> {
     private static final long serialVersionUID = 1L;
 
     private static final String PAIR_SEPARATOR = ",";
@@ -35,7 +35,7 @@ public class Properties extends HashMap<String, String> {
                 String[] kv = pair.split(KEY_VALUE_SEPARATOR);
 
                 if (kv.length == 2) {
-                    props.put(kv[0].trim(), kv[1].trim());
+                    props.add(Property.forProperty(kv[0].trim(), kv[1].trim()));
                 }
             }
         }
@@ -44,7 +44,7 @@ public class Properties extends HashMap<String, String> {
     }
 
     public static Properties copy(Properties sourceProperties) {
-        return new Properties(sourceProperties);
+        return (Properties) sourceProperties.clone();
     }
 
     private Properties() {
@@ -53,5 +53,17 @@ public class Properties extends HashMap<String, String> {
 
     private Properties(Properties otherProperties) {
         super(otherProperties);
+    }
+
+    public String getValue(String key) {
+        Property pair = this.stream().filter(prop -> key.equals(prop.getKey())).findAny().orElse(null);
+
+        return pair != null ? pair.getValue() : null;
+    }
+
+    public String getValue(String key, String defaultValue) {
+        Property pair = this.stream().filter(prop -> key.equals(prop.getKey())).findAny().orElse(null);
+
+        return pair != null ? pair.getValue() : defaultValue;
     }
 }

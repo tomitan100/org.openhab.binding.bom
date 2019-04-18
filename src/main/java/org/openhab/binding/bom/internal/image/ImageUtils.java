@@ -166,12 +166,14 @@ public class ImageUtils {
     }
 
     public static BufferedImage cropImage(BufferedImage src, Rectangle rect) {
-        return src.getSubimage(rect.x, rect.y, rect.width, rect.height);
-    }
+        BufferedImage bufferedImage = new BufferedImage(rect.width, rect.height, BufferedImage.TYPE_INT_ARGB);
 
-    public static BufferedImage cropImage(Image src, Rectangle rect) {
-        return (new BufferedImage(src.getWidth(null), src.getHeight(null), BufferedImage.TYPE_INT_ARGB)).getSubimage(0,
-                0, rect.width, rect.height);
+        Graphics g = bufferedImage.createGraphics();
+        g.drawImage(src, 0, 0, rect.width, rect.height, rect.x, rect.y, rect.x + rect.width, rect.y + rect.height,
+                null);
+        g.dispose();
+
+        return bufferedImage;
     }
 
     public static BufferedImage transform(BufferedImage src, int x, int y) {

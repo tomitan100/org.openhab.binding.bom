@@ -20,8 +20,6 @@ import org.openhab.binding.bom.internal.properties.Properties;
  * @author Thomas Tan - Initial contribution
  */
 public class ImageLayerConfig {
-    public static final String KEY_IMAGE = "image";
-
     private final String imagePath;
     private final ImageType type;
     private final ImageLayerGroup layerGroup;

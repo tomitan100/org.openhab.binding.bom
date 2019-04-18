@@ -16,12 +16,14 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.openhab.binding.bom.internal.Constants;
 import org.openhab.binding.bom.internal.image.processor.CanvasProcessor;
 import org.openhab.binding.bom.internal.image.processor.CropProcessor;
 import org.openhab.binding.bom.internal.image.processor.ImageProcessor;
 import org.openhab.binding.bom.internal.image.processor.OpacityProcessor;
 import org.openhab.binding.bom.internal.image.processor.PositionProcessor;
 import org.openhab.binding.bom.internal.image.processor.ResizeProcessor;
+import org.openhab.binding.bom.internal.properties.Property;
 import org.openhab.binding.bom.internal.properties.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,8 +53,10 @@ public class ImageProcessors {
     public static BufferedImage process(BufferedImage image, Properties properties) {
         BufferedImage result = image;
 
-        for (String operation : properties.keySet()) {
-            result = process(result, operation, properties.get(operation));
+        for (Property property : properties) {
+            if (!Constants.PROP_KEY_IMAGE.equalsIgnoreCase(property.getKey())) {
+                result = process(result, property.getKey(), property.getValue());
+            }
         }
 
         return result;

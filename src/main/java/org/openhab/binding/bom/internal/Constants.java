@@ -21,4 +21,8 @@ import java.time.ZoneId;
  */
 public class Constants {
     public static final ZoneId ZONE_ID_UTC = ZoneId.of("UTC");
+
+    public static final String PROP_KEY_IMAGE = "image";
+
+    public static final String PROP_KEY_TEXT = "text";
 }

@@ -15,6 +15,7 @@ package org.openhab.binding.bom.internal.image;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.openhab.binding.bom.internal.Constants;
 import org.openhab.binding.bom.internal.image.generator.ImageGenerator;
 import org.openhab.binding.bom.internal.image.generator.TextGenerator;
 
@@ -29,7 +30,7 @@ public class ImageGenerators {
     private static final Map<String, ImageGenerator> generators = new HashMap<>();
 
     static {
-        generators.put("text", new TextGenerator());
+        generators.put(Constants.PROP_KEY_TEXT, new TextGenerator());
     }
 
     public static ImageGenerator get(String name) {

@@ -57,6 +57,7 @@ import org.openhab.binding.bom.internal.net.FtpImageFileFilter;
 import org.openhab.binding.bom.internal.net.FtpRegexImageFileFilter;
 import org.openhab.binding.bom.internal.properties.Properties;
 import org.openhab.binding.bom.internal.properties.PropertiesList;
+import org.openhab.binding.bom.internal.properties.Property;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -144,14 +145,9 @@ public class BomImageHandler extends BaseThingHandler {
 
     private synchronized void parseConfigs() {
         this.imageLayerConfigs = parseImageLayersProperties(config.layersConfiguration);
-
-        if (StringUtils.isNotBlank(config.imagePostProcessing)) {
-            this.imagePostProcessingProperties = Properties.create(config.imagePostProcessing);
-        }
-
-        if (config.embedLocalTimestamp && StringUtils.isNotBlank(config.localTimestampProperties)) {
-            this.localTimestampProperties = Properties.create(config.localTimestampProperties);
-        }
+        this.imagePostProcessingProperties = Properties.create(config.imagePostProcessing);
+        this.localTimestampProperties = Properties
+                .create(config.embedLocalTimestamp ? config.localTimestampProperties : null);
     }
 
     private synchronized void refreshImage() {
@@ -393,28 +389,18 @@ public class BomImageHandler extends BaseThingHandler {
                 ? Properties.copy(this.localTimestampProperties)
                 : Properties.create(null);
 
-        String format = clonedProperties.get("format");
-        DateTimeFormatter formatter = StringUtils.isBlank(format) ? DEFAULT_DATE_TIME_FORMATTER
+        String format = clonedProperties.getValue("format");
+        DateTimeFormatter formatter = format == null ? DEFAULT_DATE_TIME_FORMATTER
                 : DateTimeFormatter.ofPattern(format);
 
         StringBuilder sb = new StringBuilder();
-        String prefix = clonedProperties.get("prefix");
-        String suffix = clonedProperties.get("stuffix");
-
-        if (StringUtils.isNotEmpty(prefix)) {
-            sb.append(prefix.trim()).append(" ");
-        }
-
-        if (StringUtils.isNotEmpty(suffix)) {
-            sb.append(" ").append(suffix);
-        }
 
         sb.append(formatter.format(timestamp));
 
-        clonedProperties.put("text", sb.toString());
+        clonedProperties.add(Property.forProperty(Constants.PROP_KEY_TEXT, sb.toString()));
 
-        BufferedImage textImage = ImageGenerators.get("text").generate(baseImage.getWidth(), baseImage.getHeight(),
-                clonedProperties);
+        BufferedImage textImage = ImageGenerators.get(Constants.PROP_KEY_TEXT).generate(baseImage.getWidth(),
+                baseImage.getHeight(), clonedProperties);
 
         return textImage != null ? ImageUtils.merge(baseImage, textImage) : baseImage;
     }
@@ -532,7 +518,7 @@ public class BomImageHandler extends BaseThingHandler {
             boolean foundMiddleground = false;
 
             for (Properties layerProperties : propLayers) {
-                String image = layerProperties.get(ImageLayerConfig.KEY_IMAGE);
+                String image = layerProperties.getValue(Constants.PROP_KEY_IMAGE);
 
                 if (image != null) {
                     ImageType imageType;
@@ -549,8 +535,6 @@ public class BomImageHandler extends BaseThingHandler {
                         imageType = ImageType.STATIC;
                         imageLayerGroup = ImageLayerGroup.FOREGROUND;
                     }
-
-                    layerProperties.remove(ImageLayerConfig.KEY_IMAGE);
 
                     imageLayers.add(new ImageLayerConfig(image, imageType, imageLayerGroup, layerProperties));
                 }
