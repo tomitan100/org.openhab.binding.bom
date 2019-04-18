@@ -317,7 +317,7 @@ https://github.com/tomitan100/org.openhab.binding.bom/raw/master/doc/bom.items
 
 ## BOM Images
 
-__Background__
+### Background
 BOM images, like rain radar loop, are made up of a series of transparent PNG files, which get updated frequently as data is available.  These images contain only the transparent radar/satellite scans and do not include static images like the the background, topography, locations, borders, etc.  The final image is built by merging of all the images in the correct order.
 
 BOM Image binding can create the final image(s) of each radar/satellite image sequence/series as PNG's and/or animated GIF.  This makes it easier to display radar loops in the web browser without having to code in Javascript to loop through the image layers.
@@ -343,7 +343,7 @@ In the configuration screen typically you would only care about changing the Pro
 
 On this screen you also have the option to modify the layer ordering, add additional layer, generate PNG images, generate animated GIF, change the delay between GIF images in the animated gif, enable GIF looping, enable local timestamp, configure local timestamp proerties, apply post processing to the image, change image output path and output filename.
 
-__Image Layers Configuration__
+### Image Layers Configuration
 
 Each layer is separated by a semicolon and each setting for the layer is separated by a comma.  The order of the layer determines the layer merge order.
 
@@ -393,9 +393,9 @@ Supported image sources:
   </tr>
 <table>
   
-__Image Processing__
+## Image Processing
 
-Currently there are five image operations available to each layer and the final image:
+Currently there are five image manipulation operations available to each layer and the final image:
 - Opacity - changes the opacity (transparency level) of the image.
 - Resize - resizes the image.
 - Crop - crops the image.
@@ -441,62 +441,17 @@ Currently there are five image operations available to each layer and the final 
 </tr>
 </table>
 
-_Example usage in a layer:_
+__Example usage in a layer:__
 
 `image=${pid}.range.png, opacity=0.5`
 
 `image=file:///C:/openhab2/html/location_24.png, opacity=0.5, position=218 148`
 
-_Example usage in image post-processing field:_
+__Example usage in image post-processing field:__
 
 `crop=0 12 512 500, resize=600 600`
 
-_Example use case:_
-
-<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar_1.png?raw=true" />
-
-Image layers configuration properties used:
-
-`image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png, opacity=0.6; image=file:///etc/openhab2/html/location_24.png, opacity=0.8, position=248 212`
-
-__Rainfall images example__
-
-<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/rainfall.png?raw=true" />
-
-Image directory path: `/anon/gen/radar/`
-
-Image product ID: `IDR70D`
-
-Image layers configuration: `image=IDR.legend.1.png; image=IDR703.background.png; image=${series}; 
-image=IDR703.locations.png; image=IDR703.range.png`
-
-Embed local timestamp: `On`
-
-Local timestamp properties: `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 490`
-
-__Satellite images example__
-
-<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/satellite.png?raw=true" />
-
-Image directory path: `/anon/gen/gms/`
-
-Image product ID: `IDE00135`
-
-Regular expression for image filter: `IDE00135.\d{12}.*`
-
-Date range to search: `last_6h`
-
-Image layers configuration: `image=${series}`
-
-Embed local timestamp: `On`
-
-_Notes:_
-
-- Regular expression is required in this case because product ID also matches unwanted files `IDE00135.radar.*.jpg`.
-- Date range is limited to the last 6 hours as there are a large number of files spanning ~20 days.
-
-
-__Local timestamp configuration:__
+#### Local timestamp configuration
 
 When "Embed local timestamp" is enabled, each PNG/GIF frame will include the local timestamp in the image.  You have the option to override the default timestamp format, text properties and positioning.  By default the following properties are used:
 
@@ -543,15 +498,69 @@ Available configuration properties:
   </tr>
 </table>
 
+### Example use case
+
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar_1.png?raw=true" />
+
+Image directory path: `/anon/gen/radar/`
+
+Image product ID: `IDR701`
+
+Image layers configuration: `image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png, opacity=0.6; image=file:///etc/openhab2/html/location_24.png, opacity=0.8, position=248 212`
+
+Embed local timestamp: `On`
+
+Local timestamp properties: `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#000000, font-weight=bold, position=250 485`
+
+__Notes:__
+- Opacity added to range image.
+- Location marker source provided, opacity set to 0.8 and positioned to the desired location.
+
+### Rainfall images example configuration
+
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/rainfall.png?raw=true" />
+
+Image directory path: `/anon/gen/radar/`
+
+Image product ID: `IDR70D`
+
+Image layers configuration: `image=IDR.legend.1.png; image=IDR703.background.png; image=${series}; 
+image=IDR703.locations.png; image=IDR703.range.png`
+
+Embed local timestamp: `On`
+
+Local timestamp properties: `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 490`
+
+### Satellite images example
+
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/satellite.png?raw=true" />
+
+Image directory path: `/anon/gen/gms/`
+
+Image product ID: `IDE00135`
+
+Regular expression for image filter: `IDE00135.\d{12}.*`
+
+Date range to search: `last_6h`
+
+Image layers configuration: `image=${series}`
+
+Embed local timestamp: `On`
+
+__Notes:__
+
+- Regular expression is required in this case because product ID also matches unwanted files `IDE00135.radar.*.jpg`.
+- Date range is limited to the last 6 hours as there are a large number of files spanning ~20 days.
+
 ## How to use the image(s)
 
-__If you want to use generated PNG's or animated GIF__
+#### If you want to use generated PNG's or animated GIF
 
 Use an Image widget and link to the generated image `/static/<output-filename>.gif` or link to the image in your custom template.
 
 For PNG images the sequence number is appended to the image name.  i.e. `<output-filename>.<sequence>.png`.  e.g `IDR701.0.png`, `IDR701.1.png` and so on.  The list of PNG's is available in the _Generated PNG's_ channel.
 
-__If you choose NOT to use generate PNG's or animated GIF__
+#### If you choose NOT to use generate PNG's or animated GIF
 
 In your custom template you will have to write AngularJS/Javascript to handle the display of the image layers and animating the radar images.  The benefit of this method is you can make it user interactive and frame rate, etc is not baked in. This is similar to what BOM site does and it is beyond the scope of this documentation.
 
