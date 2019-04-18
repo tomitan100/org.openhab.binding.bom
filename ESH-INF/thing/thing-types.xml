@@ -122,7 +122,7 @@
 			</parameter>
 			<parameter name="dateRange" type="text" required="false" groupName="imageSources">
 				<label>Date range to search</label>
-				<description>The date range of files to process.  Default is last_24h (last 24 hours)/</description>
+				<description>The date range of files to process.  Default is last_24h (last 24 hours).</description>
 				<default>last_24h</default>
 				<required>false</required>
 			</parameter>
@@ -165,7 +165,7 @@
 			</parameter>
 			<parameter name="embedLocalTimestamp" type="boolean" required="false" groupName="imageGeneration">
 				<label>Embed local timestamp</label>
-				<description>Embed local timestamp into each GIF sequence.</description>
+				<description>Embed local timestamp into each image.</description>
 				<default>false</default>
 			<required>false</required>
 			</parameter>
