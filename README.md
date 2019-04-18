@@ -502,7 +502,7 @@ __Example usage in a layer:__
 
 `image=file:///C:/openhab2/html/location_24.png, opacity=0.5, position=218 148`
 
-__Example usage in image post-processing field:__
+__Example usage in Image post-processing field:__
 
 `crop=0 12 512 500, resize=600 600`
 
@@ -571,7 +571,7 @@ __Notes:__
 - Opacity added to range image.
 - Location marker source provided, opacity set to 0.8 and positioned to the desired location.
 
-### Rainfall images example configuration
+### Rainfall images configuration example
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/rainfall.png?raw=true" />
 
@@ -586,7 +586,7 @@ _Embed local timestamp:_ `On`
 
 _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 490`
 
-### Satellite images example
+### Satellite images configuration example
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/satellite.png?raw=true" />
 
