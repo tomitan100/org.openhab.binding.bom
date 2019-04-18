@@ -424,7 +424,7 @@ Currently there are five image operations available to each layer and the final 
   <td>crop</td>
   <td>x y width height</td>
   <td>crop=0 12 512 500</td>
-  <td>x and y are the starting coordinate relative to top-left of the canvas.</td>
+  <td>x and y are the starting coordinate relative to top-left of the canvas. width the number of pixels from x to include.  height is the number of pixels from y to include.</td>
 </tr>
 <tr>
   <td>position</td>
@@ -454,9 +454,30 @@ _Example use case:_
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar_1.png?raw=true" />
 
-Configuration properties used:
+Image layers configuration properties used:
 
 `image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png, opacity=0.6; image=file:///etc/openhab2/html/location_24.png, opacity=0.8, position=248 212`
+
+__Rainfall image example__
+
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/rainfall.png?raw=true" />
+
+Image directory path: `/anon/gen/gms/`
+Image product ID: `IDE00135`
+Regular expression for image filter: `IDE00135.\d{12}.*`
+Image layers configuration: `image=${series}`
+Embed local timestamp: On
+
+__Satellite image example__
+
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/satellite.png?raw=true" />
+
+Image directory path: `/anon/gen/radar/`
+Image product ID: IDR70D
+Image layers configuration: `image=IDR.legend.1.png; image=IDR703.background.png; image=${series}; image=IDR703.locations.png; image=IDR703.range.png`
+Embed local timestamp: On
+Local timestamp properties: `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 490`
+
 
 __Local timestamp configuration:__
 
