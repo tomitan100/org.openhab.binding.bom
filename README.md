@@ -56,6 +56,7 @@ See below for more details.
 
 - openHAB 2.4 and above.
 - Java 1.8 and above.
+- Fonts installed if timestamp enabled.
 
 ## Installation
 
@@ -458,25 +459,41 @@ Image layers configuration properties used:
 
 `image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png, opacity=0.6; image=file:///etc/openhab2/html/location_24.png, opacity=0.8, position=248 212`
 
-__Rainfall image example__
+__Rainfall images example__
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/rainfall.png?raw=true" />
 
-Image directory path: `/anon/gen/gms/`
-Image product ID: `IDE00135`
-Regular expression for image filter: `IDE00135.\d{12}.*`
-Image layers configuration: `image=${series}`
-Embed local timestamp: On
+Image directory path: `/anon/gen/radar/`
 
-__Satellite image example__
+Image product ID: `IDR70D`
+
+Image layers configuration: `image=IDR.legend.1.png; image=IDR703.background.png; image=${series}; 
+image=IDR703.locations.png; image=IDR703.range.png`
+
+Embed local timestamp: `On`
+
+Local timestamp properties: `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 490`
+
+__Satellite images example__
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/satellite.png?raw=true" />
 
-Image directory path: `/anon/gen/radar/`
-Image product ID: IDR70D
-Image layers configuration: `image=IDR.legend.1.png; image=IDR703.background.png; image=${series}; image=IDR703.locations.png; image=IDR703.range.png`
-Embed local timestamp: On
-Local timestamp properties: `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 490`
+Image directory path: `/anon/gen/gms/`
+
+Image product ID: `IDE00135`
+
+Regular expression for image filter: `IDE00135.\d{12}.*`
+
+Date range to search: `last_6h`
+
+Image layers configuration: `image=${series}`
+
+Embed local timestamp: `On`
+
+_Notes:_
+
+- Regular expression is required in this case because product ID also matches unwanted files `IDE00135.radar.*.jpg`.
+- Date range is limited to the last 6 hours as there are a large number of files spanning ~20 days.
 
 
 __Local timestamp configuration:__
@@ -552,9 +569,16 @@ The screenshots below are examples of the binding in operation.  The screens use
 
 ## Change log
 
+__18/04/2019__
+- Fixed chaining of image manipulation operation.
+
+__17/04/2019__
+- Added regular expression file matching.
+- Added date time range filter.
+
 __15/04/2019__
 - Added timestamp option.
-- Fix sourcing of images from external sources.
+- Fixed sourcing of images from external sources.
 
 __14/04/2019__
 - Added retain min/max temperatures for today.
