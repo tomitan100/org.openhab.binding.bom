@@ -343,6 +343,61 @@ In the configuration screen typically you would only care about changing the Pro
 
 On this screen you also have the option to modify the layer ordering, add additional layer, generate PNG images, generate animated GIF, change the delay between GIF images in the animated gif, enable GIF looping, enable local timestamp, configure local timestamp proerties, apply post processing to the image, change image output path and output filename.
 
+#### Image sources configuration fields
+
+__FTP server:__
+This is the BOM's FTP server.
+
+__Images directory path:__
+The location of the images sequences relative to the root directory of the FTP server.
+
+__Image product ID:__
+The product ID as described above.
+
+__Transparencies directory path:__
+The location of the static background and foreground images relative to the root directory of the FTP server.
+
+__Regular expression for image file filter:__
+Under some scenarios it is necessary to provide more specific filter by the use of regular expression.  This is an optional field.
+
+__Date range to search:__
+The date range to search.  Valid values are: `last_#d` (last # days), `last_#h` (last # hours), `last_#m` (last # minutes), `last_#s` (last # seconds), `today` and yesterday.  Specific start/end date is not yet supported. 
+
+__Image layers configuration:__
+The list of layers to merge.  See below for details.
+
+__Monitoring interval in minutes:__
+The interval to check for new files.
+
+#### Image generation configuration fields
+
+__Generate PNG images:__
+Generate individual images from series.
+
+__Generate animaged GIF:__
+Generated animated GIF from series.
+
+__GIF image delay time in ms:__
+The number of milliseconds to pause before showing the next image sequence/frame.
+
+__Enable GIF loop:__
+If enabled GIF will restart when the last frame is reached.
+
+__Embed local timestamp:__
+Embed local timestamp in each image.
+
+__Local timestamp properties:__
+The timestamp's font face, font size, font weight, font decoration, font style, font colour and position configuration.
+
+__Image post-processing:__
+Post processing applied to the final image.  See below for details.
+
+__Image output path:__
+The path to output the generated images.
+
+__Image output filename:__
+The name to give to the filename.  This field can also accept bind variable `${pid}`, which is the ID entered in the Product ID field.
+
 ### Image Layers Configuration
 
 Each layer is separated by a semicolon and each setting for the layer is separated by a comma.  The order of the layer determines the layer merge order.
@@ -502,15 +557,15 @@ Available configuration properties:
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar_1.png?raw=true" />
 
-Image directory path: `/anon/gen/radar/`
+_Image directory path:_ `/anon/gen/radar/`
 
-Image product ID: `IDR701`
+_Image product ID:_ `IDR701`
 
-Image layers configuration: `image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png, opacity=0.6; image=file:///etc/openhab2/html/location_24.png, opacity=0.8, position=248 212`
+_Image layers configuration:_ `image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png, opacity=0.6; image=file:///etc/openhab2/html/location_24.png, opacity=0.8, position=248 212`
 
-Embed local timestamp: `On`
+_Embed local timestamp:_ `On`
 
-Local timestamp properties: `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#000000, font-weight=bold, position=250 485`
+_Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#000000, font-weight=bold, position=250 485`
 
 __Notes:__
 - Opacity added to range image.
@@ -520,32 +575,34 @@ __Notes:__
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/rainfall.png?raw=true" />
 
-Image directory path: `/anon/gen/radar/`
+_Image directory path:_ `/anon/gen/radar/`
 
-Image product ID: `IDR70D`
+_Image product ID:_ `IDR70D`
 
-Image layers configuration: `image=IDR.legend.1.png; image=IDR703.background.png; image=${series}; 
+_Image layers configuration:_ `image=IDR.legend.1.png; image=IDR703.background.png; image=${series}; 
 image=IDR703.locations.png; image=IDR703.range.png`
 
-Embed local timestamp: `On`
+_Embed local timestamp:_ `On`
 
-Local timestamp properties: `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 490`
+_Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 490`
 
 ### Satellite images example
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/satellite.png?raw=true" />
 
-Image directory path: `/anon/gen/gms/`
+_Image directory path:_ `/anon/gen/gms/`
 
-Image product ID: `IDE00135`
+_Image product ID:_ `IDE00135`
 
-Regular expression for image filter: `IDE00135.\d{12}.*`
+_Regular expression for image filter:_ `IDE00135.\d{12}.*`
 
-Date range to search: `last_6h`
+_Date range to search:_ `last_6h`
 
-Image layers configuration: `image=${series}`
+_Image layers configuration:_ `image=${series}`
 
-Embed local timestamp: `On`
+_Embed local timestamp:_ `On`
+
+_Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#FFFFFF, font-weight=bold, position=316 458`
 
 __Notes:__
 
