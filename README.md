@@ -45,10 +45,10 @@ For future forecasts the following fields are available:
 
 ## BOM Images
 
-BOM images, like radar rain images, can retrieved and processed.  You have the option of:
-- Retrieve the image series filenames (e.g radar loop images) for use in custom template with custom AngularJS animation code.
-- Generate animated GIF of the images.
-- Generate a series merged of PNG's of the images.
+BOM images, like rain radar, rainfall and satellite images, can retrieved and processed.  You have the option of:
+- Retrieve the image sequence filenames for use in custom template with custom AngularJS animation code.
+- Generate animated GIF from a sequence images.
+- Generate individual PNG images from a sequence of images.
 
 See below for more details.
 
