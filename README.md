@@ -56,7 +56,7 @@ See below for more details.
 
 - openHAB 2.4 and above.
 - Java 1.8 and above.
-- Fonts installed if timestamp enabled.
+- Fonts installed if local timestamp is enabled for BOM Image.
 
 ## Installation
 
