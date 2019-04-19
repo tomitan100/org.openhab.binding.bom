@@ -33,6 +33,7 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
       <li><a href="#satellite-images-configuration-example">Satellite images configuration example</a></li>
       <li><a href="#mean-sea-level-pressure-images-configuration-example">Mean sea-level pressure images configuration example</a></li> 
       <li><a href="#using-the-images">Using the images</a></li>
+      <li><a href="#unsupported-charts">Unsupported charts</a></li>
     </ul>
   </li>
   <li><a href="#example-screenshots-in-openhab-habpanel">Example screenshots in openHAB HABPanel</a></li>
