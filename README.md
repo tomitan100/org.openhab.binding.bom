@@ -18,6 +18,7 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
       <li><a href="#background">BOM images background</a></li>
       <li><a href="#bom-images-configuration">BOM images configuration</a></li>
       <li><a href="#image-sources-configuration-fields">Image sources configuration fields</a></li>
+      <li><a href="#image-generation-configuration-fields">Image generation configuration fields</a></li>
       <li><a href="#image-layers-configuration">Image layers configuration</a></li>
       <li><a href="#image-manipulation-and-processing">Image manipulation and processing</a></li>
       <li><a href="#local-timestamp-configuration">Local timestamp configuration</a></li>
