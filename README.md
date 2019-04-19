@@ -2,6 +2,36 @@
 
 This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather forecast and meteorological images from Bureau of Meteorology.
 
+## Contents
+
+<ul>
+  <li><a href="#observation-and-forecast-features">Observation and forecast features</a></li>
+  <li><a href="#bom-images-features">BOM images features</a></li>
+  <li><a href="#prerequisite">Prerequisite</a></li>
+  <li><a href="#installation">Installation</a></li>
+  <li><a href="#weather-observation-and-forecast-configuration">Weather observation and forecast configuration</a></li>
+  <li><a href="#weather-forecast-icons">Weather forecast icons</a></li>
+  <li><a href="#bom-weather-items-mapping-file">BOM weather items mapping file</a></li>
+  <li><a href="#bom-images">BOM images</a></li>
+  <li>
+    <ul>
+      <li><a href="#background">BOM images background</a></li>
+      <li><a href="#bom-images-configuration">BOM images configuration</a></li>
+      <li><a href="#image-sources-configuration-fields">Image sources configuration fields</a></li>
+      <li><a href="#image-layers-configuration">Image layers configuration</a></li>
+      <li><a href="#image-manipulation-and-processing">Image manipulation and processing</a></li>
+      <li><a href="#local-timestamp-configuration">Local timestamp configuration</a></li>
+      <li><a href="#example-use-case">Example use case</a></li>
+      <li><a href="#rainfall-images-configuration-example">Rainfall images configuration example</a></li>
+      <li><a href="#satellite-images-configuration-example">Satellite images configuration example</a></li>
+      <li><a href="#using-the-images">Using the images</a></li>
+    </ul>
+  </li>
+  <li><a href="#example-screenshots-in-openhab-habpanel">Example screenshots in openHAB HABPanel</a></li>
+  <li><a href="#change-log">Change log</a></li>
+</ul>
+
+
 ## Observation and Forecast Features
 
 This initial release maps most fields from BOM data-feed.
@@ -43,7 +73,7 @@ For future forecasts the following fields are available:
 - Maximum precipitation
 - UV alert text
 
-## BOM Images
+## BOM Images Features
 
 BOM images, like rain radar, rainfall and satellite images, can retrieved and processed.  You have the option of:
 - Retrieve the image sequence filenames for use in custom template with custom AngularJS animation code.
@@ -64,7 +94,7 @@ For openHAB install **Eclipse IoT Market** add-on under *MISC* tab in openHAB Pa
 
 For Eclipse SmartHome install from https://marketplace.eclipse.org/content/australian-bom-weather-forecast-binding.
 
-## Configuration
+## Weather observation and forecast configuration
 
 At minimum there are five fields required to process the data-feed.  The observation product ID, the weather station ID of observation, the precis product ID, the city/town product ID and finally the area code.
 
@@ -230,7 +260,7 @@ Screenshot below shows an example configuration in Paper UI.
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/configuration.png?raw=true" />
 
 
-## Forecast Icons
+## Weather Forecast Icons
 
 The following table shows all the possible icon names returned by the channel.
 
@@ -309,7 +339,7 @@ The following table shows all the possible icon names returned by the channel.
 </tr>
 </table>  
 
-## Items mapping file
+## BOM Weather Items mapping file
 
 Creating items and linking them for eight days of forecasts can be tedious.  Provided below is the items mapping file that you can drop into the "items" folder, typically in `/etc/openhab2/items` under Linux or `C:\openHAB2\conf\items` under Windows.  The prerequisite is to name the BOM Thing ID "default".  If you would like name your BOM Thing ID as something else, edit the file and rename accordingly.
 
@@ -448,7 +478,7 @@ Supported image sources:
   </tr>
 <table>
   
-## Image Processing
+## Image Manipulation and Processing
 
 Currently there are five image manipulation operations available to each layer and the final image:
 - Opacity - changes the opacity (transparency level) of the image.
@@ -609,7 +639,7 @@ __Notes:__
 - Regular expression is required in this case because product ID also matches unwanted files `IDE00135.radar.*.jpg`.
 - Date range is limited to the last 6 hours as there are a large number of files spanning ~20 days.
 
-## How to use the image(s)
+## Using the images
 
 #### If you want to use generated PNG's or animated GIF
 
