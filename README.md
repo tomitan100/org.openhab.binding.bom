@@ -27,7 +27,7 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
       <li><a href="#image-layers-configuration">Image layers configuration</a></li>
       <li><a href="#image-manipulation-and-processing">Image manipulation and processing</a></li>
       <li><a href="#local-timestamp-configuration">Local timestamp configuration</a></li>
-      <li><a href="#example-use-case">Example use case</a></li>
+      <li><a href="#rain-radar-images-configuration-example">Rain radar images configuration example</a></li>
       <li><a href="#doppler-wind-images-configuration-example">Doppler wind images configuration example</a></li>
       <li><a href="#rainfall-images-configuration-example">Rainfall images configuration example</a></li>
       <li><a href="#satellite-images-configuration-example">Satellite images configuration example</a></li>
@@ -593,7 +593,7 @@ Available configuration properties:
   </tr>
 </table>
 
-### Example use case
+### Rain radar images configuration example
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar_1.png?raw=true" />
 
