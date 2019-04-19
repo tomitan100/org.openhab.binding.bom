@@ -5,8 +5,13 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
 ## Contents
 
 <ul>
-  <li><a href="#observation-and-forecast-features">Observation and forecast features</a></li>
-  <li><a href="#bom-images-features">BOM images features</a></li>
+  <li><a href="#features">Features</a></li>
+  <li>
+    <ul>
+      <li><a href="#observation-and-forecast-features">Observation and forecast features</a></li>
+      <li><a href="#bom-images-features">BOM images features</a></li>
+    </ul>
+  </li>
   <li><a href="#prerequisite">Prerequisite</a></li>
   <li><a href="#installation">Installation</a></li>
   <li><a href="#weather-observation-and-forecast-configuration">Weather observation and forecast configuration</a></li>
@@ -32,8 +37,9 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
   <li><a href="#change-log">Change log</a></li>
 </ul>
 
+## Features
 
-## Observation and Forecast Features
+### Observation and Forecast Features
 
 This initial release maps most fields from BOM data-feed.
 
@@ -74,7 +80,7 @@ For future forecasts the following fields are available:
 - Maximum precipitation
 - UV alert text
 
-## BOM Images Features
+### BOM Images Features
 
 BOM images, like rain radar, rainfall and satellite images, can retrieved and processed.  You have the option of:
 - Retrieve the image sequence filenames for use in custom template with custom AngularJS animation code.
