@@ -28,8 +28,10 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
       <li><a href="#image-manipulation-and-processing">Image manipulation and processing</a></li>
       <li><a href="#local-timestamp-configuration">Local timestamp configuration</a></li>
       <li><a href="#example-use-case">Example use case</a></li>
+      <li><a href="#doppler-wind-images-configuration-example">Doppler wind images configuration example</a></li>
       <li><a href="#rainfall-images-configuration-example">Rainfall images configuration example</a></li>
       <li><a href="#satellite-images-configuration-example">Satellite images configuration example</a></li>
+      <li><a href="#mean-sea-level-pressure-images-configuration-example">Mean sea-level pressure images configuration example</a></li> 
       <li><a href="#using-the-images">Using the images</a></li>
     </ul>
   </li>
@@ -608,6 +610,18 @@ __Notes:__
 - Opacity added to range image.
 - Location marker source provided, opacity set to 0.8 and positioned to the desired location.
 
+### Doppler wind images configuration example
+
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/doppler-wind.png?raw=true" />
+
+_Image directory path:_ `/anon/gen/radar/`
+
+_Image product ID:_ `IDR70I`
+
+_Date range to search:_ `last_24h`
+
+_Image layers configuration:_ `image=IDR.legend.2.png; image=IDR703.background.png; image=IDR703.topography.png; image=${series}; image=IDR703.locations.png; image=IDR703.range.png`
+
 ### Rainfall images configuration example
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/rainfall.png?raw=true" />
@@ -646,6 +660,28 @@ __Notes:__
 - Regular expression is required in this case because product ID also matches unwanted files `IDE00135.radar.*.jpg`.
 - Date range is limited to the last 6 hours as there are a large number of files spanning ~20 days.
 
+### Mean sea-level pressure images configuration example
+
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/mslp.png?raw=true" />
+
+_Image directory path:_ `/anon/gen/fwo/`
+
+_Image product ID:_ `IDY00030`
+
+_Regular expression for image filter:_ `IIDY00030.\d{12}.png`
+
+_Date range to search:_ `last_7d`
+
+_Image layers configuration:_ `image=${series}`
+
+_Embed local timestamp:_ `On`
+
+_Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#F76623, font-weight=bold, position=380 420`
+
+__Notes:__
+
+- Regular expression is required in this case because product ID also matches PDF files `IDY00030.*.pdf`.
+
 ## Using the images
 
 #### If you want to use generated PNG's or animated GIF
@@ -659,6 +695,19 @@ For PNG images the sequence number is appended to the image name.  i.e. `<output
 In your custom template you will have to write AngularJS/Javascript to handle the display of the image layers and animating the radar images.  The benefit of this method is you can make it user interactive and frame rate, etc is not baked in. This is similar to what BOM site does and it is beyond the scope of this documentation.
 
 The list of radar image sequences are available as a channel (Source Images).  Unfortunately it is represented as a comma-separated string due to framework shortcoming.  You will have to split the values into an array to be useful.
+
+## Unsupported Charts
+
+- National Radar Loop - this is made up of two series of images.  Possible to support in the future if there is demand.
+- Weather and Wave Forecast Maps - a single file of around 154MB needs to be downloaded and processed.
+- Latest Colour MSLP and Infrared Greyscale Satellite - a single image that can be linked directly.
+- Short-term forecast - a single image that can be linked directly.
+- Colour Forecast map for next 4 days - a single image that can be linked directly.
+- UV Forecast - a single image that can be linked directly.
+- Asia MSL Pressure Analysis - a single image that can be linked directly.
+- Southern Hemisphere MSLP Aanalysis - this is a PDF file.
+- Pacific Ocean MSLP Analyses - a single image that can be linked directly.
+- Indian Ocean MSLP Analyses - a single image that can be linked directly.
 
 ## Example Screenshots in openHAB HABPanel
 
