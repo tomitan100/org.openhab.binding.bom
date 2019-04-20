@@ -12,8 +12,9 @@
  */
 package org.openhab.binding.bom.internal.net;
 
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.Calendar;
+import java.util.regex.Matcher;
 
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPFileFilter;
@@ -38,18 +39,22 @@ public class FtpImageFileFilter implements FTPFileFilter {
         return !ftpFile.getName().contains(".gif") && ftpFile.getName().indexOf(filenamePattern) == 0;
     }
 
-    @Override
-    public boolean accept(FTPFile ftpFile) {
-        if (filenameMatches(ftpFile)) {
-            ZonedDateTime sourceTimestamp = ZonedDateTime.of(ftpFile.getTimestamp().get(Calendar.YEAR),
-                    ftpFile.getTimestamp().get(Calendar.MONTH) + 1, ftpFile.getTimestamp().get(Calendar.DAY_OF_MONTH),
-                    ftpFile.getTimestamp().get(Calendar.HOUR_OF_DAY), ftpFile.getTimestamp().get(Calendar.MINUTE),
-                    ftpFile.getTimestamp().get(Calendar.SECOND), 0, Constants.ZONE_ID_UTC);
+    protected boolean timestampMatches(FTPFile ftpFile) {
+        Matcher matcher = Constants.FILE_DATE_TIME_PATTERN.matcher(ftpFile.getName());
+
+        if (matcher.matches()) {
+            LocalDateTime localDateTime = LocalDateTime.parse(matcher.group(1), Constants.FILE_DATE_TIME_FORMATTER);
+            ZonedDateTime sourceTimestamp = localDateTime.atZone(Constants.ZONE_ID_UTC);
 
             return !(sourceTimestamp.isBefore(dateTimeRange.getStartDateTime())
                     || sourceTimestamp.isAfter(dateTimeRange.getEndDateTime()));
         }
 
         return false;
+    }
+
+    @Override
+    public boolean accept(FTPFile ftpFile) {
+        return filenameMatches(ftpFile) && timestampMatches(ftpFile);
     }
 }

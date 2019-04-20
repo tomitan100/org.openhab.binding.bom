@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
@@ -80,8 +78,6 @@ public class BomImageHandler extends BaseThingHandler {
 
     private static final DateTimeFormatter DEFAULT_DATE_TIME_FORMATTER = DateTimeFormatter
             .ofPattern("dd/MM/yyyy HH:mm:ss z");
-
-    private final Pattern DATE_RANGE_LAST_PATTERN = Pattern.compile("last_(\\d+)([dhms])");
 
     private BomImageDownloader imageDownloader = new BomImageDownloader();
 
@@ -168,6 +164,7 @@ public class BomImageHandler extends BaseThingHandler {
         }
 
         updateStatus(ThingStatus.ONLINE);
+        updateChannelsState(ZonedDateTime.now(), null, null, null, null);
 
         DateTimeRange dateTimeRange = getDateTimeRange(config.dateRange);
 
@@ -181,8 +178,6 @@ public class BomImageHandler extends BaseThingHandler {
             }
 
             FTPFile[] imageFtpFiles = listFtpFiles(ftp, config.imagesPath, filter);
-
-            updateChannelsState(ZonedDateTime.now(), null, null, null, null);
 
             if (imageFtpFiles == null) {
                 logger.debug("No new images found");
@@ -221,15 +216,16 @@ public class BomImageHandler extends BaseThingHandler {
     }
 
     private DateTimeRange getDateTimeRange(String dateRange) {
-        String range = dateRange.trim().toLowerCase();
-        long lastTimeValue = 24;
-        String lastTimeUnit = "h";
+        String range = dateRange.toLowerCase().trim();
+        Long durationInSeconds = 24L * 60L * 60L;
 
-        Matcher matcher = DATE_RANGE_LAST_PATTERN.matcher(dateRange);
+        if (range.indexOf("last_") == 0) {
+            Long duration = DateTimeUtils.parseDuration(dateRange.substring(5));
 
-        if (matcher.matches()) {
-            lastTimeValue = Long.parseLong(matcher.group(1));
-            lastTimeUnit = matcher.group(2);
+            if (duration != null) {
+                durationInSeconds = duration;
+            }
+
             range = "";
         }
 
@@ -243,16 +239,7 @@ public class BomImageHandler extends BaseThingHandler {
                 return new DateTimeRange(startOfToday.minusDays(1), startOfToday);
             default:
                 ZonedDateTime nowDefault = ZonedDateTime.now(Constants.ZONE_ID_UTC);
-
-                if ("d".equals(lastTimeUnit)) {
-                    return new DateTimeRange(nowDefault.minusDays(lastTimeValue), nowDefault);
-                } else if ("m".equals(lastTimeUnit)) {
-                    return new DateTimeRange(nowDefault.minusMinutes(lastTimeValue), nowDefault);
-                } else if ("s".equals(lastTimeUnit)) {
-                    return new DateTimeRange(nowDefault.minusSeconds(lastTimeValue), nowDefault);
-                }
-
-                return new DateTimeRange(nowDefault.minusHours(lastTimeValue), nowDefault);
+                return new DateTimeRange(nowDefault.minusSeconds(durationInSeconds), nowDefault);
         }
     }
 
@@ -393,9 +380,12 @@ public class BomImageHandler extends BaseThingHandler {
         DateTimeFormatter formatter = format == null ? DEFAULT_DATE_TIME_FORMATTER
                 : DateTimeFormatter.ofPattern(format);
 
+        ZonedDateTime adjustedTimestamp = getAdjustedTimestamp(timestamp,
+                clonedProperties.getValue("adjust-timestamp"));
+
         StringBuilder sb = new StringBuilder();
 
-        sb.append(formatter.format(timestamp));
+        sb.append(formatter.format(adjustedTimestamp));
 
         clonedProperties.add(Property.forProperty(Constants.PROP_KEY_TEXT, sb.toString()));
 
@@ -403,6 +393,22 @@ public class BomImageHandler extends BaseThingHandler {
                 baseImage.getHeight(), clonedProperties);
 
         return textImage != null ? ImageUtils.merge(baseImage, textImage) : baseImage;
+    }
+
+    private ZonedDateTime getAdjustedTimestamp(ZonedDateTime timestamp, String timeAdjustment) {
+        if (StringUtils.isBlank(timeAdjustment)) {
+            return timestamp;
+        }
+
+        Long timeValue = DateTimeUtils.parseDuration(timeAdjustment.trim());
+
+        if (timeValue != null) {
+            return timestamp.plusSeconds(timeValue);
+        }
+
+        logger.warn("Invalid adjust-timestamp value \"{}\"", timeAdjustment);
+
+        return timestamp;
     }
 
     private void generateGifv(List<BufferedImage> images, String outputFilePath) {

@@ -17,11 +17,13 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import javax.imageio.ImageIO;
 
@@ -42,8 +44,6 @@ import org.slf4j.LoggerFactory;
 public class BomImageDownloader {
     private final Logger logger = LoggerFactory.getLogger(BomImageDownloader.class);
 
-    private static final long BOM_REPORT_TIME_DELAY_MINS = 5;
-
     public List<SeriesImageLayer> retrieveSeriesImages(FTPClient ftp, String dirPath, FTPFile[] imageFtpFiles,
             List<ImageLayerConfig> layerConfigs) {
         List<SeriesImageLayer> seriesImages = new ArrayList<>();
@@ -63,8 +63,7 @@ public class BomImageDownloader {
                 BufferedImage downloadedImage = ImageIO.read(in);
 
                 if (ftp.completePendingCommand()) {
-                    seriesImages.add(new SeriesImageLayer(seriesImageConfig, downloadedImage,
-                            getTimestamp(ftpFile.getTimestamp())));
+                    seriesImages.add(new SeriesImageLayer(seriesImageConfig, downloadedImage, getTimestamp(ftpFile)));
                 }
             } catch (IOException ex) {
                 logger.error("Unable to retrieve " + remoteFilePath, ex);
@@ -134,12 +133,22 @@ public class BomImageDownloader {
 
     }
 
-    private ZonedDateTime getTimestamp(Calendar timestamp) {
-        ZonedDateTime sourceTimestamp = ZonedDateTime.of(timestamp.get(Calendar.YEAR),
-                timestamp.get(Calendar.MONTH) + 1, timestamp.get(Calendar.DAY_OF_MONTH),
-                timestamp.get(Calendar.HOUR_OF_DAY), timestamp.get(Calendar.MINUTE), timestamp.get(Calendar.SECOND), 0,
-                Constants.ZONE_ID_UTC);
+    private ZonedDateTime getTimestamp(FTPFile ftpFile) {
+        ZonedDateTime sourceTimestamp;
 
-        return sourceTimestamp.withZoneSameInstant(ZoneId.systemDefault()).minusMinutes(BOM_REPORT_TIME_DELAY_MINS);
+        Matcher matcher = Constants.FILE_DATE_TIME_PATTERN.matcher(ftpFile.getName());
+
+        if (matcher.matches()) {
+            LocalDateTime localDateTime = LocalDateTime.parse(matcher.group(1), Constants.FILE_DATE_TIME_FORMATTER);
+            sourceTimestamp = localDateTime.atZone(Constants.ZONE_ID_UTC);
+        } else {
+            logger.warn("Unable to parse date time from filename - using timestamp from file instead.");
+            Calendar timestamp = ftpFile.getTimestamp();
+            sourceTimestamp = ZonedDateTime.of(timestamp.get(Calendar.YEAR), timestamp.get(Calendar.MONTH) + 1,
+                    timestamp.get(Calendar.DAY_OF_MONTH), timestamp.get(Calendar.HOUR_OF_DAY),
+                    timestamp.get(Calendar.MINUTE), timestamp.get(Calendar.SECOND), 0, Constants.ZONE_ID_UTC);
+        }
+
+        return sourceTimestamp.withZoneSameInstant(ZoneId.systemDefault());
     }
 }

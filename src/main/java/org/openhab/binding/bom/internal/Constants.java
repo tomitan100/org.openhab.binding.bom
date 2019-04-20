@@ -13,6 +13,8 @@
 package org.openhab.binding.bom.internal;
 
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.regex.Pattern;
 
 /**
  * The {@link Constnats} class define constants.
@@ -21,6 +23,10 @@ import java.time.ZoneId;
  */
 public class Constants {
     public static final ZoneId ZONE_ID_UTC = ZoneId.of("UTC");
+
+    public static final Pattern FILE_DATE_TIME_PATTERN = Pattern.compile(".*(\\d{12}).*");
+
+    public static final DateTimeFormatter FILE_DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmm");
 
     public static final String PROP_KEY_IMAGE = "image";
 
