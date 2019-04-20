@@ -573,7 +573,7 @@ Available configuration properties:
   </tr>
   <tr>
     <td>font-face</td>
-    <td>The font face to use.  Default is Arial.  What fonts are available are system dependent.</td>
+    <td>The font face to use.  Default is Arial.  Fonts availability is system dependent.</td>
   </tr>
   <tr>
     <td>font-size</td>
