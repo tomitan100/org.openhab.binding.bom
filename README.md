@@ -645,7 +645,7 @@ image=IDR703.locations.png; image=IDR703.range.png`
 
 _Embed local timestamp:_ `On`
 
-_Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 490`
+_Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=226 490`
 
 ### Satellite images configuration example
 
