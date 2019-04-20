@@ -618,7 +618,7 @@ _Embed local timestamp:_ `On`
 _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, adjust-timestamp=-5m font-face=Arial, font-size=16, font-color=#000000, font-weight=bold, position=250 485`
 
 __Notes:__
-- Timestamp is adjusted to minus 5 minutes to match the UTC time overlaye.
+- Timestamp is adjusted to minus 5 minutes to match the UTC time overlay.
 - Opacity added to range image.
 - Location marker source provided, opacity set to 0.8 and positioned to the desired location.
 
