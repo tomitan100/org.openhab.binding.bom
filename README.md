@@ -548,9 +548,13 @@ __Example usage in Image post-processing field:__
 
 #### Local timestamp configuration
 
-When "Embed local timestamp" is enabled, each PNG/GIF frame will include the local timestamp in the image.  You have the option to override the default timestamp format, text properties and positioning.  By default the following properties are used:
+When "Embed local timestamp" is enabled, each PNG/GIF frame will include the local timestamp in the image.  You have the option to override the default timestamp format, text properties and positioning.
+
+By default the following properties are used:
 
 `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 20`
+
+This binding does not attempt to read the timestamp overlay in the image.  Instead the timestamp on the filename itself is used.  For some images (e.g rain radar) the timestamp on the filename does not actually match the timestamp overlay. In the case of rain radar, there is a constant 5 minute delay.  You can fix this by using `adjust-timestamp` attribute.
 
 Available configuration properties:
 
@@ -562,6 +566,10 @@ Available configuration properties:
   <tr>
     <td>format</td>
     <td>The date format in Java.</td>
+  </tr>
+  <tr>
+    <td>adjust-timestamp</td>
+    <td>Adjust the timestamp.  Valid values: [-]#d, [-]#h, [-]#m or [-]#s.  e.g adjust-timestamp=-5m</td>
   </tr>
   <tr>
     <td>font-face</td>
@@ -605,9 +613,10 @@ _Image layers configuration:_ `image=IDR.legend.0.png; image=${pid}.background.p
 
 _Embed local timestamp:_ `On`
 
-_Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#000000, font-weight=bold, position=250 485`
+_Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, adjust-timestamp=-5m font-face=Arial, font-size=16, font-color=#000000, font-weight=bold, position=250 485`
 
 __Notes:__
+- Timestamp is adjusted to minus 5 minutes to match the UTC time overlaid in the image.
 - Opacity added to range image.
 - Location marker source provided, opacity set to 0.8 and positioned to the desired location.
 
@@ -659,7 +668,7 @@ _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, fo
 __Notes:__
 
 - Regular expression is required in this case because product ID also matches unwanted files `IDE00135.radar.*.jpg`.
-- Date range is limited to the last 6 hours as there are a large number of files spanning ~20 days.
+- Date range is set to the past 6 hours as there are a large number of files spanning ~20 days.
 
 ### Mean sea-level pressure images configuration example
 
@@ -681,7 +690,7 @@ _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, fo
 
 __Notes:__
 
-- Regular expression is required in this case because product ID also matches PDF files `IDY00030.*.pdf`.
+- Regular expression is required because product ID also matches PDF files `IDY00030.*.pdf` in the FTP directory.
 
 ## Using the images
 
