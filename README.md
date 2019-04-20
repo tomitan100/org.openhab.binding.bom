@@ -362,11 +362,13 @@ BOM images, like rain radar loop, are made up of a series of transparent PNG fil
 
 BOM Image binding can create the final image(s) of each radar/satellite image sequence/series as PNG's and/or animated GIF.  This makes it easier to display radar loops in the web browser without having to code in Javascript to loop through the image layers.
 
-By default, BOM Image binding retrieves radar sequence of images from ftp://ftp.bom.gov.au/anon/gen/radar/ and  transparancies from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/.
+By default, BOM Image binding retrieves rainfall radar sequence of images from ftp://ftp.bom.gov.au/anon/gen/radar/ and  transparancies from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/.
+
+Take note that this binding can handle images other than rain radar images.  There are example configurations for other images in this document.
 
 ## BOM Images Configuration
 
-The first step is to determine the product ID of the images you are after.  You can do this easily by searching "IDR" in BOM's catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml.  Another way is to note the product ID in the "Rainfall Radars" URL itself.  e.g http://www.bom.gov.au/products/IDR701.loop.shtml.
+For rainfal radar images, the first step is to determine the product ID of the images you are after.  You can do this easily by searching "IDR" in BOM's catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml.  Another way is to note the product ID in the "Rainfall Radars" URL itself.  e.g http://www.bom.gov.au/products/IDR701.loop.shtml.
 
 Note that each radar range is under different product ID.
 
@@ -376,7 +378,7 @@ Examples for Perth radar loop:
 - IDR703 - 128 km
 - IDR704 - 64 km
 
-In the configuration screen typically you would only care about changing the Product ID to the one you would like to show, and turning on _Generate animated GIF_.
+In the configuration screen typically you would only care about changing the Product ID to the rainfall radar you would like to show, and turning on _Generate animated GIF_.  For other products please see example configurations in this document.
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/configuration-image-sources.png?raw=true" />
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/configuration-image-generation.png?raw=true" />
