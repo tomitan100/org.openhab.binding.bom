@@ -649,7 +649,7 @@ _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, fo
 
 ### Satellite images configuration example
 
-<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/satellite.png?raw=true" />
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/satellite.gif?raw=true" />
 
 _Image directory path:_ `/anon/gen/gms/`
 
@@ -657,7 +657,7 @@ _Image product ID:_ `IDE00135`
 
 _Regular expression for image filter:_ `IDE00135.\d{12}.*`
 
-_Date range to search:_ `last_6h`
+_Date range to search:_ `last_5h`
 
 _Image layers configuration:_ `image=${series}`
 
