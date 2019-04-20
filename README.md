@@ -659,7 +659,7 @@ _Image product ID:_ `IDE00135`
 
 _Regular expression for image filter:_ `IDE00135.\d{12}.*`
 
-_Date range to search:_ `last_5h`
+_Date range to search:_ `last_6h`
 
 _Image layers configuration:_ `image=${series}`
 
