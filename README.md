@@ -616,7 +616,7 @@ _Embed local timestamp:_ `On`
 _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, adjust-timestamp=-5m font-face=Arial, font-size=16, font-color=#000000, font-weight=bold, position=250 485`
 
 __Notes:__
-- Timestamp is adjusted to minus 5 minutes to match the UTC time overlaid in the image.
+- Timestamp is adjusted to minus 5 minutes to match the UTC time overlaye.
 - Opacity added to range image.
 - Location marker source provided, opacity set to 0.8 and positioned to the desired location.
 
@@ -730,6 +730,11 @@ The screenshots below are examples of the binding in operation.  The screens use
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar-loop.gif?raw=true" />
 
 ## Change log
+
+__20/04/2019__
+- Read timestamp from image filename instead of file.
+- Added optional `adjust-timestamp` property to local timestamp configuration.
+- Removed hard-coded timestamp adjustment as this is not applicable to other image products.
 
 __18/04/2019__
 - Fixed chaining of image manipulation operation.
