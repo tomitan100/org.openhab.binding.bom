@@ -376,7 +376,7 @@ Examples for Perth radar loop:
 - IDR703 - 128 km
 - IDR704 - 64 km
 
-In the configuration screen typically you would only care about changing the Product ID to the one you would like to show, and turning on Generated animated GIF.
+In the configuration screen typically you would only care about changing the Product ID to the one you would like to show, and turning on _Generate animated GIF_.
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/configuration-image-sources.png?raw=true" />
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/configuration-image-generation.png?raw=true" />
