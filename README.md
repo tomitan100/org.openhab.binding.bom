@@ -6,8 +6,8 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
 
 <ul>
   <li><a href="#features">Features</a></li>
-  <li>
-    <ul>
+  <li type="none">
+    <ul type="disc">
       <li><a href="#observation-and-forecast-features">Observation and forecast features</a></li>
       <li><a href="#bom-images-features">BOM images features</a></li>
     </ul>
@@ -18,8 +18,8 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
   <li><a href="#weather-forecast-icons">Weather forecast icons</a></li>
   <li><a href="#bom-weather-items-mapping-file">BOM weather items mapping file</a></li>
   <li><a href="#bom-images">BOM images</a></li>
-  <li>
-    <ul>
+  <li type="none">
+    <ul type="disc">
       <li><a href="#background">BOM images background</a></li>
       <li><a href="#bom-images-configuration">BOM images configuration</a></li>
       <li><a href="#image-sources-configuration-fields">Image sources configuration fields</a></li>
@@ -31,8 +31,8 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
       <li><a href="#doppler-wind-images-configuration-example">Doppler wind images configuration example</a></li>
       <li><a href="#rainfall-images-configuration-example">Rainfall images configuration example</a></li>
       <li><a href="#satellite-images-configuration-example">Satellite images configuration example</a></li>
-      <li>
-        <ul>
+      <li type="none">
+        <ul type="disc">
           <li><a href="#other-satellite-view-variations">Other satellite view variations</a></li>
         </ul>
       </li>
@@ -677,7 +677,7 @@ __Notes:__
 - Regular expression is required in this case because product ID also matches unwanted files `IDE00135.radar.*.jpg`.
 - Date range is set to the past 6 hours as there are a large number of files spanning ~20 days.
 
-#### Other satellite view variations:
+#### Other satellite view variations
 
 <table>
   <tr>
