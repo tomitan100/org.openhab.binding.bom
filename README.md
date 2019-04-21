@@ -31,6 +31,11 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
       <li><a href="#doppler-wind-images-configuration-example">Doppler wind images configuration example</a></li>
       <li><a href="#rainfall-images-configuration-example">Rainfall images configuration example</a></li>
       <li><a href="#satellite-images-configuration-example">Satellite images configuration example</a></li>
+      <li>
+        <ul>
+          <li><a href="#other-satellite-view-variations">Other satellite view variations</a></li>
+        </ul>
+      </li>
       <li><a href="#mean-sea-level-pressure-images-configuration-example">Mean sea-level pressure images configuration example</a></li> 
       <li><a href="#using-the-images">Using the images</a></li>
       <li><a href="#unsupported-charts">Unsupported charts</a></li>
@@ -671,6 +676,117 @@ __Notes:__
 
 - Regular expression is required in this case because product ID also matches unwanted files `IDE00135.radar.*.jpg`.
 - Date range is set to the past 6 hours as there are a large number of files spanning ~20 days.
+
+#### Other satellite view variations:
+
+<table>
+  <tr>
+    <th>Region</th>
+    <th>Satellite View</th>
+    <th>Product ID</th>
+    <th>Regular expression</th>
+  </tr>
+  <tr>
+    <td>Australia</td>
+    <td>False colour temperatures</td>
+    <td>IDE00134</td>
+    <td>IDE00134.\d{12}.*</td>
+  </tr>
+  <tr>
+    <td>Australia</td>
+    <td>Infrared, greyscale</td>
+    <td>IDE00105</td>
+    <td>IDE00105.\d{12}.*</td>
+  </tr>
+  <tr>
+    <td>Australia</td>
+    <td>Visible, greyscale</td>
+    <td>IDE00106</td>
+    <td>IDE00106.\d{12}.*</td>
+  </tr>
+  <tr>
+    <td>Australia</td>
+    <td>Infrared, Zehr enhanced</td>
+    <td>IDE00133</td>
+    <td>IDE00133.\d{12}.*</td>
+  </tr>
+  
+  <tr>
+    <td>Australia West</td>
+    <td>False colour temperatures</td>
+    <td>IDE00124</td>
+    <td>IDE00124.\d{12}.*</td>
+  </tr>
+  <tr>
+    <td>Australia West</td>
+    <td>Infrared, greyscale</td>
+    <td>IDE00125</td>
+    <td>IDE00125.\d{12}.*</td>
+  </tr>
+  <tr>
+    <td>Australia West</td>
+    <td>Visible, greyscale</td>
+    <td>IDE00126</td>
+    <td>IDE00126.\d{12}.*</td>
+  </tr>
+  <tr>
+    <td>Australia West</td>
+    <td>Infrared, Zehr enhanced</td>
+    <td>IDE00123</td>
+    <td>IDE00123.\d{12}.*</td>
+  </tr>
+  
+  <tr>
+    <td>Australia East</td>
+    <td>False colour temperatures</td>
+    <td>IDE00144</td>
+    <td>IDE00144.\d{12}.*</td>
+  </tr>
+  <tr>
+    <td>Australia East</td>
+    <td>Infrared, greyscale</td>
+    <td>IDE00145</td>
+    <td>IDE00145.\d{12}.*</td>
+  </tr>
+  <tr>
+    <td>Australia East</td>
+    <td>Visible, greyscale</td>
+    <td>IDE00146</td>
+    <td>IDE00146.\d{12}.*</td>
+  </tr>
+  <tr>
+    <td>Australia East</td>
+    <td>Infrared, Zehr enhanced</td>
+    <td>IDE00143</td>
+    <td>IDE00143.\d{12}.*</td>
+  </tr>
+  
+  <tr>
+    <td>Full Disk</td>
+    <td>False colour temperatures</td>
+    <td>IDE00154</td>
+    <td>IDE00154.\d{12}.*</td>
+  </tr>
+  <tr>
+    <td>Full Disk</td>
+    <td>Infrared, greyscale</td>
+    <td>IDE00155</td>
+    <td>IDE00155.\d{12}.*</td>
+  </tr>
+  <tr>
+    <td>Full Disk</td>
+    <td>Visible, greyscale</td>
+    <td>IDE00156</td>
+    <td>IDE00156.\d{12}.*</td>
+  </tr>
+  <tr>
+    <td>Full Disk</td>
+    <td>Infrared, Zehr enhanced</td>
+    <td>IDE00153</td>
+    <td>IDE00153.\d{12}.*</td>
+  </tr>
+</table>  
+
 
 ### Mean sea-level pressure images configuration example
 
