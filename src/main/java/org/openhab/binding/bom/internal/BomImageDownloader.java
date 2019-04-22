@@ -14,6 +14,8 @@ package org.openhab.binding.bom.internal;
 
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -22,10 +24,14 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 
 import javax.imageio.ImageIO;
+import javax.imageio.ImageReadParam;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.ImageInputStream;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -44,11 +50,13 @@ import org.slf4j.LoggerFactory;
 public class BomImageDownloader {
     private final Logger logger = LoggerFactory.getLogger(BomImageDownloader.class);
 
+    private static final String URL_PROTOCOL_PATTERN = "^(?i)(?:ftp|https?|file)://.*";
+    private static final String TIFF_FILE_PATTERN = "(?i).*\\.tiff?$";
+
     public List<SeriesImageLayer> retrieveSeriesImages(FTPClient ftp, String dirPath, FTPFile[] imageFtpFiles,
-            List<ImageLayerConfig> layerConfigs) {
+            List<ImageLayerConfig> layerConfigs, Integer tiffImageIndex) {
         List<SeriesImageLayer> seriesImages = new ArrayList<>();
         String imagesDirPath = dirPath.charAt(dirPath.length() - 1) != '/' ? dirPath + "/" : dirPath;
-        InputStream in = null;
 
         ImageLayerConfig seriesImageConfig = layerConfigs.stream()
                 .filter(layerConfig -> layerConfig.getType() == ImageType.SERIES).findAny().orElse(null);
@@ -56,23 +64,36 @@ public class BomImageDownloader {
         for (FTPFile ftpFile : imageFtpFiles) {
             String remoteFilePath = imagesDirPath + ftpFile.getName();
 
-            try {
-                logger.debug("Downloading {}", remoteFilePath);
-                in = ftp.retrieveFileStream(remoteFilePath);
+            logger.debug("Downloading {}", remoteFilePath);
 
-                BufferedImage downloadedImage = ImageIO.read(in);
+            // TIFF file handling
+            if (ftpFile.getName().matches(TIFF_FILE_PATTERN)) {
+                BufferedImage downloadedImage = retrieveTiffImage(ftp, remoteFilePath, tiffImageIndex);
 
-                if (ftp.completePendingCommand()) {
+                if (downloadedImage != null) {
                     seriesImages.add(new SeriesImageLayer(seriesImageConfig, downloadedImage, getTimestamp(ftpFile)));
                 }
-            } catch (IOException ex) {
-                logger.error("Unable to retrieve " + remoteFilePath, ex);
-            } finally {
-                if (in != null) {
-                    try {
-                        in.close();
-                    } catch (IOException ex) {
-                        logger.warn("Unable to close stream", ex);
+            } else {
+                InputStream in = null;
+
+                try {
+                    in = ftp.retrieveFileStream(remoteFilePath);
+
+                    BufferedImage downloadedImage = ImageIO.read(in);
+
+                    if (ftp.completePendingCommand()) {
+                        seriesImages
+                                .add(new SeriesImageLayer(seriesImageConfig, downloadedImage, getTimestamp(ftpFile)));
+                    }
+                } catch (IOException ex) {
+                    logger.error("Unable to retrieve " + remoteFilePath + ": ", ex);
+                } finally {
+                    if (in != null) {
+                        try {
+                            in.close();
+                        } catch (IOException ex) {
+                            logger.warn("Unable to close stream: ", ex);
+                        }
                     }
                 }
             }
@@ -89,7 +110,7 @@ public class BomImageDownloader {
             if (layerConfig.getType() == ImageType.STATIC) {
                 String imagePath = layerConfig.getImagePath();
 
-                if (imagePath.matches("^(?i)(?:ftp|https?|file)://.*")) {
+                if (imagePath.matches(URL_PROTOCOL_PATTERN)) {
                     try {
                         logger.debug("Downloading {}", imagePath);
                         BufferedInputStream in = new BufferedInputStream(new URL(imagePath).openStream());
@@ -131,6 +152,86 @@ public class BomImageDownloader {
 
         return imageLayers;
 
+    }
+
+    private BufferedImage retrieveTiffImage(FTPClient ftp, String remoteFilePath, Integer tiffImageIndex) {
+        FileOutputStream out = null;
+        File tmpFile = null;
+
+        try {
+            tmpFile = File.createTempFile("bom-tiff", null);
+            out = new FileOutputStream(tmpFile);
+
+            try {
+                if (ftp.retrieveFile(remoteFilePath, out)) {
+                    return readTiff(remoteFilePath, tmpFile, tiffImageIndex);
+                }
+            } catch (IOException ex) {
+                logger.warn("Unable to download TIFF file " + remoteFilePath + " from server: ", ex);
+            }
+        } catch (IOException ex) {
+            logger.warn("Unable to create temporary file to for downloaded TIFF " + remoteFilePath + ": ", ex);
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException ex) {
+                    logger.warn("Unable to close output stream of temporary file: ", ex);
+                }
+            }
+
+            if (tmpFile != null) {
+                tmpFile.delete();
+            }
+        }
+
+        return null;
+    }
+
+    private BufferedImage readTiff(String filename, File file, Integer tiffImageIndex) {
+        ImageReader reader = null;
+        ImageInputStream imageInputStream = null;
+        try {
+            imageInputStream = ImageIO.createImageInputStream(file);
+            Iterator<ImageReader> readers = ImageIO.getImageReaders(imageInputStream);
+
+            if (!readers.hasNext()) {
+                logger.error("No reader for TIFF file!");
+                throw new IllegalArgumentException("No reader for TIFF file!");
+            }
+
+            reader = readers.next();
+            reader.setInput(imageInputStream);
+
+            ImageReadParam param = reader.getDefaultReadParam();
+
+            int numberOfImages = reader.getNumImages(false);
+            int imageIndex = tiffImageIndex == null ? numberOfImages - 1 : tiffImageIndex;
+
+            if (imageIndex < 0 && imageIndex >= numberOfImages) {
+                logger.warn("Invalid TIFF image index " + tiffImageIndex + " for file " + filename
+                        + ".  Valid is is >= 0 and < " + numberOfImages);
+                return null;
+            }
+
+            return reader.read(imageIndex, param);
+        } catch (IOException ex) {
+            logger.error("Unable to read TIFF image file " + filename, ex);
+        } finally {
+            if (reader != null) {
+                reader.dispose();
+            }
+
+            if (imageInputStream != null) {
+                try {
+                    imageInputStream.close();
+                } catch (IOException ex) {
+                    logger.error("Unable to close TIFF image file " + filename, ex);
+                }
+            }
+        }
+
+        return null;
     }
 
     private ZonedDateTime getTimestamp(FTPFile ftpFile) {

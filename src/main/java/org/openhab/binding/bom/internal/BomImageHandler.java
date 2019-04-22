@@ -195,7 +195,7 @@ public class BomImageHandler extends BaseThingHandler {
 
                 if (config.generatePngs || config.generateGif) {
                     List<SeriesImageLayer> seriesImageLayers = imageDownloader.retrieveSeriesImages(ftp,
-                            config.imagesPath, imageFtpFiles, imageLayerConfigs);
+                            config.imagesPath, imageFtpFiles, imageLayerConfigs, config.tiffImageIndex);
                     List<ImageLayer> imageLayers = imageDownloader.retrieveImages(ftp, config.transparenciesPath,
                             imageLayerConfigs);
                     generateImages(seriesImageLayers, imageLayers);

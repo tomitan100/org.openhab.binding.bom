@@ -33,6 +33,7 @@ public class BomImageConfiguration {
     public boolean gifImageLoop;
     public boolean embedLocalTimestamp;
     public String localTimestampProperties;
+    public Integer tiffImageIndex;
     public String imagePostProcessing;
     public String imageOutputPath;
     public String imageOutputFilename;

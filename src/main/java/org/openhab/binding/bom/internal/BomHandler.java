@@ -63,8 +63,7 @@ public class BomHandler extends BaseThingHandler {
             "unknown", "light-rain", "windy", "fog", "shower", "rain", "dusty", "frost", "snow", "storm",
             "light-shower", "heavy-shower", "cyclone" };
 
-    private final Pattern PATTERN_PRECIPITATION_RANAGE = Pattern
-            .compile("([\\d]*\\.?[\\d]+)\\D*([\\d]*\\.?[\\d]+)\\D*");
+    private final Pattern PATTERN_PRECIPITATION_RANGE = Pattern.compile("([\\d]*\\.?[\\d]+)\\D*([\\d]*\\.?[\\d]+)\\D*");
 
     private ScheduledFuture<?> observationRefreshJob;
 
@@ -313,7 +312,7 @@ public class BomHandler extends BaseThingHandler {
                                 forecast.setPrecipitation(childNode.getTextContent());
                                 break;
                             case "precipitation_range":
-                                Matcher matcher = PATTERN_PRECIPITATION_RANAGE
+                                Matcher matcher = PATTERN_PRECIPITATION_RANGE
                                         .matcher(childNode.getTextContent().trim());
 
                                 if (matcher.matches()) {

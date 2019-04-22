@@ -175,6 +175,12 @@
 				<default>format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 488</default>
 				<required>false</required>
 			</parameter>
+			<parameter name="tiffImageIndex" type="integer" required="false" min="1" groupName="imageGeneration">
+				<label>TIFF image index</label>
+				<description>The index of the image to use in a multi-image TIFF file. Index lower than two is not recommended.  Applicable to high-definition satellite (e.g Himarawi-8) images only.</description>
+				<default>3</default>
+				<required>false</required>
+			</parameter>
 			<parameter name="imagePostProcessing" type="text" required="false" groupName="imageGeneration">
 				<label>Image post-processing</label>
 				<description>Final image post-processing properties.  See documentation.</description>
