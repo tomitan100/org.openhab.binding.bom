@@ -660,7 +660,9 @@ _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, fo
 
 ### Satellite images configuration example
 
-<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/satellite.gif?raw=true" />
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/satellite.png?raw=true" />
+
+Click [here](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/doc/satellite.gif) for animated GIF version.
 
 _Image directory path:_ `/anon/gen/gms/`
 
@@ -794,6 +796,8 @@ __Notes:__
 ### High-definition Himawari-8 satellite images configuration example
 
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/himawari.png?raw=true" />
+
+Click [here](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/doc/himwari.gif) for animated GIF version.
 
 _Image directory path:_ `/anon/gen/gms/`
 
