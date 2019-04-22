@@ -36,6 +36,7 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
           <li><a href="#other-satellite-view-variations">Other satellite view variations</a></li>
         </ul>
       </li>
+      <li><a href="#high-definition-himawari-8-satellite-images-configuration-example">HIgh-definition Himawari-8 satellite images configuration example</a></li>
       <li><a href="#mean-sea-level-pressure-images-configuration-example">Mean sea-level pressure images configuration example</a></li> 
       <li><a href="#using-the-images">Using the images</a></li>
       <li><a href="#unsupported-charts">Unsupported charts</a></li>
@@ -436,6 +437,9 @@ Embed local timestamp in each image.
 __Local timestamp properties:__
 The timestamp's font face, font size, font weight, font decoration, font style, font colour and position configuration.
 
+__TIFF image index:__
+High-definition images, like from Himawari-8 satellite, are stored in a single TIFF image file.  There are five images in the file and each image is of varying resolution; zero being the highest resolution (6111x4167), four being lowest resolution (510x350).  The default image index is 3.  The use of image index 0 or 1 is not recommended unless your system can handle it.
+
 __Image post-processing:__
 Post processing applied to the final image.  See below for details.
 
@@ -787,6 +791,28 @@ __Notes:__
   </tr>
 </table>  
 
+### High-definition Himawari-8 satellite images configuration example
+
+<img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/himawari.png?raw=true" />
+
+_Image directory path:_ `/anon/gen/gms/`
+
+_Image product ID:_ `IDE00436`
+
+_Date range to search:_ `last_3h`
+
+_Image layers configuration:_ `image=${series}`
+
+_Embed local timestamp:_ `On`
+
+_Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#FFFFFF, font-weight=bold, position=510 510`
+
+_TIFF image index:_ `3`
+
+__Notes:__
+
+- Himawari-8 satellite images are in TIFF format and each file has 5 images of different resolution, from high (index 0) to low (4).  Index 3 is used.  Image index 0 or 1 is not recommended unless your system can handle it.  TIFF images are typically quite large.  Choosing the lower image resolution to use does not affect the download size, but the processing time.
+
 
 ### Mean sea-level pressure images configuration example
 
@@ -848,6 +874,9 @@ The screenshots below are examples of the binding in operation.  The screens use
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar-loop.gif?raw=true" />
 
 ## Change log
+
+__23/04/2019__
+- Added support for high-definition Himawari-8 satellite images (TIFF files).
 
 __20/04/2019__
 - Read timestamp from image filename instead of file.
