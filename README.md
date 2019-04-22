@@ -811,8 +811,7 @@ _TIFF image index:_ `3`
 
 __Notes:__
 
-- Himawari-8 satellite images are in TIFF format and each file has 5 images of different resolution, from high (index 0) to low (4).  Index 3 is used.  Image index 0 or 1 is not recommended unless your system can handle it.  TIFF images are typically quite large.  Choosing the lower image resolution to use does not affect the download size, but the processing time.
-
+- Himawari-8 satellite images are in TIFF format and each file has 5 images of different resolution, from high (index 0) to low (index 4).  In this example index 3 is used as it provides good-enough resolution without too much overhead.  Image index 0 or 1 is not recommended unless your system can handle it.
 
 ### Mean sea-level pressure images configuration example
 
