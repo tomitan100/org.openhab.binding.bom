@@ -16,11 +16,11 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
   <li><a href="#installation">Installation</a></li>
   <li><a href="#weather-observation-and-forecast-configuration">Weather observation and forecast configuration</a></li>
   <li><a href="#weather-forecast-icons">Weather forecast icons</a></li>
-  <li><a href="#bom-weather-items-mapping-file">BOM weather items mapping file</a></li>
+  <li><a href="#bom-weather-items-mapping-and-sitemap-files">BOM weather items mapping and sitemap files</a></li>
   <li><a href="#bom-images">BOM images</a></li>
   <li type="none">
     <ul type="disc">
-      <li><a href="#background">BOM images background</a></li>
+      <li><a href="#background-information">BOM images background information</a></li>
       <li><a href="#bom-images-configuration">BOM images configuration</a></li>
       <li><a href="#image-sources-configuration-fields">Image sources configuration fields</a></li>
       <li><a href="#image-generation-configuration-fields">Image generation configuration fields</a></li>
@@ -355,22 +355,27 @@ The following table shows all the possible icon names returned by the channel.
 </tr>
 </table>  
 
-## BOM Weather Items mapping file
+## BOM Weather Items mapping and sitemap files
 
 Creating items and linking them for eight days of forecasts can be tedious.  Provided below is the items mapping file that you can drop into the "items" folder, typically in `/etc/openhab2/items` under Linux or `C:\openHAB2\conf\items` under Windows.  The prerequisite is to name the BOM Thing ID "default".  If you would like name your BOM Thing ID as something else, edit the file and rename accordingly.
 
 https://github.com/tomitan100/org.openhab.binding.bom/raw/master/doc/bom.items
 
+Also provided below is the site map where you can modify and drop into `/etc/openhab2/sitemaps`.
+
+https://github.com/tomitan100/org.openhab.binding.bom/raw/master/doc/bom.sitemap
+
+
 ## BOM Images
 
-### Background
+### Background Information
 BOM images, like rain radar loop, are made up of a series of transparent PNG files, which get updated frequently as data is available.  These images contain only the transparent radar/satellite scans and do not include static images like the the background, topography, locations, borders, etc.  The final image is built by merging of all the images in the correct order.
 
 BOM Image binding can create the final image(s) of each radar/satellite image sequence/series as PNG's and/or animated GIF.  This makes it easier to display radar loops in the web browser without having to code in Javascript to loop through the image layers.
 
-By default, BOM Image binding retrieves rainfall radar sequence of images from ftp://ftp.bom.gov.au/anon/gen/radar/ and  transparancies from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/.
+By default, BOM Image binding retrieves rainfall radar sequence of images from (ftp://ftp.bom.gov.au/anon/gen/radar/) and  transparencies from (ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/).
 
-Take note that this binding can handle images other than rain radar images.  There are example configurations for other images in this document.
+Take note that this binding can handle images other than rain radar images.  There are example configurations for other images [here](https://github.com/tomitan100/org.openhab.binding.bom/edit/master/README.md#rain-radar-images-configuration-example).
 
 ## BOM Images Configuration
 
@@ -409,7 +414,7 @@ __Regular expression for image file filter:__
 Under some scenarios it is necessary to provide more specific filter by the use of regular expression.  This is an optional field.
 
 __Date range to search:__
-The date range to search.  Valid values are: `last_#d` (last # days), `last_#h` (last # hours), `last_#m` (last # minutes), `last_#s` (last # seconds), `today` and yesterday.  Specific start/end date is not yet supported. 
+The date range to search.  Valid values are: `last_#d` (last # days), `last_#h` (last # hours), `last_#m` (last # minutes), `last_#s` (last # seconds), `today` and `yesterday`.  e.g `last_15m` to include files only from the last 15 minutes.  Specific start/end date is not yet supported. 
 
 __Image layers configuration:__
 The list of layers to merge.  See below for details.
@@ -464,12 +469,11 @@ Explanation:
 - `${pid}` is the placeholder for product ID and gets replaced by the product ID you entered in the product ID field.  If your product ID is IDR701 then it is equivalent to type in image=IDR701.background.png as the first layer.
 - Layer 1 will be obscured by layer 2, layer 2 will be obscured by layer 3, and so on.
 - Layer 3, `image=${series}`, is the placeholder for the image series.
-- These images are sourced from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/ by default.  You can specify a URL instead to merge images from other sources.
+- These images are sourced from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/ by default (as specified in the _Transparencies directory path_).  You can specify a URL instead to include from externalr sources.
 - Other transparancies available from the BOM ftp site are: `${pid}.wthrDistricts.png`, `${pid}.waterways.png`, `${pid}.roads.png`, `${pid}.rail.png`, `${pid}.catchments.png`.  Including/excluding these transparencies is equivalent to toggling these feature on/off on the BOM website.
-- When using _Rainfall_ series, you must not use `${pid}` placeholder as there is no matching transparencies.  You will have to hard-code the name of the transparencies you would like to use..
-- It is possible to add image processing operation for each layer.  See below for more details.
+- It is possible to add image manipulation operations in each layer.  See below for more details.
 
-Supported image sources:
+Below is a list of supported external image sources:
 
 <table>
   <tr>
@@ -549,9 +553,9 @@ Currently there are five image manipulation operations available to each layer a
 
 __Example usage in a layer:__
 
-`image=${pid}.range.png, opacity=0.5`
+`image=${pid}.range.png, opacity=0.5;`
 
-`image=file:///C:/openhab2/html/location_24.png, opacity=0.5, position=218 148`
+`image=file:///C:/openhab2/html/location_24.png, opacity=0.5, position=218 148;`
 
 __Example usage in Image post-processing field:__
 
