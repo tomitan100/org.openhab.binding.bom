@@ -373,9 +373,9 @@ BOM images, like rain radar loop, are made up of a series of transparent PNG fil
 
 BOM Image binding can create the final image(s) of each radar/satellite image sequence/series as PNG's and/or animated GIF.  This makes it easier to display radar loops in the web browser without having to code in Javascript to loop through the image layers.
 
-By default, BOM Image binding retrieves rainfall radar sequence of images from (ftp://ftp.bom.gov.au/anon/gen/radar/) and  transparencies from (ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/).
+By default, BOM Image binding retrieves rainfall radar sequence of images from ftp://ftp.bom.gov.au/anon/gen/radar/ and  transparencies from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/.
 
-Take note that this binding can handle images other than rain radar images.  There are example configurations for other images [here](https://github.com/tomitan100/org.openhab.binding.bom/edit/master/README.md#rain-radar-images-configuration-example).
+Take note that this binding can handle images other than rain radar images.  There are example configurations for other images [here](#rain-radar-images-configuration-example).
 
 ## BOM Images Configuration
 
