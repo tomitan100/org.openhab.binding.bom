@@ -1,0 +1,113 @@
+sitemap bomWeather label="BOM Weather" {
+        Frame label="Today" {
+                Text    item=BOM_Day1_WeatherStation
+                Text    item=BOM_Day1_ObservationDateAndTime
+                Text    item=BOM_Day1_AirTemperature
+                Text    item=BOM_Day1_ApparentTemperature
+                Text    item=BOM_Day1_RelativeHumidityPercentage
+                Text    item=BOM_Day1_AtmosphericPressureHPa
+                Text    item=BOM_Day1_DewPoint
+                Text    item=BOM_Day1_WindDirection
+                Text    item=BOM_Day1_WindDirectionDegrees
+                Text    item=BOM_Day1_WindSpeedKnots
+                Text    item=BOM_Day1_WindSpeedKmH
+        }
+        Frame {
+                Text    item=BOM_Day1_ForecastDateAndTime
+                Text    item=BOM_Day1_ForecastIcon
+                Text    item=BOM_Day1_ForecastPrecis
+                Text    item=BOM_Day1_ForecastDescription
+                Text    item=BOM_Day1_MinimumTemperature
+                Text    item=BOM_Day1_MaximumTemperature
+                Text    item=BOM_Day1_ProbabilityOfPrecipitation
+                Text    item=BOM_Day1_CurrentRainfallMm
+                Text    item=BOM_Day1_Rainfall24HourMm
+                Text    item=BOM_Day1_MinimumPrecipitation
+                Text    item=BOM_Day1_MaximumPrecipitation
+                Text    item=BOM_Day1_UVAlert
+        }
+        Frame {
+                Text    item=BOM_Day2_ForecastDateAndTime
+                Text    item=BOM_Day2_ForecastIcon
+                Text    item=BOM_Day2_ForecastPrecis
+                Text    item=BOM_Day2_ForecastDescription
+                Text    item=BOM_Day2_MinimumTemperature
+                Text    item=BOM_Day2_MaximumTemperature
+                Text    item=BOM_Day2_ProbabilityOfPrecipitation
+                Text    item=BOM_Day2_MinimumPrecipitation
+                Text    item=BOM_Day2_MaximumPrecipitation
+                Text    item=BOM_Day2_UVAlert
+        }
+        Frame {
+                Text    item=BOM_Day3_ForecastDateAndTime
+                Text    item=BOM_Day3_ForecastIcon
+                Text    item=BOM_Day3_ForecastPrecis
+                Text    item=BOM_Day3_ForecastDescription
+                Text    item=BOM_Day3_MinimumTemperature
+                Text    item=BOM_Day3_MaximumTemperature
+                Text    item=BOM_Day3_ProbabilityOfPrecipitation
+                Text    item=BOM_Day3_MinimumPrecipitation
+                Text    item=BOM_Day3_MaximumPrecipitation
+                Text    item=BOM_Day3_UVAlert
+        }
+        Frame {
+                Text    item=BOM_Day4_ForecastDateAndTime
+                Text    item=BOM_Day4_ForecastIcon
+                Text    item=BOM_Day4_ForecastPrecis
+                Text    item=BOM_Day4_ForecastDescription
+                Text    item=BOM_Day4_MinimumTemperature
+                Text    item=BOM_Day4_MaximumTemperature
+                Text    item=BOM_Day4_ProbabilityOfPrecipitation
+                Text    item=BOM_Day4_MinimumPrecipitation
+                Text    item=BOM_Day4_MaximumPrecipitation
+                Text    item=BOM_Day4_UVAlert
+        }
+        Frame {
+                Text    item=BOM_Day5_ForecastDateAndTime
+                Text    item=BOM_Day5_ForecastIcon
+                Text    item=BOM_Day5_ForecastPrecis
+                Text    item=BOM_Day5_ForecastDescription
+                Text    item=BOM_Day5_MinimumTemperature
+                Text    item=BOM_Day5_MaximumTemperature
+                Text    item=BOM_Day5_ProbabilityOfPrecipitation
+                Text    item=BOM_Day5_MinimumPrecipitation
+                Text    item=BOM_Day5_MaximumPrecipitation
+                Text    item=BOM_Day5_UVAlert
+        }
+        Frame {
+                Text    item=BOM_Day6_ForecastDateAndTime
+                Text    item=BOM_Day6_ForecastIcon
+                Text    item=BOM_Day6_ForecastPrecis
+                Text    item=BOM_Day6_ForecastDescription
+                Text    item=BOM_Day6_MinimumTemperature
+                Text    item=BOM_Day6_MaximumTemperature
+                Text    item=BOM_Day6_ProbabilityOfPrecipitation
+                Text    item=BOM_Day6_MinimumPrecipitation
+                Text    item=BOM_Day6_MaximumPrecipitation
+                Text    item=BOM_Day6_UVAlert
+        }
+        Frame {
+                Text    item=BOM_Day7_ForecastDateAndTime
+                Text    item=BOM_Day7_ForecastIcon
+                Text    item=BOM_Day7_ForecastPrecis
+                Text    item=BOM_Day7_ForecastDescription
+                Text    item=BOM_Day7_MinimumTemperature
+                Text    item=BOM_Day7_MaximumTemperature
+                Text    item=BOM_Day7_ProbabilityOfPrecipitation
+                Text    item=BOM_Day7_MinimumPrecipitation
+                Text    item=BOM_Day7_MaximumPrecipitation
+                Text    item=BOM_Day7_UVAlert
+        }
+        Frame {
+                Text    item=BOM_Day8_ForecastDateAndTime
+                Text    item=BOM_Day8_ForecastIcon
+                Text    item=BOM_Day8_ForecastPrecis
+                Text    item=BOM_Day8_ForecastDescription
+                Text    item=BOM_Day8_MinimumTemperature
+                Text    item=BOM_Day8_MaximumTemperature
+                Text    item=BOM_Day8_ProbabilityOfPrecipitation
+                Text    item=BOM_Day8_MinimumPrecipitation
+                Text    item=BOM_Day8_MaximumPrecipitation
+                Text    item=BOM_Day8_UVAlert
+        }
+}
