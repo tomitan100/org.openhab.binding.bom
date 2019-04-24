@@ -402,13 +402,22 @@ public class BomHandler extends BaseThingHandler {
             XPath xPath = XPathFactory.newInstance().newXPath();
 
             String areaXPath = "/product/forecast/area[@aac='" + config.areaId + "']";
-            Node areaNode = (Node) xPath.compile(areaXPath).evaluate(xmlDocument, XPathConstants.NODE);
+            String targetAreaXPath;
 
-            String parentAreaCode = areaNode.getAttributes().getNamedItem("parent-aac").getNodeValue();
-            String parentAreaXPath = "/product/forecast/area[@aac='" + parentAreaCode + "']";
+            // Test for existence of forecast text in the are node list;
+            String areaForecast = getString(xmlDocument, xPath,
+                    areaXPath + "/forecast-period[1]/text[@type='forecast']");
 
-            NodeList nodes = (NodeList) xPath.compile(parentAreaXPath + "/forecast-period").evaluate(xmlDocument,
-                    XPathConstants.NODESET);
+            if (StringUtils.isNotBlank(areaForecast)) {
+                targetAreaXPath = areaXPath + "/forecast-period";
+            } else {
+                // Get nodes from parent
+                Node areaNode = (Node) xPath.compile(areaXPath).evaluate(xmlDocument, XPathConstants.NODE);
+                String parentAreaCode = areaNode.getAttributes().getNamedItem("parent-aac").getNodeValue();
+                targetAreaXPath = "/product/forecast/area[@aac='" + parentAreaCode + "']/forecast-period";
+            }
+
+            NodeList nodes = (NodeList) xPath.compile(targetAreaXPath).evaluate(xmlDocument, XPathConstants.NODESET);
 
             if (nodes != null && nodes.getLength() > 0) {
                 int idx = 0;
@@ -466,7 +475,6 @@ public class BomHandler extends BaseThingHandler {
     }
 
     private void updateForecastState(String channelGroupId, Forecast forecast) {
-
         getThing().getChannelsOfGroup(channelGroupId).stream().forEach(channel -> {
             switch (channel.getUID().getIdWithoutGroup()) {
                 case BomBindingConstants.CHANNEL_ICON:
