@@ -465,13 +465,13 @@ For example (taken from default configuration):
 `image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png`
 
 Explanation:
-- There are six layers that make up the final image: legend, background, topography, ${series} image, locations and range.
+- There are six layers of images that make up the final image: legend, background, topography overlay, ${series} image, locations transparency overlay and range transparency overlay.
 - `${pid}` is the placeholder for product ID and gets replaced by the product ID you entered in the product ID field.  If your product ID is IDR701 then it is equivalent to type in image=IDR701.background.png as the first layer.
 - Layer 1 will be obscured by layer 2, layer 2 will be obscured by layer 3, and so on.
 - Layer 3, `image=${series}`, is the placeholder for the image series.
-- These images are sourced from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/ by default (as specified in the _Transparencies directory path_).  You can specify a URL instead to include from externalr sources.
+- The images, except for the series images, are sourced from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/ by default (as defined in the _Transparencies directory path_).  You can specify a URL instead to include images from external sources.
 - Other transparancies available from the BOM ftp site are: `${pid}.wthrDistricts.png`, `${pid}.waterways.png`, `${pid}.roads.png`, `${pid}.rail.png`, `${pid}.catchments.png`.  Including/excluding these transparencies is equivalent to toggling these feature on/off on the BOM website.
-- It is possible to add image manipulation operations in each layer.  See below for more details.
+- It is possible to add image manipulation operations to each layer.  See below for more details.
 
 Below is a list of supported external image sources:
 
@@ -632,8 +632,8 @@ _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, adjust-timestamp=-5
 
 __Notes:__
 - Timestamp is adjusted to minus 5 minutes to match the UTC time overlay.
-- Opacity added to range image.
-- Location marker source provided, opacity set to 0.8 and positioned to the desired location.
+- Opacity is added to range image overlay.
+- The use of location marker with its opacity set to 0.8 and positioned to the desired location.
 
 ### Doppler wind images configuration example
 
@@ -684,7 +684,7 @@ _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, fo
 
 __Notes:__
 
-- Regular expression is required in this case because product ID also matches unwanted files `IDE00135.radar.*.jpg`.
+- Regular expression is required because the product ID used to search for files also matches unrelated files `IDE00135.radar.*.jpg`.
 - Date range is set to the past 6 hours as there are a large number of files spanning ~20 days.
 
 #### Other satellite view variations
