@@ -36,7 +36,7 @@ This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather fo
           <li><a href="#other-satellite-view-variations">Other satellite view variations</a></li>
         </ul>
       </li>
-      <li><a href="#high-definition-himawari-8-satellite-images-configuration-example">HIgh-definition Himawari-8 satellite images configuration example</a></li>
+      <li><a href="#high-definition-himawari-8-satellite-images-configuration-example">High-definition Himawari-8 satellite images configuration example</a></li>
       <li><a href="#mean-sea-level-pressure-images-configuration-example">Mean sea-level pressure images configuration example</a></li> 
       <li><a href="#using-the-images">Using the images</a></li>
       <li><a href="#unsupported-charts">Unsupported charts</a></li>
