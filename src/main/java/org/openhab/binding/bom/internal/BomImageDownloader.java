@@ -85,7 +85,7 @@ public class BomImageDownloader {
                         seriesImages
                                 .add(new SeriesImageLayer(seriesImageConfig, downloadedImage, getTimestamp(ftpFile)));
                     }
-                } catch (IOException ex) {
+                } catch (IOException | IllegalArgumentException ex) {
                     logger.error("Unable to retrieve " + remoteFilePath + ": ", ex);
                 } finally {
                     if (in != null) {
