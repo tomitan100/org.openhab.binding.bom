@@ -4,13 +4,12 @@
 
     <feature name="openhab-binding-bom" description="bom Binding" version="${project.version}">
         <feature>openhab-runtime-base</feature>
-        <bundle dependency="true">mvn:commons-net/commons-net/3.6</bundle >
-        <bundle dependency="true">mvn:org.apache.commons/commons-lang3/3.9</bundle>
+        <bundle dependency="true">wrap:mvn:com.twelvemonkeys.common/common-io/3.4.2</bundle>
+        <bundle dependency="true">wrap:mvn:com.twelvemonkeys.common/common-lang/3.4.2</bundle>
+        <bundle dependency="true">wrap:mvn:com.twelvemonkeys.common/common-image/3.4.2</bundle>
         <bundle dependency="true">wrap:mvn:com.twelvemonkeys.imageio/imageio-core/3.4.2</bundle>
         <bundle dependency="true">wrap:mvn:com.twelvemonkeys.imageio/imageio-tiff/3.4.2</bundle>
         <bundle dependency="true">wrap:mvn:com.twelvemonkeys.imageio/imageio-metadata/3.4.2</bundle>
-        <bundle dependency="true">wrap:mvn:com.twelvemonkeys.common/common-io/3.4.2</bundle>
-        <bundle dependency="true">wrap:mvn:com.twelvemonkeys.common/common-lang/3.4.2</bundle>
         <bundle start-level="80">mvn:org.openhab.addons.bundles/org.openhab.binding.bom/${project.version}</bundle>
     </feature>
 </features>

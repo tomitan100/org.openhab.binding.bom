@@ -15,18 +15,6 @@
 
 	<dependencies>
 		<!--dependency>
-			<groupId>commons-net</groupId>
-			<artifactId>commons-net</artifactId>
-			<version>3.6</version>
-            <scope>provided</scope>
-		</dependency-->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.9</version>
-            <scope>provided</scope>
-		</dependency>
-		<!--dependency>
 			<groupId>com.twelvemonkeys.imageio</groupId>
 			<artifactId>imageio-core</artifactId>
 			<version>3.4.2</version>
