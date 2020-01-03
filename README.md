@@ -882,6 +882,9 @@ The screenshots below are examples of the binding in operation.  The screens use
 
 ## Change log
 
+__03/01/2020__
+- Fixed retry of image generation if images are missing on the FTP site.
+
 __23/04/2019__
 - Added support for high-definition Himawari-8 satellite images (TIFF files).
 
