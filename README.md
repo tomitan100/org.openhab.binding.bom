@@ -114,7 +114,7 @@ For Eclipse SmartHome install from https://marketplace.eclipse.org/content/austr
 ### Manual installation
 Download jar below and copy to the openHAB `addons` directory.
 
-### Latest version
+#### Latest version
 Version 2.5.9 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.9-SNAPSHOT.jar)
 
 #### Older versions
