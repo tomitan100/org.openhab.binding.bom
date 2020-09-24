@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2019 Contributors to the openHAB project
+ * Copyright (c) 2010-2020 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -53,7 +53,7 @@ public class ImageUtils {
         try {
             img = ImageIO.read(new FileInputStream(path));
         } catch (Exception ex) {
-            logger.error("Unable to load image \"" + path + "\"", ex);
+            logger.error("Unable to load image \"{}\"", path, ex);
         }
 
         return img;

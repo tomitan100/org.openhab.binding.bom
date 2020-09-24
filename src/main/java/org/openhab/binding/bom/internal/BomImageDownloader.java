@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2019 Contributors to the openHAB project
+ * Copyright (c) 2010-2020 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -86,7 +86,7 @@ public class BomImageDownloader {
                                 .add(new SeriesImageLayer(seriesImageConfig, downloadedImage, getTimestamp(ftpFile)));
                     }
                 } catch (IOException | IllegalArgumentException ex) {
-                    logger.error("Unable to retrieve " + remoteFilePath + ": ", ex);
+                    logger.error("Unable to retrieve {}", remoteFilePath, ex);
                 } finally {
                     if (in != null) {
                         try {
@@ -117,7 +117,7 @@ public class BomImageDownloader {
                         BufferedImage downloadedImage = ImageIO.read(in);
                         imageLayers.add(new ImageLayer(layerConfig, downloadedImage));
                     } catch (IOException ex) {
-                        logger.warn("Unable to retrieve " + imagePath, ex);
+                        logger.warn("Unable to retrieve {}", imagePath, ex);
                     }
                 } else {
                     InputStream in = null;
@@ -131,16 +131,16 @@ public class BomImageDownloader {
                         if (ftp.completePendingCommand()) {
                             imageLayers.add(new ImageLayer(layerConfig, downloadedImage));
                         } else {
-                            logger.warn("Unable to retrieve {}" + remoteFilePath);
+                            logger.warn("Unable to retrieve {}", remoteFilePath);
                         }
                     } catch (IOException ex) {
-                        logger.warn("Unable to retrieve " + remoteFilePath, ex);
+                        logger.warn("Unable to retrieve {}", remoteFilePath, ex);
                     } finally {
                         if (in != null) {
                             try {
                                 in.close();
                             } catch (IOException ex) {
-                                logger.warn("Unable to close image stream " + remoteFilePath, ex);
+                                logger.warn("Unable to close image stream {}", remoteFilePath, ex);
                             }
                         }
                     }
@@ -151,7 +151,6 @@ public class BomImageDownloader {
         });
 
         return imageLayers;
-
     }
 
     private BufferedImage retrieveTiffImage(FTPClient ftp, String remoteFilePath, Integer tiffImageIndex) {
@@ -167,10 +166,10 @@ public class BomImageDownloader {
                     return readTiff(remoteFilePath, tmpFile, tiffImageIndex);
                 }
             } catch (IOException ex) {
-                logger.warn("Unable to download TIFF file " + remoteFilePath + " from server: ", ex);
+                logger.warn("Unable to download TIFF file {} from server", remoteFilePath, ex);
             }
         } catch (IOException ex) {
-            logger.warn("Unable to create temporary file to for downloaded TIFF " + remoteFilePath + ": ", ex);
+            logger.warn("Unable to create temporary file to for downloaded TIFF {}", remoteFilePath, ex);
         } finally {
             if (out != null) {
                 try {
@@ -209,14 +208,14 @@ public class BomImageDownloader {
             int imageIndex = tiffImageIndex == null ? numberOfImages - 1 : tiffImageIndex;
 
             if (imageIndex < 0 && imageIndex >= numberOfImages) {
-                logger.warn("Invalid TIFF image index " + tiffImageIndex + " for file " + filename
-                        + ".  Valid is is >= 0 and < " + numberOfImages);
+                logger.warn("Invalid TIFF image index {} for file {}. Valid is is >= 0 and < {}", tiffImageIndex,
+                        filename, numberOfImages);
                 return null;
             }
 
             return reader.read(imageIndex, param);
         } catch (IOException ex) {
-            logger.error("Unable to read TIFF image file " + filename, ex);
+            logger.error("Unable to read TIFF image file {}", filename, ex);
         } finally {
             if (reader != null) {
                 reader.dispose();
@@ -226,7 +225,7 @@ public class BomImageDownloader {
                 try {
                     imageInputStream.close();
                 } catch (IOException ex) {
-                    logger.error("Unable to close TIFF image file " + filename, ex);
+                    logger.error("Unable to close TIFF image file {}", filename, ex);
                 }
             }
         }

@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2019 Contributors to the openHAB project
+ * Copyright (c) 2010-2020 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -142,7 +142,7 @@ public class BomHandler extends BaseThingHandler {
         InputStream inputStream = null;
 
         try {
-            logger.debug("Retrieving observation data from " + observationFtpPath);
+            logger.debug("Retrieving observation data from {}", observationFtpPath);
 
             URLConnection urlConnection = new URL(observationFtpPath).openConnection();
             inputStream = urlConnection.getInputStream();
@@ -340,7 +340,7 @@ public class BomHandler extends BaseThingHandler {
                 logger.warn("There is no precis forecast found for area ID {} in {}", config.areaId, forecastFtpPath);
             }
         } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException ex) {
-            logger.error("Unable to process precis forecast data from " + forecastFtpPath, ex);
+            logger.error("Unable to process precis forecast data from {}", forecastFtpPath, ex);
             updateStatus(ThingStatus.OFFLINE);
         } finally {
             if (inputStream != null) {
@@ -461,7 +461,7 @@ public class BomHandler extends BaseThingHandler {
                         forecastFtpPath);
             }
         } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException ex) {
-            logger.error("Unable to process precis forecast data from " + forecastFtpPath, ex);
+            logger.error("Unable to process precis forecast data from {}", forecastFtpPath, ex);
             updateStatus(ThingStatus.OFFLINE);
         } finally {
             if (inputStream != null) {

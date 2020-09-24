@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<thing:thing-descriptions bindingId="bom"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
-		xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+<thing:thing-descriptions bindingId="bom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
 
 	<thing-type id="weather">
 		<label>BOM</label>
 		<description>Australian Bureau of Meteorology Weather Forecast Binding</description>
 
 		<channel-groups>
-			<channel-group id="day1" typeId="day1Group" />
-			<channel-group id="day2" typeId="day2Group" />
-			<channel-group id="day3" typeId="day3Group" />
-			<channel-group id="day4" typeId="day4Group" />
-			<channel-group id="day5" typeId="day5Group" />
-			<channel-group id="day6" typeId="day6Group" />
-			<channel-group id="day7" typeId="day7Group" />
-			<channel-group id="day8" typeId="day8Group" />
+			<channel-group id="day1" typeId="day1Group"/>
+			<channel-group id="day2" typeId="day2Group"/>
+			<channel-group id="day3" typeId="day3Group"/>
+			<channel-group id="day4" typeId="day4Group"/>
+			<channel-group id="day5" typeId="day5Group"/>
+			<channel-group id="day6" typeId="day6Group"/>
+			<channel-group id="day7" typeId="day7Group"/>
+			<channel-group id="day8" typeId="day8Group"/>
 		</channel-groups>
 
 		<config-description>
@@ -60,7 +59,8 @@
 			</parameter>
 			<parameter name="retainMinMaxTemperature" type="boolean" required="false">
 				<label>Retain minimum and maximum temperature</label>
-				<description>Retain minimum temperature for today, use minimum/maximum temperature of tomorrow if data does not exist.</description>
+				<description>Retain minimum temperature for today, use minimum/maximum temperature of tomorrow if data does not
+					exist.</description>
 				<default>true</default>
 				<required>false</required>
 			</parameter>
@@ -70,26 +70,26 @@
 	<thing-type id="image">
 		<label>BOM Image</label>
 		<description>Australian Bureau of Meteorology Image Monitor and Generator</description>
-		
+
 		<channels>
-			<channel id="lastCheckDateTime" typeId="lastCheckDateTime" />
-			<channel id="lastUpdateDateTime" typeId="lastUpdateDateTime" />
-			<channel id="sourceImages" typeId="sourceImages" />
-			<channel id="generatedGif" typeId="generatedGif" />
-			<channel id="generatedPngs" typeId="generatedPngs" />
+			<channel id="lastCheckDateTime" typeId="lastCheckDateTime"/>
+			<channel id="lastUpdateDateTime" typeId="lastUpdateDateTime"/>
+			<channel id="sourceImages" typeId="sourceImages"/>
+			<channel id="generatedGif" typeId="generatedGif"/>
+			<channel id="generatedPngs" typeId="generatedPngs"/>
 		</channels>
-		
+
 		<config-description>
 			<parameter-group name="imageSources">
 				<label>Image Sources</label>
 				<description>BOM Image Sources</description>
 			</parameter-group>
-			
+
 			<parameter-group name="imageGeneration">
 				<label>Image Generation</label>
 				<description>Image generation configuration</description>
 			</parameter-group>
-		
+
 			<parameter name="ftpServer" type="text" required="true" groupName="imageSources">
 				<label>FTP server</label>
 				<description>FTP path of the directory containing the images. Default is ftp://ftp.bom.gov.au.</description>
@@ -114,7 +114,7 @@
 				<default>/anon/gen/radar_transparencies/</default>
 				<required>false</required>
 			</parameter>
-				<parameter name="filenameRegex" type="text" required="false" groupName="imageSources">
+			<parameter name="filenameRegex" type="text" required="false" groupName="imageSources">
 				<label>Regular expression for image file filter</label>
 				<description>Use regular expression to match image files. This is optional.</description>
 				<default></default>
@@ -122,19 +122,20 @@
 			</parameter>
 			<parameter name="dateRange" type="text" required="false" groupName="imageSources">
 				<label>Date range to search</label>
-				<description>The date range of files to process.  Default is last_24h (last 24 hours).</description>
+				<description>The date range of files to process. Default is last_24h (last 24 hours).</description>
 				<default>last_24h</default>
 				<required>false</required>
 			</parameter>
 			<parameter name="layersConfiguration" type="text" required="false" groupName="imageSources">
 				<label>Image layers configuration</label>
-				<description>The image layers configuration.  See documentation.</description>
-				<default>image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png</default>
+				<description>The image layers configuration. See documentation.</description>
+				<default>image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series};
+					image=${pid}.locations.png; image=${pid}.range.png</default>
 				<required>false</required>
 			</parameter>
 			<parameter name="monitoringInterval" type="integer" required="true" min="1" groupName="imageSources">
 				<label>Monitoring interval in minutes</label>
-				<description>The interval to check for new images in minutes.  Default is 15 minutes.</description>
+				<description>The interval to check for new images in minutes. Default is 15 minutes.</description>
 				<default>15</default>
 				<required>false</required>
 			</parameter>
@@ -151,9 +152,10 @@
 				<default>true</default>
 				<required>false</required>
 			</parameter>
-			<parameter name="gifImageDelay" type="integer" required="false" min="100" max="100000" groupName="imageGeneration">
+			<parameter name="gifImageDelay" type="integer" required="false" min="100" max="100000"
+				groupName="imageGeneration">
 				<label>GIF image delay in ms</label>
-				<description>The delay between each GIF image.  Default is 1000 ms (1 second).</description>
+				<description>The delay between each GIF image. Default is 1000 ms (1 second).</description>
 				<default>1000</default>
 				<required>false</required>
 			</parameter>
@@ -167,23 +169,25 @@
 				<label>Embed local timestamp</label>
 				<description>Embed local timestamp into each image.</description>
 				<default>false</default>
-			<required>false</required>
+				<required>false</required>
 			</parameter>
 			<parameter name="localTimestampProperties" type="text" required="false" groupName="imageGeneration">
 				<label>Local timestamp properties</label>
 				<description>Local time properties configuration.</description>
-				<default>format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold, position=256 488</default>
+				<default>format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#080808, font-weight=bold,
+					position=256 488</default>
 				<required>false</required>
 			</parameter>
 			<parameter name="tiffImageIndex" type="integer" required="false" min="1" groupName="imageGeneration">
 				<label>TIFF image index</label>
-				<description>The index of the image to use in a multi-image TIFF file. Index lower than two is not recommended.  Applicable to high-definition satellite (e.g Himarawi-8) images only.</description>
+				<description>The index of the image to use in a multi-image TIFF file. Index lower than two is not recommended.
+					Applicable to high-definition satellite (e.g Himarawi-8) images only.</description>
 				<default>3</default>
 				<required>false</required>
 			</parameter>
 			<parameter name="imagePostProcessing" type="text" required="false" groupName="imageGeneration">
 				<label>Image post-processing</label>
-				<description>Final image post-processing properties.  See documentation.</description>
+				<description>Final image post-processing properties. See documentation.</description>
 				<required>false</required>
 			</parameter>
 			<parameter name="imageOutputPath" type="text" required="false" groupName="imageGeneration">
@@ -194,7 +198,7 @@
 			</parameter>
 			<parameter name="imageOutputFilename" type="text" required="false" groupName="imageGeneration">
 				<label>Image output filename</label>
-				<description>The name of the generated image filename.  Do not include file extension. e.g ${pid} or radar-512km.</description>
+				<description>The name of the generated image filename. Do not include file extension. e.g ${pid} or radar-512km.</description>
 				<default>${pid}</default>
 				<required>false</required>
 			</parameter>
@@ -205,29 +209,29 @@
 		<label>Today's Forecast</label>
 		<description>Today's forecast information.</description>
 		<channels>
-			<channel id="weatherStation" typeId="weatherStation" />
-			<channel id="observationDateTime" typeId="observationDateTime" />
-			<channel id="dateTime" typeId="dateTime" />
-			<channel id="icon" typeId="icon" />
-			<channel id="precis" typeId="precis" />
-			<channel id="forecast" typeId="forecast" />
-			<channel id="minTemperature" typeId="minTemperature" />
-			<channel id="maxTemperature" typeId="maxTemperature" />
-			<channel id="precipitation" typeId="precipitation" />
-			<channel id="minPrecipitation" typeId="minPrecipitation" />
-			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
-			<channel id="uvAlert" typeId="uvAlert" />
-			<channel id="apparentTemperature" typeId="apparentTemperature" />
-			<channel id="airTemperature" typeId="airTemperature" />
-			<channel id="dewPoint" typeId="dewPoint" />
-			<channel id="relativeHumidity" typeId="relativeHumidity" />
-			<channel id="pressure" typeId="pressure" />
-			<channel id="windDirection" typeId="windDirection" />
-			<channel id="windDirectionDegrees" typeId="windDirectionDegrees" />
-			<channel id="windSpeedKmh" typeId="windSpeedKmh" />
-			<channel id="windSpeedKnots" typeId="windSpeedKnots" />
-			<channel id="rainfall" typeId="rainfall" />
-			<channel id="rainfall24Hour" typeId="rainfall24Hour" />
+			<channel id="weatherStation" typeId="weatherStation"/>
+			<channel id="observationDateTime" typeId="observationDateTime"/>
+			<channel id="dateTime" typeId="dateTime"/>
+			<channel id="icon" typeId="icon"/>
+			<channel id="precis" typeId="precis"/>
+			<channel id="forecast" typeId="forecast"/>
+			<channel id="minTemperature" typeId="minTemperature"/>
+			<channel id="maxTemperature" typeId="maxTemperature"/>
+			<channel id="precipitation" typeId="precipitation"/>
+			<channel id="minPrecipitation" typeId="minPrecipitation"/>
+			<channel id="maxPrecipitation" typeId="maxPrecipitation"/>
+			<channel id="uvAlert" typeId="uvAlert"/>
+			<channel id="apparentTemperature" typeId="apparentTemperature"/>
+			<channel id="airTemperature" typeId="airTemperature"/>
+			<channel id="dewPoint" typeId="dewPoint"/>
+			<channel id="relativeHumidity" typeId="relativeHumidity"/>
+			<channel id="pressure" typeId="pressure"/>
+			<channel id="windDirection" typeId="windDirection"/>
+			<channel id="windDirectionDegrees" typeId="windDirectionDegrees"/>
+			<channel id="windSpeedKmh" typeId="windSpeedKmh"/>
+			<channel id="windSpeedKnots" typeId="windSpeedKnots"/>
+			<channel id="rainfall" typeId="rainfall"/>
+			<channel id="rainfall24Hour" typeId="rainfall24Hour"/>
 		</channels>
 	</channel-group-type>
 
@@ -235,16 +239,16 @@
 		<label>Tomorrow's Forecast</label>
 		<description>Tomorrow's forecast information.</description>
 		<channels>
-			<channel id="dateTime" typeId="dateTime" />
-			<channel id="icon" typeId="icon" />
-			<channel id="precis" typeId="precis" />
-			<channel id="forecast" typeId="forecast" />
-			<channel id="minTemperature" typeId="minTemperature" />
-			<channel id="maxTemperature" typeId="maxTemperature" />
-			<channel id="precipitation" typeId="precipitation" />
-			<channel id="minPrecipitation" typeId="minPrecipitation" />
-			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
-			<channel id="uvAlert" typeId="uvAlert" />
+			<channel id="dateTime" typeId="dateTime"/>
+			<channel id="icon" typeId="icon"/>
+			<channel id="precis" typeId="precis"/>
+			<channel id="forecast" typeId="forecast"/>
+			<channel id="minTemperature" typeId="minTemperature"/>
+			<channel id="maxTemperature" typeId="maxTemperature"/>
+			<channel id="precipitation" typeId="precipitation"/>
+			<channel id="minPrecipitation" typeId="minPrecipitation"/>
+			<channel id="maxPrecipitation" typeId="maxPrecipitation"/>
+			<channel id="uvAlert" typeId="uvAlert"/>
 		</channels>
 	</channel-group-type>
 
@@ -252,16 +256,16 @@
 		<label>Day 3 Forecast</label>
 		<description>Day 3 forecast information.</description>
 		<channels>
-			<channel id="dateTime" typeId="dateTime" />
-			<channel id="icon" typeId="icon" />
-			<channel id="precis" typeId="precis" />
-			<channel id="forecast" typeId="forecast" />
-			<channel id="minTemperature" typeId="minTemperature" />
-			<channel id="maxTemperature" typeId="maxTemperature" />
-			<channel id="precipitation" typeId="precipitation" />
-			<channel id="minPrecipitation" typeId="minPrecipitation" />
-			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
-			<channel id="uvAlert" typeId="uvAlert" />
+			<channel id="dateTime" typeId="dateTime"/>
+			<channel id="icon" typeId="icon"/>
+			<channel id="precis" typeId="precis"/>
+			<channel id="forecast" typeId="forecast"/>
+			<channel id="minTemperature" typeId="minTemperature"/>
+			<channel id="maxTemperature" typeId="maxTemperature"/>
+			<channel id="precipitation" typeId="precipitation"/>
+			<channel id="minPrecipitation" typeId="minPrecipitation"/>
+			<channel id="maxPrecipitation" typeId="maxPrecipitation"/>
+			<channel id="uvAlert" typeId="uvAlert"/>
 		</channels>
 	</channel-group-type>
 
@@ -269,16 +273,16 @@
 		<label>Day 4 Forecast</label>
 		<description>Day 4 forecast information.</description>
 		<channels>
-			<channel id="dateTime" typeId="dateTime" />
-			<channel id="icon" typeId="icon" />
-			<channel id="precis" typeId="precis" />
-			<channel id="forecast" typeId="forecast" />
-			<channel id="minTemperature" typeId="minTemperature" />
-			<channel id="maxTemperature" typeId="maxTemperature" />
-			<channel id="precipitation" typeId="precipitation" />
-			<channel id="minPrecipitation" typeId="minPrecipitation" />
-			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
-			<channel id="uvAlert" typeId="uvAlert" />
+			<channel id="dateTime" typeId="dateTime"/>
+			<channel id="icon" typeId="icon"/>
+			<channel id="precis" typeId="precis"/>
+			<channel id="forecast" typeId="forecast"/>
+			<channel id="minTemperature" typeId="minTemperature"/>
+			<channel id="maxTemperature" typeId="maxTemperature"/>
+			<channel id="precipitation" typeId="precipitation"/>
+			<channel id="minPrecipitation" typeId="minPrecipitation"/>
+			<channel id="maxPrecipitation" typeId="maxPrecipitation"/>
+			<channel id="uvAlert" typeId="uvAlert"/>
 		</channels>
 	</channel-group-type>
 
@@ -286,16 +290,16 @@
 		<label>Day 5 Forecast</label>
 		<description>Day 5 forecast information.</description>
 		<channels>
-			<channel id="dateTime" typeId="dateTime" />
-			<channel id="icon" typeId="icon" />
-			<channel id="precis" typeId="precis" />
-			<channel id="forecast" typeId="forecast" />
-			<channel id="minTemperature" typeId="minTemperature" />
-			<channel id="maxTemperature" typeId="maxTemperature" />
-			<channel id="precipitation" typeId="precipitation" />
-			<channel id="minPrecipitation" typeId="minPrecipitation" />
-			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
-			<channel id="uvAlert" typeId="uvAlert" />
+			<channel id="dateTime" typeId="dateTime"/>
+			<channel id="icon" typeId="icon"/>
+			<channel id="precis" typeId="precis"/>
+			<channel id="forecast" typeId="forecast"/>
+			<channel id="minTemperature" typeId="minTemperature"/>
+			<channel id="maxTemperature" typeId="maxTemperature"/>
+			<channel id="precipitation" typeId="precipitation"/>
+			<channel id="minPrecipitation" typeId="minPrecipitation"/>
+			<channel id="maxPrecipitation" typeId="maxPrecipitation"/>
+			<channel id="uvAlert" typeId="uvAlert"/>
 		</channels>
 	</channel-group-type>
 
@@ -303,16 +307,16 @@
 		<label>Day 6 Forecast</label>
 		<description>Day 6 forecast information.</description>
 		<channels>
-			<channel id="dateTime" typeId="dateTime" />
-			<channel id="icon" typeId="icon" />
-			<channel id="precis" typeId="precis" />
-			<channel id="forecast" typeId="forecast" />
-			<channel id="minTemperature" typeId="minTemperature" />
-			<channel id="maxTemperature" typeId="maxTemperature" />
-			<channel id="precipitation" typeId="precipitation" />
-			<channel id="minPrecipitation" typeId="minPrecipitation" />
-			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
-			<channel id="uvAlert" typeId="uvAlert" />
+			<channel id="dateTime" typeId="dateTime"/>
+			<channel id="icon" typeId="icon"/>
+			<channel id="precis" typeId="precis"/>
+			<channel id="forecast" typeId="forecast"/>
+			<channel id="minTemperature" typeId="minTemperature"/>
+			<channel id="maxTemperature" typeId="maxTemperature"/>
+			<channel id="precipitation" typeId="precipitation"/>
+			<channel id="minPrecipitation" typeId="minPrecipitation"/>
+			<channel id="maxPrecipitation" typeId="maxPrecipitation"/>
+			<channel id="uvAlert" typeId="uvAlert"/>
 		</channels>
 	</channel-group-type>
 
@@ -320,16 +324,16 @@
 		<label>Day 7 Forecast</label>
 		<description>Day 7 forecast information.</description>
 		<channels>
-			<channel id="dateTime" typeId="dateTime" />
-			<channel id="icon" typeId="icon" />
-			<channel id="precis" typeId="precis" />
-			<channel id="forecast" typeId="forecast" />
-			<channel id="minTemperature" typeId="minTemperature" />
-			<channel id="maxTemperature" typeId="maxTemperature" />
-			<channel id="precipitation" typeId="precipitation" />
-			<channel id="minPrecipitation" typeId="minPrecipitation" />
-			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
-			<channel id="uvAlert" typeId="uvAlert" />
+			<channel id="dateTime" typeId="dateTime"/>
+			<channel id="icon" typeId="icon"/>
+			<channel id="precis" typeId="precis"/>
+			<channel id="forecast" typeId="forecast"/>
+			<channel id="minTemperature" typeId="minTemperature"/>
+			<channel id="maxTemperature" typeId="maxTemperature"/>
+			<channel id="precipitation" typeId="precipitation"/>
+			<channel id="minPrecipitation" typeId="minPrecipitation"/>
+			<channel id="maxPrecipitation" typeId="maxPrecipitation"/>
+			<channel id="uvAlert" typeId="uvAlert"/>
 		</channels>
 	</channel-group-type>
 
@@ -337,16 +341,16 @@
 		<label>Day 8 Forecast</label>
 		<description>Day 8 forecast information.</description>
 		<channels>
-			<channel id="dateTime" typeId="dateTime" />
-			<channel id="icon" typeId="icon" />
-			<channel id="precis" typeId="precis" />
-			<channel id="forecast" typeId="forecast" />
-			<channel id="minTemperature" typeId="minTemperature" />
-			<channel id="maxTemperature" typeId="maxTemperature" />
-			<channel id="precipitation" typeId="precipitation" />
-			<channel id="minPrecipitation" typeId="minPrecipitation" />
-			<channel id="maxPrecipitation" typeId="maxPrecipitation" />
-			<channel id="uvAlert" typeId="uvAlert" />
+			<channel id="dateTime" typeId="dateTime"/>
+			<channel id="icon" typeId="icon"/>
+			<channel id="precis" typeId="precis"/>
+			<channel id="forecast" typeId="forecast"/>
+			<channel id="minTemperature" typeId="minTemperature"/>
+			<channel id="maxTemperature" typeId="maxTemperature"/>
+			<channel id="precipitation" typeId="precipitation"/>
+			<channel id="minPrecipitation" typeId="minPrecipitation"/>
+			<channel id="maxPrecipitation" typeId="maxPrecipitation"/>
+			<channel id="uvAlert" typeId="uvAlert"/>
 		</channels>
 	</channel-group-type>
 
@@ -354,28 +358,28 @@
 		<item-type>DateTime</item-type>
 		<label>Forecast Date and Time</label>
 		<description>The date and time of forecast.</description>
-		<state readOnly="true" />
+		<state readOnly="true"/>
 	</channel-type>
 
 	<channel-type id="icon">
 		<item-type>String</item-type>
 		<label>Forecast Icon</label>
 		<description>The icon for forecast.</description>
-		<state readOnly="true" pattern="%s" />
+		<state readOnly="true" pattern="%s"/>
 	</channel-type>
 
 	<channel-type id="precis">
 		<item-type>String</item-type>
 		<label>Forecast Precis</label>
 		<description>The forecast precis (abstract) text.</description>
-		<state readOnly="true" pattern="%s" />
+		<state readOnly="true" pattern="%s"/>
 	</channel-type>
 
 	<channel-type id="forecast">
 		<item-type>String</item-type>
 		<label>Forecast Description</label>
 		<description>The forecast description.</description>
-		<state readOnly="true" pattern="%s" />
+		<state readOnly="true" pattern="%s"/>
 	</channel-type>
 
 	<channel-type id="minTemperature">
@@ -383,57 +387,57 @@
 		<label>Minimum Temperature</label>
 		<description>The minimum temperature.</description>
 		<category>Temperature</category>
-		<state readOnly="true" pattern="%d %unit%" />
+		<state readOnly="true" pattern="%d %unit%"/>
 	</channel-type>
-	
+
 	<channel-type id="maxTemperature">
 		<item-type>Number</item-type>
 		<label>Maximum Temperature</label>
 		<description>The maximum temperature.</description>
 		<category>Temperature</category>
-		<state readOnly="true" pattern="%d %unit%" />
+		<state readOnly="true" pattern="%d %unit%"/>
 	</channel-type>
-	
+
 	<channel-type id="precipitation">
 		<item-type>String</item-type>
 		<label>Probability of Precipitation</label>
 		<description>The probability of precipitation.</description>
-		<state readOnly="true" pattern="%s" />
+		<state readOnly="true" pattern="%s"/>
 	</channel-type>
-	
+
 	<channel-type id="minPrecipitation">
 		<item-type>Number</item-type>
 		<label>Minimum Precipitation</label>
 		<description>The minimum precipitation in mm.</description>
-		<state readOnly="true" pattern="%s" />
+		<state readOnly="true" pattern="%s"/>
 	</channel-type>
 
 	<channel-type id="maxPrecipitation">
 		<item-type>Number</item-type>
 		<label>Maximum Precipitation</label>
 		<description>The maximum precipitation in mm.</description>
-		<state readOnly="true" pattern="%s" />
+		<state readOnly="true" pattern="%s"/>
 	</channel-type>
 
 	<channel-type id="uvAlert">
 		<item-type>String</item-type>
 		<label>UV Alert</label>
 		<description>The UV alert if any.</description>
-		<state readOnly="true" pattern="%s" />
+		<state readOnly="true" pattern="%s"/>
 	</channel-type>
 
 	<channel-type id="weatherStation">
 		<item-type>String</item-type>
 		<label>Weather Station</label>
 		<description>The weather station.</description>
-		<state readOnly="true" pattern="%s" />
+		<state readOnly="true" pattern="%s"/>
 	</channel-type>
 
 	<channel-type id="observationDateTime">
 		<item-type>DateTime</item-type>
 		<label>Observation Date and Time</label>
 		<description>The date and time of observation.</description>
-		<state readOnly="true" />
+		<state readOnly="true"/>
 	</channel-type>
 
 	<channel-type id="apparentTemperature">
@@ -441,7 +445,7 @@
 		<label>Apparent Temperature</label>
 		<description>The apparent air temperature.</description>
 		<category>Temperature</category>
-		<state readOnly="true" pattern="%d %unit%" />
+		<state readOnly="true" pattern="%d %unit%"/>
 	</channel-type>
 
 	<channel-type id="airTemperature">
@@ -449,7 +453,7 @@
 		<label>Air Temperature</label>
 		<description>The current air temperature.</description>
 		<category>Temperature</category>
-		<state readOnly="true" pattern="%d %unit%" />
+		<state readOnly="true" pattern="%d %unit%"/>
 	</channel-type>
 
 	<channel-type id="dewPoint">
@@ -457,98 +461,98 @@
 		<label>Dew Point</label>
 		<description>The dew point.</description>
 		<category>Temperature</category>
-		<state readOnly="true" pattern="%d %unit%" />
+		<state readOnly="true" pattern="%d %unit%"/>
 	</channel-type>
 
 	<channel-type id="relativeHumidity">
 		<item-type>Number</item-type>
 		<label>Relative Humidity (percentage)</label>
 		<description>The relative humidity in percentage.</description>
-		<state readOnly="true" pattern="%d" />
+		<state readOnly="true" pattern="%d"/>
 	</channel-type>
 
 	<channel-type id="pressure">
 		<item-type>Number</item-type>
 		<label>Atmospheric Pressure (hPa)</label>
 		<description>The atmospheric pressure in hPa.</description>
-		<state readOnly="true" pattern="%d" />
+		<state readOnly="true" pattern="%d"/>
 	</channel-type>
 
 	<channel-type id="windDirection">
 		<item-type>String</item-type>
 		<label>Wind Direction</label>
 		<description>The wind direction.</description>
-		<state readOnly="true" pattern="%s" />
+		<state readOnly="true" pattern="%s"/>
 	</channel-type>
 
 	<channel-type id="windDirectionDegrees">
 		<item-type>Number</item-type>
 		<label>Wind Direction (degrees)</label>
 		<description>The wind direction in degrees.</description>
-		<state readOnly="true" pattern="%d" />
+		<state readOnly="true" pattern="%d"/>
 	</channel-type>
 
 	<channel-type id="windSpeedKmh">
 		<item-type>Number</item-type>
 		<label>Wind Speed (km/h)</label>
 		<description>The wind speed in km/h.</description>
-		<state readOnly="true" pattern="%d" />
+		<state readOnly="true" pattern="%d"/>
 	</channel-type>
 
 	<channel-type id="windSpeedKnots">
 		<item-type>Number</item-type>
 		<label>Wind Speed (knots)</label>
 		<description>The wind speed in knots.</description>
-		<state readOnly="true" pattern="%d" />
+		<state readOnly="true" pattern="%d"/>
 	</channel-type>
 
 	<channel-type id="rainfall">
 		<item-type>Number</item-type>
 		<label>Current Rainfall (mm)</label>
 		<description>The current rainfall in mm.</description>
-		<state readOnly="true" pattern="%d" />
+		<state readOnly="true" pattern="%d"/>
 	</channel-type>
 
 	<channel-type id="rainfall24Hour">
 		<item-type>Number</item-type>
 		<label>24 Hour Rainfall (mm)</label>
 		<description>The 24 Hour rainfall in mm.</description>
-		<state readOnly="true" pattern="%d" />
+		<state readOnly="true" pattern="%d"/>
 	</channel-type>
 
 	<channel-type id="lastCheckDateTime">
 		<item-type>DateTime</item-type>
 		<label>Last Check Date and Time</label>
 		<description>The last time the server is checked for update.</description>
-		<state readOnly="true" />
+		<state readOnly="true"/>
 	</channel-type>
 
 	<channel-type id="lastUpdateDateTime">
 		<item-type>DateTime</item-type>
 		<label>Last Update Date and Time</label>
 		<description>The last time changes are detected and local image(s) is generated, if applicable.</description>
-		<state readOnly="true" />
+		<state readOnly="true"/>
 	</channel-type>
 
 	<channel-type id="sourceImages">
 		<item-type>String</item-type>
 		<label>Source Images</label>
 		<description>List of source images.</description>
-		<state readOnly="true" pattern="%s" />
+		<state readOnly="true" pattern="%s"/>
 	</channel-type>
 
 	<channel-type id="generatedGif">
 		<item-type>String</item-type>
 		<label>Generated GIF</label>
 		<description>The generated animated GIF of series.</description>
-		<state readOnly="true" pattern="%s" />
+		<state readOnly="true" pattern="%s"/>
 	</channel-type>
-	
+
 	<channel-type id="generatedPngs">
 		<item-type>String</item-type>
 		<label>Generated PNG's</label>
 		<description>The list of generated images series.</description>
-		<state readOnly="true" pattern="%s" />
+		<state readOnly="true" pattern="%s"/>
 	</channel-type>
 
 </thing:thing-descriptions>

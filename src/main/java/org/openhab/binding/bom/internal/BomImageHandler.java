@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2019 Contributors to the openHAB project
+ * Copyright (c) 2010-2020 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -425,7 +425,7 @@ public class BomImageHandler extends BaseThingHandler {
 
             logger.info("Generated GIF {}.gif", outputFilePath);
         } catch (IOException ex) {
-            logger.error("Unable to generate GIF " + outputFilePath + ".gif", ex);
+            logger.error("Unable to generate GIF {}.gif", outputFilePath, ex);
         } finally {
             try {
                 if (writer != null) {
@@ -436,7 +436,7 @@ public class BomImageHandler extends BaseThingHandler {
                     out.close();
                 }
             } catch (IOException ex) {
-                logger.error("Unable to close output file " + outputFilePath + ".gif", ex);
+                logger.error("Unable to close output file {}.gif", outputFilePath, ex);
             }
         }
     }
@@ -448,7 +448,7 @@ public class BomImageHandler extends BaseThingHandler {
                 ImageIO.write(images.get(i), "png", new File(outputPath));
                 logger.info("Generated PNG {}", outputPath);
             } catch (IOException ex) {
-                logger.error("Unable to write PNG " + outputPath, ex);
+                logger.error("Unable to write PNG {}", outputPath, ex);
             }
         }
     }
@@ -492,7 +492,7 @@ public class BomImageHandler extends BaseThingHandler {
         try {
             return ftp.listFiles(path, filter);
         } catch (IOException ex) {
-            logger.error("Unable to retrieve file list from " + path, ex);
+            logger.error("Unable to retrieve file list from {}", path, ex);
         }
 
         return null;
@@ -509,7 +509,7 @@ public class BomImageHandler extends BaseThingHandler {
 
             return ftp;
         } catch (IOException ex) {
-            logger.error("Unable to connect to FTP server " + ftpServer, ex);
+            logger.error("Unable to connect to FTP server {}", ftpServer, ex);
         }
 
         return null;
