@@ -106,9 +106,19 @@ See below for more details.
 
 ## Installation
 
+### Via Eclipse IoT Market
 For openHAB install **Eclipse IoT Market** add-on under *MISC* tab in openHAB Paper UI.  Then install **Australian BOM Weather Forecast Binding** from the *Bindings* page.
 
 For Eclipse SmartHome install from https://marketplace.eclipse.org/content/australian-bom-weather-forecast-binding.
+
+### Manual installation
+Download jar below and copy to the openHAB `addons` directory.
+
+### Latest version
+Version 2.5.9 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.9-SNAPSHOT.jar)
+
+#### Older versions
+Version 2.5.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.0-SNAPSHOT.jar)
 
 ## Weather observation and forecast configuration
 
