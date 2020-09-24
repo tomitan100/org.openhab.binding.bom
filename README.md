@@ -122,6 +122,8 @@ Version 2.5.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/r
 
 ## Weather observation and forecast configuration
 
+Unfortunately it can be quite daunting to configure this binding due to the way BOM presents their data to the public.  Hopefully the details below is sufficient to get the binding up and running.
+
 At minimum there are five fields required to process the data-feed.  The observation product ID, the weather station ID of observation, the precis product ID, the city/town product ID and finally the area code.
 
 Observation data-feed is required to show the current weather information.
