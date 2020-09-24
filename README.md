@@ -404,7 +404,7 @@ In the configuration screen typically you would only care about changing the Pro
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/configuration-image-sources.png?raw=true" />
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/configuration-image-generation.png?raw=true" />
 
-On this screen you also have the option to modify the layer ordering, add additional layer, generate PNG images, generate animated GIF, change the delay between GIF images in the animated gif, enable GIF looping, enable local timestamp, configure local timestamp proerties, apply post processing to the image, change image output path and output filename.
+On this screen you also have the option to modify the layer ordering, add additional layer, generate PNG images, generate animated GIF, change the delay between GIF images in the animated gif, enable GIF looping, enable local timestamp, configure local timestamp properties, apply post processing to the image, change image output path and output filename.
 
 #### Image sources configuration fields
 
@@ -891,6 +891,9 @@ The screenshots below are examples of the binding in operation.  The screens use
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar-loop.gif?raw=true" />
 
 ## Change log
+
+__25/09/2020__
+- openHAB version 2.5.9 compatibility update.
 
 __03/01/2020__
 - Fixed retry of image generation if images are missing on the FTP site.
