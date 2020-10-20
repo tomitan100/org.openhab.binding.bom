@@ -872,15 +872,15 @@ The list of radar image sequences are available as a channel (Source Images).  U
 ## Unsupported Charts
 
 - National Radar Loop - this is made up of two series of images.  Possible to support in the future if there is demand.
-- Weather and Wave Forecast Maps - a single file of around 154MB needs to be downloaded and processed.
-- Latest Colour MSLP and Infrared Greyscale Satellite - a single image that can be linked directly.
-- Short-term forecast - a single image that can be linked directly.
-- Colour Forecast map for next 4 days - a single image that can be linked directly.
-- UV Forecast - a single image that can be linked directly.
-- Asia MSL Pressure Analysis - a single image that can be linked directly.
+- Weather and Wave Forecast Maps - this is a single file of around 154MB needs to be downloaded and processed.
+- Latest Colour MSLP and Infrared Greyscale Satellite - this is a single image that can be linked directly.
+- Short-term forecast - this is a single image that can be linked directly.
+- Colour Forecast map for next 4 days - this is a single image that can be linked directly.
+- UV Forecast - this is a single image that can be linked directly.
+- Asia MSL Pressure Analysis - this is a single image that can be linked directly.
 - Southern Hemisphere MSLP Aanalysis - this is a PDF file.
-- Pacific Ocean MSLP Analyses - a single image that can be linked directly.
-- Indian Ocean MSLP Analyses - a single image that can be linked directly.
+- Pacific Ocean MSLP Analyses - this is a single image that can be linked directly.
+- Indian Ocean MSLP Analyses - this is a single image that can be linked directly.
 
 ## Example Screenshots in openHAB HABPanel
 
