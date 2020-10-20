@@ -642,7 +642,7 @@ _Embed local timestamp:_ `On`
 
 _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, adjust-timestamp=-5m font-face=Arial, font-size=16, font-color=#000000, font-weight=bold, position=250 485`
 
-__Notes:__
+__Note:__
 - Timestamp is adjusted to minus 5 minutes to match the UTC time overlay.
 - Opacity is added to range image overlay.
 - The use of location marker with its opacity set to 0.8 and positioned to the desired location.
@@ -694,9 +694,9 @@ _Embed local timestamp:_ `On`
 
 _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#FFFFFF, font-weight=bold, position=316 458`
 
-__Notes:__
+__Note:__
 
-- Regular expression is required because the product ID used to search for files also matches unrelated files `IDE00135.radar.*.jpg`.
+- Regular expression is required because the product ID used to search for the image files also matches unrelated files `IDE00135.radar.*.jpg`.
 - Date range is set to the past 6 hours as there are a large number of files spanning ~20 days.
 
 #### Other satellite view variations
@@ -829,7 +829,7 @@ _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, fo
 
 _TIFF image index:_ `3`
 
-__Notes:__
+__Note:__
 
 - Himawari-8 satellite images are in TIFF format and each file has 5 images of different resolution, from high (index 0) to low (index 4).  In this example index 3 is used as it provides good-enough resolution without too much overhead.  Image index 0 or 1 is not recommended unless your system can handle it.
 
@@ -851,7 +851,7 @@ _Embed local timestamp:_ `On`
 
 _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#F76623, font-weight=bold, position=380 420`
 
-__Notes:__
+__Note:__
 
 - Regular expression is required because product ID also matches PDF files `IDY00030.*.pdf` in the FTP directory.
 
@@ -893,6 +893,9 @@ The screenshots below are examples of the binding in operation.  The screens use
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar-loop.gif?raw=true" />
 
 ## Change log
+
+__20/10/2020__
+- Changed FTP client to not verify remote site.
 
 __25/09/2020__
 - openHAB version 2.5.9 compatibility update.
