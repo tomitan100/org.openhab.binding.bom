@@ -477,10 +477,10 @@ For example (taken from default configuration):
 `image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png`
 
 Explanation:
-- There are six layers of images that make up the final image: legend, background, topography overlay, ${series} image, locations transparency overlay and range transparency overlay.
-- `${pid}` is the placeholder for product ID and gets replaced by the product ID you entered in the product ID field.  If your product ID is IDR701 then it is equivalent to type in image=IDR701.background.png as the first layer.
-- Layer 1 will be obscured by layer 2, layer 2 will be obscured by layer 3, and so on.
-- Layer 3, `image=${series}`, is the placeholder for the image series.
+- There are six layers of images that make up the final image: legend, background, topography overlay, ${series} image, locations transparency overlay and range transparency overlay.  You can re-order the the layers to your liking.
+- `${pid}` is the placeholder for product ID and gets replaced by the product ID you entered in the product ID field.  If your product ID is IDR701 then it is equivalent to type in image=IDR701.background.png as the second layer.
+- Layer 1 non-transparent part of the image will be obscured by layer 2, layer 2 will be obscured by layer 3, and so on.
+- Layer 3, `image=${series}`, is the placeholder for the image series. ie. the radar scan image.
 - The images, except for the series images, are sourced from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/ by default (as defined in the _Transparencies directory path_).  You can specify a URL instead to include images from external sources.
 - Other transparancies available from the BOM ftp site are: `${pid}.wthrDistricts.png`, `${pid}.waterways.png`, `${pid}.roads.png`, `${pid}.rail.png`, `${pid}.catchments.png`.  Including/excluding these transparencies is equivalent to toggling these feature on/off on the BOM website.
 - It is possible to add image manipulation operations to each layer.  See below for more details.
@@ -517,7 +517,7 @@ Below is a list of supported external image sources:
   
 ## Image Manipulation and Processing
 
-Currently there are five image manipulation operations available to each layer and the final image:
+There are five image manipulation operations available to each layer and the final image:
 - Opacity - changes the opacity (transparency level) of the image.
 - Resize - resizes the image.
 - Crop - crops the image.
