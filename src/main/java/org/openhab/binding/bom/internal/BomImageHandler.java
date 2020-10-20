@@ -506,6 +506,7 @@ public class BomImageHandler extends BaseThingHandler {
             ftp.login(username, password);
             ftp.enterLocalPassiveMode();
             ftp.setFileType(FTP.BINARY_FILE_TYPE);
+            ftp.setRemoteVerificationEnabled(false);
 
             return ftp;
         } catch (IOException ex) {
