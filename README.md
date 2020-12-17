@@ -119,6 +119,7 @@ Version 3.0.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/r
 
 #### Older versions
 Version 2.5.9 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.9-SNAPSHOT.jar)
+
 Version 2.5.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.0-SNAPSHOT.jar)
 
 ## Weather observation and forecast configuration
