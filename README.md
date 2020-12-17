@@ -115,9 +115,10 @@ For Eclipse SmartHome install from https://marketplace.eclipse.org/content/austr
 Download jar below and copy to the openHAB `addons` directory.
 
 #### Latest version
-Version 2.5.9 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.9-SNAPSHOT.jar)
+Version 3.0.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-3.0.0-SNAPSHOT.jar)
 
 #### Older versions
+Version 2.5.9 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.9-SNAPSHOT.jar)
 Version 2.5.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.0-SNAPSHOT.jar)
 
 ## Weather observation and forecast configuration
@@ -893,6 +894,8 @@ The screenshots below are examples of the binding in operation.  The screens use
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar-loop.gif?raw=true" />
 
 ## Change log
+__18/12/2020__
+- openHAB version 3.0.0 update
 
 __20/10/2020__
 - Changed FTP client to not verify remote site.
