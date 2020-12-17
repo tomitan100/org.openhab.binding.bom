@@ -477,10 +477,10 @@ For example (taken from default configuration):
 `image=IDR.legend.0.png; image=${pid}.background.png; image=${pid}.topography.png; image=${series}; image=${pid}.locations.png; image=${pid}.range.png`
 
 Explanation:
-- There are six layers of images that make up the final image: legend, background, topography overlay, ${series} image, locations transparency overlay and range transparency overlay.
-- `${pid}` is the placeholder for product ID and gets replaced by the product ID you entered in the product ID field.  If your product ID is IDR701 then it is equivalent to type in image=IDR701.background.png as the first layer.
-- Layer 1 will be obscured by layer 2, layer 2 will be obscured by layer 3, and so on.
-- Layer 3, `image=${series}`, is the placeholder for the image series.
+- There are six layers of images that make up the final image: legend, background, topography overlay, ${series} image, locations transparency overlay and range transparency overlay.  You can re-order the the layers to your liking.
+- `${pid}` is the placeholder for product ID and gets replaced by the product ID you entered in the product ID field.  If your product ID is IDR701 then it is equivalent to type in image=IDR701.background.png as the second layer.
+- Layer 1 non-transparent part of the image will be obscured by layer 2, layer 2 will be obscured by layer 3, and so on.
+- Layer 3, `image=${series}`, is the placeholder for the image series. ie. the radar scan image.
 - The images, except for the series images, are sourced from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/ by default (as defined in the _Transparencies directory path_).  You can specify a URL instead to include images from external sources.
 - Other transparancies available from the BOM ftp site are: `${pid}.wthrDistricts.png`, `${pid}.waterways.png`, `${pid}.roads.png`, `${pid}.rail.png`, `${pid}.catchments.png`.  Including/excluding these transparencies is equivalent to toggling these feature on/off on the BOM website.
 - It is possible to add image manipulation operations to each layer.  See below for more details.
@@ -517,7 +517,7 @@ Below is a list of supported external image sources:
   
 ## Image Manipulation and Processing
 
-Currently there are five image manipulation operations available to each layer and the final image:
+There are five image manipulation operations available to each layer and the final image:
 - Opacity - changes the opacity (transparency level) of the image.
 - Resize - resizes the image.
 - Crop - crops the image.
@@ -642,7 +642,7 @@ _Embed local timestamp:_ `On`
 
 _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, adjust-timestamp=-5m font-face=Arial, font-size=16, font-color=#000000, font-weight=bold, position=250 485`
 
-__Notes:__
+__Note:__
 - Timestamp is adjusted to minus 5 minutes to match the UTC time overlay.
 - Opacity is added to range image overlay.
 - The use of location marker with its opacity set to 0.8 and positioned to the desired location.
@@ -694,9 +694,9 @@ _Embed local timestamp:_ `On`
 
 _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#FFFFFF, font-weight=bold, position=316 458`
 
-__Notes:__
+__Note:__
 
-- Regular expression is required because the product ID used to search for files also matches unrelated files `IDE00135.radar.*.jpg`.
+- Regular expression is required because the product ID used to search for the image files also matches unrelated files `IDE00135.radar.*.jpg`.
 - Date range is set to the past 6 hours as there are a large number of files spanning ~20 days.
 
 #### Other satellite view variations
@@ -829,7 +829,7 @@ _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, fo
 
 _TIFF image index:_ `3`
 
-__Notes:__
+__Note:__
 
 - Himawari-8 satellite images are in TIFF format and each file has 5 images of different resolution, from high (index 0) to low (index 4).  In this example index 3 is used as it provides good-enough resolution without too much overhead.  Image index 0 or 1 is not recommended unless your system can handle it.
 
@@ -851,7 +851,7 @@ _Embed local timestamp:_ `On`
 
 _Local timestamp properties:_ `format=dd/MM/yyyy HH:mm:ss z, font-face=Arial, font-size=16, font-color=#F76623, font-weight=bold, position=380 420`
 
-__Notes:__
+__Note:__
 
 - Regular expression is required because product ID also matches PDF files `IDY00030.*.pdf` in the FTP directory.
 
@@ -872,15 +872,15 @@ The list of radar image sequences are available as a channel (Source Images).  U
 ## Unsupported Charts
 
 - National Radar Loop - this is made up of two series of images.  Possible to support in the future if there is demand.
-- Weather and Wave Forecast Maps - a single file of around 154MB needs to be downloaded and processed.
-- Latest Colour MSLP and Infrared Greyscale Satellite - a single image that can be linked directly.
-- Short-term forecast - a single image that can be linked directly.
-- Colour Forecast map for next 4 days - a single image that can be linked directly.
-- UV Forecast - a single image that can be linked directly.
-- Asia MSL Pressure Analysis - a single image that can be linked directly.
+- Weather and Wave Forecast Maps - this is a single file of around 154MB needs to be downloaded and processed.
+- Latest Colour MSLP and Infrared Greyscale Satellite - this is a single image that can be linked directly.
+- Short-term forecast - this is a single image that can be linked directly.
+- Colour Forecast map for next 4 days - this is a single image that can be linked directly.
+- UV Forecast - this is a single image that can be linked directly.
+- Asia MSL Pressure Analysis - this is a single image that can be linked directly.
 - Southern Hemisphere MSLP Aanalysis - this is a PDF file.
-- Pacific Ocean MSLP Analyses - a single image that can be linked directly.
-- Indian Ocean MSLP Analyses - a single image that can be linked directly.
+- Pacific Ocean MSLP Analyses - this is a single image that can be linked directly.
+- Indian Ocean MSLP Analyses - this is a single image that can be linked directly.
 
 ## Example Screenshots in openHAB HABPanel
 
@@ -893,6 +893,9 @@ The screenshots below are examples of the binding in operation.  The screens use
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar-loop.gif?raw=true" />
 
 ## Change log
+
+__20/10/2020__
+- Changed FTP client to not verify remote site.
 
 __25/09/2020__
 - openHAB version 2.5.9 compatibility update.
