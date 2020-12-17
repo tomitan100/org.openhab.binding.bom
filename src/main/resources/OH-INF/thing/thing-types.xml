@@ -409,14 +409,14 @@
 		<item-type>Number</item-type>
 		<label>Minimum Precipitation</label>
 		<description>The minimum precipitation in mm.</description>
-		<state readOnly="true" pattern="%s"/>
+		<state readOnly="true" pattern="%d"/>
 	</channel-type>
 
 	<channel-type id="maxPrecipitation">
 		<item-type>Number</item-type>
 		<label>Maximum Precipitation</label>
 		<description>The maximum precipitation in mm.</description>
-		<state readOnly="true" pattern="%s"/>
+		<state readOnly="true" pattern="%d"/>
 	</channel-type>
 
 	<channel-type id="uvAlert">
