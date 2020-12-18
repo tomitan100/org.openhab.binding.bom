@@ -1,6 +1,6 @@
 # <bindingName> Australian Bureau of Meteorology Weather Forecast and Image Binding
 
-This Eclipse Smarthome/openHAB binding allows retrieval of Australian weather forecast and meteorological images from Bureau of Meteorology.
+This binding retrieves Australian weather forecast and meteorological images from Bureau of Meteorology for use in openHaB/Eclipse Smarthome.
 
 ## Contents
 
