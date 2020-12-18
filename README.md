@@ -17,7 +17,7 @@ This binding retrieves Australian weather forecast and meteorological images fro
   <li><a href="#weather-observation-and-forecast-configuration">Weather observation and forecast configuration</a></li>
   <li><a href="#weather-forecast-icons">Weather forecast icons</a></li>
   <li><a href="#bom-weather-items-mapping-and-sitemap-files">BOM weather items mapping and sitemap files</a></li>
-  <li><a href="#bom-images">BOM images</a></li>
+  <li><a href="#bom-images">BOM weather images generation</a></li>
   <li type="none">
     <ul type="disc">
       <li><a href="#background-information">BOM images background information</a></li>
@@ -50,15 +50,13 @@ This binding retrieves Australian weather forecast and meteorological images fro
 
 ### Observation and Forecast Features
 
-This initial release maps most fields from BOM data-feed.
-
-For today's observation and forecast these fields are available:
+This binding maps most fields from BOM data-feed.  For today's observation and forecast these are available:
 
 - Weather station
 - Observation time
 - Date and time of forecast
 - Forecast icon name
-- Precis (i.e. abstract)
+- Precis
 - Forecast text
 - Minimum temperature
 - Maximum temperature
@@ -80,7 +78,7 @@ For future forecasts the following fields are available:
 
 - Date and time of forecast
 - Forecast icon name
-- Precis (i.e. abstract)
+- Precis
 - Forecast text
 - Minimum temperature
 - Maximum temperature
@@ -100,37 +98,43 @@ See below for more details.
 
 ## Prerequisite
 
-- openHAB 2.4 and above.
+#### For openHAB 2
+- openHAB 2.4 to 2.5.#
 - Java 1.8 and above.
+- Fonts installed if local timestamp is enabled for BOM Image.
+
+#### For openHAB 3
+- openHAB 3.0.0 and above
+- Java 11 and above.
 - Fonts installed if local timestamp is enabled for BOM Image.
 
 ## Installation
 
-### Via Eclipse IoT Market
+### Via Eclipse IoT Market - for openHAB 2 only
 For openHAB install **Eclipse IoT Market** add-on under *MISC* tab in openHAB Paper UI.  Then install **Australian BOM Weather Forecast Binding** from the *Bindings* page.
 
 For Eclipse SmartHome install from https://marketplace.eclipse.org/content/australian-bom-weather-forecast-binding.
 
-### Manual installation
-Download jar below and copy to the openHAB `addons` directory.
+### Manual installation - for openHAB 2 and openHAB 3
+Download the latest jar below for your openHAB version and copy to the openHAB `addons` directory.
 
-#### Latest version
+#### openHAB 3
 Version 3.0.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-3.0.0-SNAPSHOT.jar)
 
-#### Older versions
+#### openHAB 2
 Version 2.5.9 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.9-SNAPSHOT.jar)
 
 Version 2.5.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.0-SNAPSHOT.jar)
 
 ## Weather observation and forecast configuration
 
-Unfortunately it can be quite daunting to configure this binding due to the way BOM presents their data to the public.  Hopefully the details below is sufficient to get the binding up and running.
+Unfortunately, it can be quite daunting to configure this binding due to the lack of index of all the data files available from BOM.  Hopefully the details below is sufficient to get the binding up and running on your openHAB.  In the future an external tool might be coded to make this binding less difficult to configure.
 
-At minimum there are five fields required to process the data-feed.  The observation product ID, the weather station ID of observation, the precis product ID, the city/town product ID and finally the area code.
+At minimum there are five values required to process the data-feed from BOM.  The observation product ID, the weather station ID of observation, the precis product ID, the city/town product ID and finally the area code.
 
-Observation data-feed is required to show the current weather information.
+Observation product ID and weather station enables you show the relevant current weather information in your area.  Precis forecast data provides brief forecast information for the next 5-8 days.  City/town/district forecast data provides the detailed forecast description.
 
-Listed below is the observation product ID's for the states. Enter the ID you need into the *Observation product ID* field in Paper UI things configuration.
+Listed below is the observation product ID's for the states. Enter the ID you need into the *Observation product ID* field in Things configuration in openHAB.
 
 <table>
 <tr align="left">
@@ -171,15 +175,13 @@ Listed below is the observation product ID's for the states. Enter the ID you ne
 </tr>
 </table>
 
-The next step is to open the product XML by loading `ftp://ftp.bom.gov.au/anon/gen/fwo/{product-id}.xml` in your browser and locate the weather station of interest.  Copy the `wmo-id` number and use this as the *Weather station ID*.
+The next step is to open the product XML by loading `ftp://ftp.bom.gov.au/anon/gen/fwo/{product-id}.xml` in your browser.  Replace `{product-id}` with the ID of your state from the table above.  Locate the weather station of interest.  Copy the `wmo-id` number and use this as the *Weather station ID*.
 
 For example: *PERTH METRO* station ID in the file `ftp://ftp.bom.gov.au/anon/gen/fwo/IDW60920.xml` is `94608`.
 
 Next you will need to provide the precis forecast product ID and city/town/district forecast product ID.
 
-Precis forecast data provides brief forecast information for the next 5-8 days.  City/town/district forecast data provides the forecast description.
-
-Below is a list of the forecast product ID's for Australian major cities.
+Below is a list of the forecast product ID's for Australian _major_ cities.  If you do not live in the cities listed below then follow the instruction to locate your city, town or district.
 
 <table>
 <tr align="left">
@@ -276,12 +278,14 @@ Below is a list of the forecast product ID's for Australian major cities.
 
 NOTE: If the forecast product ID's you are after are not in the list go to this catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml and search for the products.  The type must be "Forecast". Use the Search box on the page by entering, e.g "(WA)", or something more specific like "City Forecast":
 
-1. Locate `Precis Forecast XML Package ({your-state})` from the search results and enter the product ID into the field *Precis forecast product ID* back in Paper UI Thing configuration.
-2. Locate `City Forecast - {your-city} ({your-state})` for city forecasts OR `Town Forecast - {your-town} ({your-state})` for town forecasts OR `District Forecast - {your-district} ({your-state})` for district forecasts from the search results.  Enter the product ID into the configuration field *City/town/district forecast product ID* in Paper UI.
+1. Locate `Precis Forecast XML Package ({your-state})` from the search results and enter the product ID into the field *Precis forecast product ID* back in Thing configuration.
+2. Locate `City Forecast - {your-city} ({your-state})` for city forecasts OR `Town Forecast - {your-town} ({your-state})` for town forecasts OR `District Forecast - {your-district} ({your-state})` for district forecasts from the search results.  Enter the product ID into the configuration field *City/town/district forecast product ID* in openHAB configuration.
 
 Now open either the precis or the city/town/district forecast XML (`ftp://ftp.bom.gov.au/anon/gen/fwo/{product-id}.xml`) and locate the area code (`aac` code).
 
 For example: Perth's aac code in `ftp://ftp.bom.gov.au/anon/gen/fwo/IDW12300.xml` is `WA_PT053`.
+
+Save your configuration.  openHAB will begin to download all the required weather information in a few seconds and made available to you to display.
 
 For more information about data-feeds, please go to http://reg.bom.gov.au/catalogue/data-feeds.shtml
 
@@ -292,7 +296,7 @@ Screenshot below shows an example configuration in Paper UI.
 
 ## Weather Forecast Icons
 
-The following table shows all the possible icon names returned by the channel.
+The following table shows all the possible icon names returned by the channel. You may use these to determine which forecast icon to show in the mobile app/browser.  Setting this up is beyond the scope of this document.  Discussion about this is available in the openHAB community forum.
 
 <table>
 <tr align="left">
@@ -380,18 +384,20 @@ Also provided below is the site map where you can modify and drop into `/etc/ope
 https://github.com/tomitan100/org.openhab.binding.bom/raw/master/doc/bom.sitemap
 
 
-## BOM Images
+## BOM Weather Images Generation
 
 ### Background Information
-BOM images, like rain radar loop, are made up of a series of transparent PNG files, which get updated frequently as data is available.  These images contain only the transparent radar/satellite scans and do not include static images like the the background, topography, locations, borders, etc.  The final image is built by merging of all the images in the correct order.
+BOM images, like rain radar loop, are made up of a series of transparent PNG files, which get updated frequently as data is available.  These images contain only the transparent radar/satellite scans and do not include static overlays like the the background, topography, locations, borders, etc.  The final image is built by overlaying all the images in the correct order.
 
-BOM Image binding can create the final image(s) of each radar/satellite image sequence/series as PNG's and/or animated GIF.  This makes it easier to display radar loops in the web browser without having to code in Javascript to loop through the image layers.
+BOM Image binding can create final image(s) of each radar or satellite image sequence or series as PNG images or a single animated GIF or both.  This makes it easier for you to display radar loops in the browser/viewer without having to code Javascript to assemble the image overlays.
 
-By default, BOM Image binding retrieves rainfall radar sequence of images from ftp://ftp.bom.gov.au/anon/gen/radar/ and  transparencies from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/.
+By default, BOM Image binding retrieves rainfall radar sequence of images from ftp://ftp.bom.gov.au/anon/gen/radar/ and static overlay images from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/.
 
-Take note that this binding can handle images other than rain radar images.  There are example configurations for other images [here](#rain-radar-images-configuration-example).
+You have the option to use images from different paths to generate other kinds of weather images.  Please look at example configurations for other images [here](#rain-radar-images-configuration-example).
 
 ## BOM Images Configuration
+
+Configuring weather images is not very trivial.  It requires a bit of understanding of how BOM store the images on their FTP server.  If you read through the instruction below you should have no problems.  If there is demand I might write an external tool to help you with the configuration needed.
 
 For rainfal radar images, the first step is to determine the product ID of the images you are after.  You can do this easily by searching "IDR" in BOM's catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml.  Another way is to note the product ID in the "Rainfall Radars" URL itself.  e.g http://www.bom.gov.au/products/IDR701.loop.shtml.
 
