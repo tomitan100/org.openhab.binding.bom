@@ -486,10 +486,10 @@ For example (taken from default configuration):
 
 Explanation:
 - There are six layers of images that make up the final image: legend, background, topography overlay, ${series} image, locations transparency overlay and range transparency overlay.  You can re-order the the layers to your liking.
-- `${pid}` is the placeholder for product ID and gets replaced by the product ID you entered in the product ID field.  If your product ID is IDR701 then it is equivalent to type in image=IDR701.background.png as the second layer.
+- `${pid}` is the placeholder for product ID and gets replaced by the product ID you entered in the product ID field.  If your product ID is IDR701 then it is equivalent to entering `image=IDR701.background.png`.
 - Layer 1 non-transparent part of the image will be obscured by layer 2, layer 2 will be obscured by layer 3, and so on.
 - Layer 3, `image=${series}`, is the placeholder for the image series. ie. the radar scan image.
-- The images, except for the series images, are sourced from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/ by default (as defined in the _Transparencies directory path_).  You can specify a URL instead to include images from external sources.
+- The images, except for the series images, are sourced from ftp://ftp.bom.gov.au/anon/gen/radar_transparencies/ by default (as defined in the _Transparencies directory path_).  You can specify a URL instead to include images from external sources.  See table below.
 - Other transparancies available from the BOM ftp site are: `${pid}.wthrDistricts.png`, `${pid}.waterways.png`, `${pid}.roads.png`, `${pid}.rail.png`, `${pid}.catchments.png`.  Including/excluding these transparencies is equivalent to toggling these feature on/off on the BOM website.
 - It is possible to add image manipulation operations to each layer.  See below for more details.
 
@@ -543,13 +543,13 @@ There are five image manipulation operations available to each layer and the fin
   <td>opacity</td>
   <td>opacity</td>
   <td>opacity=0.5</td>
-  <td>Valid values are 0.0 to 1.0.</td>
+  <td>Valid values are 0.0 to 1.0.  0 = completely transparent (invisible), 1 = complete opaque.</td>
 </tr>
 <tr>
   <td>resize</td>
   <td>width height</td>
   <td>resize=600 600</td>
-  <td>In number of pixels, must be positive numbers.</td>
+  <td>width and height in pixels, must be positive numbers.</td>
 </tr>
 <tr>
   <td>crop</td>
@@ -561,7 +561,7 @@ There are five image manipulation operations available to each layer and the fin
   <td>position</td>
   <td>x y</td>
   <td>position=200 148</td>
-  <td></td>
+  <td>reposition top-left corner of the image to the provided x and y coordinate.</td>
 </tr>
 <tr>
   <td>canvas</td>
