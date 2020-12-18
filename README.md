@@ -387,7 +387,7 @@ https://github.com/tomitan100/org.openhab.binding.bom/raw/master/doc/bom.sitemap
 ## BOM Weather Images Generation
 
 ### Background Information
-BOM images, like rain radar loop, are made up of a series of transparent PNG files, which get updated frequently as data is available.  These images contain only the transparent radar/satellite scans and do not include static overlays like the the background, topography, locations, borders, etc.  The final image is built by overlaying all the images in the correct order.
+BOM images, like rain radar loop, are made up of a series of transparent PNG files, which get updated frequently as data is made available.  These images contain only the transparent radar/satellite scans and do not include static overlays like the the background, topography, locations, borders, etc.  The final image is built by overlaying all the images in the correct order.
 
 BOM Image binding can create final image(s) of each radar or satellite image sequence or series as PNG images or a single animated GIF or both.  This makes it easier for you to display radar loops in the browser/viewer without having to code Javascript to assemble the image overlays.
 
