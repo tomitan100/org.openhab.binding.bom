@@ -397,7 +397,7 @@ You have the option to use images from different paths to generate other kinds o
 
 ## BOM Images Configuration
 
-Configuring weather images is not very trivial.  It requires a bit of understanding of how BOM store the images on their FTP server.  If you read through the instruction below you should have no problems.  If there is demand I might write an external tool to help you with the configuration needed.
+Configuring weather images does look daunting at first but it is not.  If you read through the instruction below you should have no problems.
 
 For rainfal radar images, the first step is to determine the product ID of the images you are after.  You can do this easily by searching "IDR" in BOM's catalogue page http://reg.bom.gov.au/catalogue/anon-ftp.shtml.  Another way is to note the product ID in the "Rainfall Radars" URL itself.  e.g http://www.bom.gov.au/products/IDR701.loop.shtml.
 
