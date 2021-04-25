@@ -14,7 +14,7 @@ package org.openhab.binding.bom.internal.image.processor;
 
 import java.awt.image.BufferedImage;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The {@link ImageProcessor} interface.

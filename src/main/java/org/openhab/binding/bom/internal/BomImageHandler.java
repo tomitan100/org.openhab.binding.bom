@@ -29,7 +29,7 @@ import javax.imageio.ImageIO;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.imageio.stream.ImageOutputStream;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -353,9 +353,7 @@ public class BomImageHandler extends BaseThingHandler {
             finalImages.add(finalImage);
         }
 
-        if (!finalImages.isEmpty())
-
-        {
+        if (!finalImages.isEmpty()) {
             String outputPath = config.imageOutputPath.charAt(config.imageOutputPath.length() - 1) != File.separatorChar
                     ? config.imageOutputPath + File.separator
                     : config.imageOutputPath;

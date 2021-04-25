@@ -14,7 +14,7 @@ package org.openhab.binding.bom.internal.image.generator;
 
 import java.awt.image.BufferedImage;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openhab.binding.bom.internal.properties.Properties;
 
 /**
