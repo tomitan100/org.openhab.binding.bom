@@ -23,7 +23,6 @@ import org.openhab.core.thing.ThingTypeUID;
  */
 @NonNullByDefault
 public class BomBindingConstants {
-
     private static final String BINDING_ID = "bom";
 
     public static final ThingTypeUID THING_TYPE_WEATHER = new ThingTypeUID(BINDING_ID, "weather");

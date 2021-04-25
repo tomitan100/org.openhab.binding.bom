@@ -59,9 +59,9 @@ import org.xml.sax.SAXException;
 public class BomHandler extends BaseThingHandler {
     private final Logger logger = LoggerFactory.getLogger(BomHandler.class);
 
-    private final String[] WEATHER_ICON_MAP = { "sunny", "clear", "mostly-sunny", "cloudy", "unknown", "hazy",
-            "unknown", "light-rain", "windy", "fog", "shower", "rain", "dusty", "frost", "snow", "storm",
-            "light-shower", "heavy-shower", "cyclone" };
+    private final String[] WEATHER_ICON_MAP = { "sunny", "clear", "mostly_sunny", "cloudy", "unknown", "hazy",
+            "unknown", "light_rain", "windy", "fog", "shower", "rain", "dusty", "frost", "snow", "storm",
+            "light_shower", "heavy_shower", "cyclone" };
 
     private final Pattern PATTERN_PRECIPITATION_RANGE = Pattern.compile("([\\d]*\\.?[\\d]+)\\D*([\\d]*\\.?[\\d]+)\\D*");
 

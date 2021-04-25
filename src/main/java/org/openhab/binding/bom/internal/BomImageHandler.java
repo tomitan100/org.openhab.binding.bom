@@ -353,9 +353,7 @@ public class BomImageHandler extends BaseThingHandler {
             finalImages.add(finalImage);
         }
 
-        if (!finalImages.isEmpty())
-
-        {
+        if (!finalImages.isEmpty()) {
             String outputPath = config.imageOutputPath.charAt(config.imageOutputPath.length() - 1) != File.separatorChar
                     ? config.imageOutputPath + File.separator
                     : config.imageOutputPath;
