@@ -35,4 +35,8 @@ public class BomConfiguration {
     public Integer forecastRefreshInterval;
 
     public boolean retainMinMaxTemperature;
+
+    public boolean saveXml;
+
+    public String saveXmlPath;
 }

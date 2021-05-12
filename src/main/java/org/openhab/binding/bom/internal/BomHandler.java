@@ -12,6 +12,7 @@
  */
 package org.openhab.binding.bom.internal;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -29,6 +30,13 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
@@ -134,7 +142,8 @@ public class BomHandler extends BaseThingHandler {
             return;
         }
 
-        String observationFtpPath = config.ftpPath + "/" + config.observationProductId.toUpperCase() + ".xml";
+        String xmlFilename = config.observationProductId.toUpperCase() + ".xml";
+        String observationFtpPath = config.ftpPath + "/" + xmlFilename;
 
         logger.debug("Processing observation data from FTP path: {}, weather station ID: {}", observationFtpPath,
                 config.weatherStationId);
@@ -223,6 +232,10 @@ public class BomHandler extends BaseThingHandler {
             } else {
                 logger.error("Unable to find weather station ID {} in {}", config.weatherStationId, observationFtpPath);
             }
+
+            if (config.saveXml) {
+                saveXmlDocument(xmlDocument, xmlFilename);
+            }
         } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException ex) {
             logger.error("Unable to process observation data", ex);
             updateStatus(ThingStatus.OFFLINE);
@@ -231,7 +244,7 @@ public class BomHandler extends BaseThingHandler {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    logger.warn("Unable to close input streram", e);
+                    logger.warn("Unable to close input stream", e);
                 }
             }
         }
@@ -250,7 +263,8 @@ public class BomHandler extends BaseThingHandler {
             return;
         }
 
-        String forecastFtpPath = config.ftpPath + "/" + config.precisForecastProductId.toUpperCase() + ".xml";
+        String xmlFilename = config.precisForecastProductId.toUpperCase() + ".xml";
+        String forecastFtpPath = config.ftpPath + "/" + xmlFilename;
 
         logger.info("Processing precis forecast from FTP path: {}, area ID: {}", forecastFtpPath, config.areaId);
 
@@ -339,6 +353,10 @@ public class BomHandler extends BaseThingHandler {
             } else {
                 logger.warn("There is no precis forecast found for area ID {} in {}", config.areaId, forecastFtpPath);
             }
+
+            if (config.saveXml) {
+                saveXmlDocument(xmlDocument, xmlFilename);
+            }
         } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException ex) {
             logger.error("Unable to process precis forecast data from {}", forecastFtpPath, ex);
             updateStatus(ThingStatus.OFFLINE);
@@ -385,7 +403,8 @@ public class BomHandler extends BaseThingHandler {
             return;
         }
 
-        String forecastFtpPath = config.ftpPath + "/" + config.cityTownForecastProductId.toUpperCase() + ".xml";
+        String xmlFilename = config.cityTownForecastProductId.toUpperCase() + ".xml";
+        String forecastFtpPath = config.ftpPath + "/" + xmlFilename;
 
         logger.info("Processing city/town/district forecast from FTP path: {}, area ID: {}", forecastFtpPath,
                 config.areaId);
@@ -455,10 +474,14 @@ public class BomHandler extends BaseThingHandler {
                     idx++;
                 }
 
-                logger.info("Successfully processed city/down/district forecast data.");
+                logger.info("Successfully processed city/town/district forecast data.");
             } else {
-                logger.warn("There is no city/down/district forecast found for area ID {} in {}", config.areaId,
+                logger.warn("There is no city/town/district forecast found for area ID {} in {}", config.areaId,
                         forecastFtpPath);
+            }
+
+            if (config.saveXml) {
+                saveXmlDocument(xmlDocument, xmlFilename);
             }
         } catch (IOException | ParserConfigurationException | SAXException | XPathExpressionException ex) {
             logger.error("Unable to process precis forecast data from {}", forecastFtpPath, ex);
@@ -468,7 +491,7 @@ public class BomHandler extends BaseThingHandler {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    logger.warn("Unable to close input streram", e);
+                    logger.warn("Unable to close input stream", e);
                 }
             }
         }
@@ -552,5 +575,34 @@ public class BomHandler extends BaseThingHandler {
 
     private String getNodeAttribute(Document document, XPath xPath, String path) throws XPathExpressionException {
         return xPath.compile(path).evaluate(document);
+    }
+
+    private void saveXmlDocument(Document xmlDocument, String filename) {
+        FileWriter fileWriter = null;
+        String outputFilePath = config.saveXmlPath + filename;
+        logger.debug("Writing XML file {}", outputFilePath);
+        try {
+            Transformer transformer = TransformerFactory.newDefaultInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+            fileWriter = new FileWriter(outputFilePath);
+            transformer.transform(new DOMSource(xmlDocument), new StreamResult(fileWriter));
+        } catch (TransformerConfigurationException ex) {
+            logger.error("Transformer factory error" + ex);
+        } catch (IOException ex) {
+            logger.error("Unable to write to {}: " + ex, outputFilePath);
+        } catch (TransformerException ex) {
+            logger.error("Unable to transform document source {}: " + ex, outputFilePath);
+        } finally {
+            if (fileWriter != null) {
+                try {
+                    fileWriter.close();
+                } catch (IOException ex) {
+                    logger.warn("Unable close {}: " + ex, outputFilePath);
+                }
+            }
+        }
     }
 }
