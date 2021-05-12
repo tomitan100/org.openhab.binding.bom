@@ -120,6 +120,7 @@ Download the latest jar below for your openHAB version and copy to the openHAB `
 
 #### openHAB 3.0.x
 Version 3.0.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-3.0.0-SNAPSHOT.jar)
+
 Version 3.0.3 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-3.0.3-SNAPSHOT.jar)
 
 #### openHAB 2
@@ -905,7 +906,7 @@ The screenshots below are examples of the binding in operation.  The screens use
 __13/12/2021__
 - openHAB version 3.0.3 update
 - Add option to save XML data file from BOM
-- Replace dashes to underscores in icon names (version 3.0.3 only)
+- Replace dashes with underscores in icon names (version 3.0.3 only)
 
 __18/12/2020__
 - openHAB version 3.0.0 update
