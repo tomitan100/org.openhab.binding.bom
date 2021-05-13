@@ -118,8 +118,10 @@ For Eclipse SmartHome install from https://marketplace.eclipse.org/content/austr
 ### Manual installation - for openHAB 2 and openHAB 3
 Download the latest jar below for your openHAB version and copy to the openHAB `addons` directory.
 
-#### openHAB 3
+#### openHAB 3.0.x
 Version 3.0.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-3.0.0-SNAPSHOT.jar)
+
+Version 3.0.3 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-3.0.3-SNAPSHOT.jar)
 
 #### openHAB 2
 Version 2.5.9 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.9-SNAPSHOT.jar)
@@ -901,6 +903,11 @@ The screenshots below are examples of the binding in operation.  The screens use
 <img src="https://github.com/tomitan100/org.openhab.binding.bom/blob/master/doc/radar-loop.gif?raw=true" />
 
 ## Change log
+__13/12/2021__
+- openHAB version 3.0.3 update
+- Add option to save XML data file from BOM
+- Replace dashes with underscores in icon names (version 3.0.3 only)
+
 __18/12/2020__
 - openHAB version 3.0.0 update
 
