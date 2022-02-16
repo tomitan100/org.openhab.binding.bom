@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2010-2020 Contributors to the openHAB project
+ * Copyright (c) 2010-2021 Contributors to the openHAB project
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information.
@@ -34,7 +34,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openhab.core.library.types.DateTimeType;
 import org.openhab.core.library.types.DecimalType;
 import org.openhab.core.library.types.StringType;
@@ -59,9 +59,9 @@ import org.xml.sax.SAXException;
 public class BomHandler extends BaseThingHandler {
     private final Logger logger = LoggerFactory.getLogger(BomHandler.class);
 
-    private final String[] WEATHER_ICON_MAP = { "sunny", "clear", "mostly-sunny", "cloudy", "unknown", "hazy",
-            "unknown", "light-rain", "windy", "fog", "shower", "rain", "dusty", "frost", "snow", "storm",
-            "light-shower", "heavy-shower", "cyclone" };
+    private final String[] WEATHER_ICON_MAP = { "sunny", "clear", "mostly_sunny", "cloudy", "unknown", "hazy",
+            "unknown", "light_rain", "windy", "fog", "shower", "rain", "dusty", "frost", "snow", "storm",
+            "light_shower", "heavy_shower", "cyclone" };
 
     private final Pattern PATTERN_PRECIPITATION_RANGE = Pattern.compile("([\\d]*\\.?[\\d]+)\\D*([\\d]*\\.?[\\d]+)\\D*");
 

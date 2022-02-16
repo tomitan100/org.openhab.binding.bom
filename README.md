@@ -120,16 +120,16 @@ Download the latest jar below for your openHAB version and copy to the openHAB `
 
 #### openHAB 3.2.x
 Version 3.2.x [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/3.2.x/dist/org.openhab.binding.bom-3.2.1-SNAPSHOT.jar)
-  
-#### openHAB 3.0.x
-Version 3.0.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-3.0.0-SNAPSHOT.jar)
 
-Version 3.0.3 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-3.0.3-SNAPSHOT.jar)
+#### openHAB 3.0.x
+Version 3.0.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/3.0.x/dist/org.openhab.binding.bom-3.0.0-SNAPSHOT.jar)
+
+Version 3.0.3 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/3.0.x/dist/org.openhab.binding.bom-3.0.3-SNAPSHOT.jar)
 
 #### openHAB 2
-Version 2.5.9 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.9-SNAPSHOT.jar)
+Version 2.5.9 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/2.5.x/dist/org.openhab.binding.bom-2.5.9-SNAPSHOT.jar)
 
-Version 2.5.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/master/dist/org.openhab.binding.bom-2.5.0-SNAPSHOT.jar)
+Version 2.5.0 [Download](https://github.com/tomitan100/org.openhab.binding.bom/raw/2.5.x/dist/org.openhab.binding.bom-2.5.0-SNAPSHOT.jar)
 
 ## Weather observation and forecast configuration
 
@@ -439,7 +439,7 @@ __Regular expression for image file filter:__
 Under some scenarios it is necessary to provide more specific filter by the use of regular expression.  This is an optional field.
 
 __Date range to search:__
-The date range to search.  Valid values are: `last_#d` (last # days), `last_#h` (last # hours), `last_#m` (last # minutes), `last_#s` (last # seconds), `today` and `yesterday`.  e.g `last_15m` to include files only from the last 15 minutes.  Specific start/end date is not yet supported. 
+The date range to search.  Valid values are: `last_#d` (last # days), `last_#h` (last # hours), `last_#m` (last # minutes), `last_#s` (last # seconds), `today` and `yesterday`.  e.g `last_15m` to include files only from the last 15 minutes.  Specific start/end date is not yet supported.
 
 __Image layers configuration:__
 The list of layers to merge.  See below for details.
@@ -527,7 +527,7 @@ Below is a list of supported external image sources:
     <td>image=file:///etc/openhab2/html/location_24.png</td>
   </tr>
 <table>
-  
+
 ## Image Manipulation and Processing
 
 There are five image manipulation operations available to each layer and the final image:
@@ -680,7 +680,7 @@ _Image directory path:_ `/anon/gen/radar/`
 
 _Image product ID:_ `IDR70D`
 
-_Image layers configuration:_ `image=IDR.legend.1.png; image=IDR703.background.png; image=${series}; 
+_Image layers configuration:_ `image=IDR.legend.1.png; image=IDR703.background.png; image=${series};
 image=IDR703.locations.png; image=IDR703.range.png`
 
 _Embed local timestamp:_ `On`
@@ -745,7 +745,7 @@ __Note:__
     <td>IDE00133</td>
     <td>IDE00133.\d{12}.*</td>
   </tr>
-  
+
   <tr>
     <td>Australia West</td>
     <td>False colour temperatures</td>
@@ -770,7 +770,7 @@ __Note:__
     <td>IDE00123</td>
     <td>IDE00123.\d{12}.*</td>
   </tr>
-  
+
   <tr>
     <td>Australia East</td>
     <td>False colour temperatures</td>
@@ -795,7 +795,7 @@ __Note:__
     <td>IDE00143</td>
     <td>IDE00143.\d{12}.*</td>
   </tr>
-  
+
   <tr>
     <td>Full Disk</td>
     <td>False colour temperatures</td>
