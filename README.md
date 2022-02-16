@@ -99,7 +99,7 @@ See below for more details.
 ## Prerequisite
 
 #### For openHAB 2
-- openHAB 2.4 to 2.5.#
+- openHAB 2.4 to 2.5.x
 - Java 1.8 and above.
 - Fonts installed if local timestamp is enabled for BOM Image.
 
