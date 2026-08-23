@@ -107,8 +107,12 @@ public class BomImageHandler extends BaseThingHandler {
         updateStatus(ThingStatus.UNKNOWN);
         parseConfigs();
 
-        monitorImagesJob = scheduler.scheduleWithFixedDelay(this::refreshImage, 0, config.monitoringInterval,
-                TimeUnit.MINUTES);
+        monitorImagesJob = scheduler.scheduleWithFixedDelay(this::refreshImage, 0,
+                interval(config.monitoringInterval, 15), TimeUnit.MINUTES);
+    }
+
+    private static int interval(Integer configured, int fallback) {
+        return configured != null && configured > 0 ? configured : fallback;
     }
 
     @Override
@@ -134,7 +138,7 @@ public class BomImageHandler extends BaseThingHandler {
         config = getConfigAs(BomImageConfiguration.class);
         parseConfigs();
 
-        logger.info("Reloaded configuration");
+        logger.debug("Reloaded configuration");
 
         refreshImage();
     }
@@ -415,13 +419,15 @@ public class BomImageHandler extends BaseThingHandler {
 
         try {
             out = new FileImageOutputStream(new File(outputFilePath + ".gif"));
-            writer = new GifSequenceWriter(out, GIF_IMAGE_TYPE, config.gifImageDelay, config.gifImageLoop);
+            writer = new GifSequenceWriter(out, GIF_IMAGE_TYPE,
+                    config.gifImageDelay != null && config.gifImageDelay >= 100 ? config.gifImageDelay : 1000,
+                    config.gifImageLoop);
 
             for (BufferedImage image : images) {
                 writer.writeToSequence(image);
             }
 
-            logger.info("Generated GIF {}.gif", outputFilePath);
+            logger.debug("Generated GIF {}.gif", outputFilePath);
         } catch (IOException ex) {
             logger.error("Unable to generate GIF {}.gif", outputFilePath, ex);
         } finally {
@@ -444,7 +450,7 @@ public class BomImageHandler extends BaseThingHandler {
             String outputPath = outputFilePath + "." + i + ".png";
             try {
                 ImageIO.write(images.get(i), "png", new File(outputPath));
-                logger.info("Generated PNG {}", outputPath);
+                logger.debug("Generated PNG {}", outputPath);
             } catch (IOException ex) {
                 logger.error("Unable to write PNG {}", outputPath, ex);
             }
@@ -500,6 +506,8 @@ public class BomImageHandler extends BaseThingHandler {
         FTPClient ftp = new FTPClient();
 
         try {
+            ftp.setConnectTimeout(15000);
+            ftp.setDefaultTimeout(60000);
             ftp.connect(ftpServer);
             ftp.login(username, password);
             ftp.enterLocalPassiveMode();

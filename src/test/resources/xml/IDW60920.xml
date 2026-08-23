@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <observations>
+        <station wmo-id="94607" description="OTHER STATION">
+            <period time-local="2026-08-23T08:30:00+08:00">
+                <level type="specified">
+                    <element type="air_temperature">99</element>
+                </level>
+            </period>
+        </station>
+        <station wmo-id="94608" description="PERTH METRO">
+            <period time-local="2026-08-23T09:00:00+08:00">
+                <level type="specified">
+                    <element type="air_temperature">14.5</element>
+                    <element type="apparent_temp">12.1</element>
+                    <element type="dew_point">9.0</element>
+                    <element type="rel-humidity">68</element>
+                    <element type="pres">1018.2</element>
+                    <element type="wind_dir">SW</element>
+                    <element type="wind_dir_deg">225</element>
+                    <element type="wind_spd_kmh">15</element>
+                    <element type="wind_spd">8</element>
+                    <element type="rainfall">0.2</element>
+                    <element type="rainfall_24hr">4.0</element>
+                </level>
+            </period>
+            <period time-local="2026-08-23T08:00:00+08:00">
+                <level type="specified">
+                    <element type="air_temperature">14.0</element>
+                </level>
+            </period>
+        </station>
+    </observations>
+</product>

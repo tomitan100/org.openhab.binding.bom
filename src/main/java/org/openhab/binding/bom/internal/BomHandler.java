@@ -96,11 +96,22 @@ public class BomHandler extends BaseThingHandler {
         super.dispose();
     }
 
+    private static int interval(Integer configured, int fallback) {
+        return configured != null && configured > 0 ? configured : fallback;
+    }
+
+    private InputStream openStream(String path) throws IOException {
+        URLConnection urlConnection = new URL(path).openConnection();
+        urlConnection.setConnectTimeout(15000);
+        urlConnection.setReadTimeout(60000);
+        return urlConnection.getInputStream();
+    }
+
     private synchronized void startRefresh() {
         observationRefreshJob = scheduler.scheduleWithFixedDelay(this::refreshObservation, 0,
-                config.observationRefreshInterval, TimeUnit.MINUTES);
-        forecastRefreshJob = scheduler.scheduleWithFixedDelay(this::refreshForecast, 0, config.forecastRefreshInterval,
-                TimeUnit.MINUTES);
+                interval(config.observationRefreshInterval, 15), TimeUnit.MINUTES);
+        forecastRefreshJob = scheduler.scheduleWithFixedDelay(this::refreshForecast, 0,
+                interval(config.forecastRefreshInterval, 30), TimeUnit.MINUTES);
     }
 
     private synchronized void stopRefresh() {
@@ -126,7 +137,7 @@ public class BomHandler extends BaseThingHandler {
         refreshForecast();
     }
 
-    private synchronized void refreshObservation() {
+    synchronized void refreshObservation() {
         if (StringUtils.isBlank(config.ftpPath) || StringUtils.isBlank(config.observationProductId)
                 || StringUtils.isBlank(config.weatherStationId)) {
             logger.error("FTP path, observation product ID and weather station ID are required");
@@ -144,8 +155,7 @@ public class BomHandler extends BaseThingHandler {
         try {
             logger.debug("Retrieving observation data from {}", observationFtpPath);
 
-            URLConnection urlConnection = new URL(observationFtpPath).openConnection();
-            inputStream = urlConnection.getInputStream();
+            inputStream = openStream(observationFtpPath);
 
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
@@ -155,7 +165,7 @@ public class BomHandler extends BaseThingHandler {
             String stationXPath = "/product/observations/station[@wmo-id='" + config.weatherStationId + "']";
             String observationDateTimeStr = getNodeAttribute(xmlDocument, xPath, stationXPath + "/period/@time-local");
 
-            if (observationDateTimeStr != null && observationDateTimeStr != "") {
+            if (StringUtils.isNotEmpty(observationDateTimeStr)) {
                 String weatherStation = getNodeAttribute(xmlDocument, xPath, stationXPath + "/@description");
 
                 ZonedDateTime observationZonedDateTime = ZonedDateTime.parse(observationDateTimeStr,
@@ -237,12 +247,12 @@ public class BomHandler extends BaseThingHandler {
         }
     }
 
-    private synchronized void refreshForecast() {
+    synchronized void refreshForecast() {
         refreshPrecisForecast();
         refreshCityTownDistrictForecast();
     }
 
-    private void refreshPrecisForecast() {
+    synchronized void refreshPrecisForecast() {
         if (StringUtils.isBlank(config.ftpPath) || StringUtils.isBlank(config.precisForecastProductId)
                 || StringUtils.isBlank(config.areaId)) {
             logger.error("FTP path, precis forecast product ID and area ID are required");
@@ -252,13 +262,12 @@ public class BomHandler extends BaseThingHandler {
 
         String forecastFtpPath = config.ftpPath + "/" + config.precisForecastProductId.toUpperCase() + ".xml";
 
-        logger.info("Processing precis forecast from FTP path: {}, area ID: {}", forecastFtpPath, config.areaId);
+        logger.debug("Processing precis forecast from FTP path: {}, area ID: {}", forecastFtpPath, config.areaId);
 
         InputStream inputStream = null;
 
         try {
-            URLConnection urlConnection = new URL(forecastFtpPath).openConnection();
-            inputStream = urlConnection.getInputStream();
+            inputStream = openStream(forecastFtpPath);
 
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
@@ -299,6 +308,7 @@ public class BomHandler extends BaseThingHandler {
                         switch (type) {
                             case "forecast_icon_code":
                                 forecast.setIconCode(childNode.getTextContent());
+                                break;
                             case "precis":
                                 forecast.setPrecis(childNode.getTextContent());
                                 break;
@@ -335,7 +345,7 @@ public class BomHandler extends BaseThingHandler {
                     updateForecastState(BomBindingConstants.CHANNEL_GROUP_DAY_PREFIX + (i + 1), forecasts.get(i));
                 }
 
-                logger.info("Successfully processed precis forecast data.");
+                logger.debug("Successfully processed precis forecast data.");
             } else {
                 logger.warn("There is no precis forecast found for area ID {} in {}", config.areaId, forecastFtpPath);
             }
@@ -387,14 +397,13 @@ public class BomHandler extends BaseThingHandler {
 
         String forecastFtpPath = config.ftpPath + "/" + config.cityTownForecastProductId.toUpperCase() + ".xml";
 
-        logger.info("Processing city/town/district forecast from FTP path: {}, area ID: {}", forecastFtpPath,
+        logger.debug("Processing city/town/district forecast from FTP path: {}, area ID: {}", forecastFtpPath,
                 config.areaId);
 
         InputStream inputStream = null;
 
         try {
-            URLConnection urlConnection = new URL(forecastFtpPath).openConnection();
-            inputStream = urlConnection.getInputStream();
+            inputStream = openStream(forecastFtpPath);
 
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
@@ -455,7 +464,7 @@ public class BomHandler extends BaseThingHandler {
                     idx++;
                 }
 
-                logger.info("Successfully processed city/down/district forecast data.");
+                logger.debug("Successfully processed city/town/district forecast data.");
             } else {
                 logger.warn("There is no city/down/district forecast found for area ID {} in {}", config.areaId,
                         forecastFtpPath);
