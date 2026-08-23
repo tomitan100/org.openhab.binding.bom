@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <forecast>
+        <area aac="WA_PT053" description="Perth">
+            <forecast-period index="0" start-time-local="2026-08-23T20:00:00+08:00">
+                <element type="forecast_icon_code">1</element>
+                <element type="precis">Clear.</element>
+                <element type="probability_of_precipitation">5%</element>
+            </forecast-period>
+            <forecast-period index="1" start-time-local="2026-08-24T10:00:00+08:00">
+                <element type="forecast_icon_code">1</element>
+                <element type="precis">Sunny.</element>
+                <element type="air_temperature_minimum">7</element>
+                <element type="air_temperature_maximum">18</element>
+            </forecast-period>
+        </area>
+    </forecast>
+</product>

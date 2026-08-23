@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <forecast>
+        <area aac="WA_FA000" description="DECOY DISTRICT">
+            <forecast-period index="0" start-time-local="2026-08-23T10:00:00+08:00">
+                <element type="precis">Wrong area</element>
+            </forecast-period>
+        </area>
+        <area aac="WA_PT053" description="Perth">
+            <forecast-period index="0" start-time-local="2026-08-23T10:00:00+08:00">
+                <element type="forecast_icon_code">1</element>
+                <element type="precis">Sunny.</element>
+                <element type="air_temperature_minimum">9</element>
+                <element type="air_temperature_maximum">19</element>
+                <element type="probability_of_precipitation">0%</element>
+                <element type="precipitation_range">0 mm to 0.2 mm</element>
+            </forecast-period>
+            <forecast-period index="1" start-time-local="2026-08-24T10:00:00+08:00">
+                <element type="forecast_icon_code">11</element>
+                <element type="precis">Possible shower.</element>
+                <element type="air_temperature_minimum">10</element>
+                <element type="air_temperature_maximum">21</element>
+                <element type="probability_of_precipitation">60%</element>
+            </forecast-period>
+            <forecast-period index="2" start-time-local="2026-08-25T10:00:00+08:00">
+                <element type="forecast_icon_code">4</element>
+                <element type="precis">Cloudy.</element>
+                <element type="air_temperature_minimum">12</element>
+                <element type="air_temperature_maximum">22</element>
+                <element type="probability_of_precipitation">20%</element>
+            </forecast-period>
+        </area>
+    </forecast>
+</product>

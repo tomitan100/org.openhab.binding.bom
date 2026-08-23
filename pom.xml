@@ -1,73 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.openhab.addons.bundles</groupId>
-    <artifactId>org.openhab.addons.reactor.bundles</artifactId>
-    <version>3.2.1-SNAPSHOT</version>
-  </parent>
-
+  <groupId>org.openhab.addons.bundles</groupId>
   <artifactId>org.openhab.binding.bom</artifactId>
+  <version>5.2.0</version>
+  <packaging>bundle</packaging>
 
   <name>openHAB Add-ons :: Bundles :: Bureau of Meteorology</name>
+  <description>Australian Bureau of Meteorology Weather Forecast and Image Binding (rebuilt for openHAB 5.x)</description>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!--
+      Compiled against openHAB core 5.0.0 so the generated OSGi import range
+      [5.0,6) resolves on any openHAB 5.x runtime, including 5.2.
+    -->
+    <ohc.version>5.0.0</ohc.version>
+    <java.version>21</java.version>
+    <commons-net.version>3.11.1</commons-net.version>
+    <commons-lang3.version>3.12.0</commons-lang3.version>
+    <slf4j.version>2.0.16</slf4j.version>
+    <jdt-annotation.version>2.3.100</jdt-annotation.version>
+    <junit.version>5.11.4</junit.version>
+    <mockito.version>5.18.0</mockito.version>
+    <surefire.version>3.5.2</surefire.version>
+  </properties>
+
+  <licenses>
+    <license>
+      <name>Eclipse Public License 2.0</name>
+      <url>https://www.eclipse.org/legal/epl-2.0/</url>
+    </license>
+  </licenses>
+
+  <repositories>
+    <repository>
+      <id>openhab-artifactory-release</id>
+      <name>openHAB Artifactory Releases</name>
+      <url>https://openhab.jfrog.io/artifactory/libs-release-local</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 
   <dependencies>
-    <!--dependency>
-      <groupId>com.twelvemonkeys.imageio</groupId>
-      <artifactId>imageio-core</artifactId>
-      <version>3.4.2</version>
-      <scope>compile</scope>
-      </dependency>
-      <dependency>
-      <groupId>com.twelvemonkeys.imageio</groupId>
-      <artifactId>imageio-tiff</artifactId>
-      <version>3.4.2</version>
-      <scope>compile</scope>
-      </dependency>
-      <dependency>
-      <groupId>com.twelvemonkeys.imageio</groupId>
-      <artifactId>imageio-psd</artifactId>
-      <version>3.4.2</version>
-      <scope>compile</scope>
-      </dependency>
-      <dependency>
-      <groupId>com.twelvemonkeys.imageio</groupId>
-      <artifactId>imageio-metadata</artifactId>
-      <version>3.4.2</version>
-      <scope>compile</scope>
-      </dependency>
-      <dependency>
-      <groupId>com.twelvemonkeys.common</groupId>
-      <artifactId>common-image</artifactId>
-      <version>3.4.2</version>
-      <scope>compile</scope>
-      </dependency>
-      <dependency>
-      <groupId>com.twelvemonkeys.common</groupId>
-      <artifactId>common-io</artifactId>
-      <version>3.4.2</version>
-      <scope>compile</scope>
-      </dependency>
-      <dependency>
-      <groupId>com.twelvemonkeys.common</groupId>
-      <artifactId>common-lang</artifactId>
-      <version>3.4.2</version>
-      <scope>compile</scope>
-      </dependency -->
+    <!-- openHAB core: provided by the runtime at runtime -->
     <dependency>
-      <groupId>commons-net</groupId>
-      <artifactId>commons-net</artifactId>
-      <version>3.6</version>
-      <scope>compile</scope>
+      <groupId>org.openhab.core.bundles</groupId>
+      <artifactId>org.openhab.core</artifactId>
+      <version>${ohc.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openhab.core.bundles</groupId>
+      <artifactId>org.openhab.core.thing</artifactId>
+      <version>${ohc.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- provided by the openHAB runtime -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${slf4j.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.12.0</version>
+      <version>${commons-lang3.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.eclipse.jdt</groupId>
+      <artifactId>org.eclipse.jdt.annotation</artifactId>
+      <version>${jdt-annotation.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <!-- compile-time only; processed by bnd into the DS component descriptor -->
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.service.component.annotations</artifactId>
+      <version>1.5.1</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <!-- embedded into the jar so the binding resolves on any runtime -->
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <version>${commons-net.version}</version>
+    </dependency>
+
+    <!-- test -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${mockito.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+        <configuration>
+          <release>${java.version}</release>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>6.1.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>org.openhab.binding.bom</Bundle-SymbolicName>
+            <Bundle-Name>BOM Binding</Bundle-Name>
+            <Bundle-Vendor>Thomas Tan, community rebuild for openHAB 5.x</Bundle-Vendor>
+            <Bundle-License>EPL-2.0</Bundle-License>
+            <Bundle-Version>${project.version}</Bundle-Version>
+            <_dsannotations>*</_dsannotations>
+            <_metatypeannotations>*</_metatypeannotations>
+            <Embed-Dependency>commons-net;inline=true</Embed-Dependency>
+            <Import-Package>
+              org.eclipse.jdt.annotation;resolution:=optional,
+              *
+            </Import-Package>
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.4.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${surefire.version}</version>
+        <configuration>
+          <argLine>-Dnet.bytebuddy.experimental=true -Djava.awt.headless=true</argLine>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

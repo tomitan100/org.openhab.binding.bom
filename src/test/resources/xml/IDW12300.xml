@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <forecast>
+        <area aac="WA_FA003" parent-aac="" description="Perth Metropolitan">
+            <forecast-period index="0" start-time-local="2026-08-23T16:00:00+08:00">
+                <text type="forecast">Parent forecast text day one.</text>
+                <element type="uv_alert">Sun protection 9:20 to 15:30, UV Index predicted to reach 5 [Moderate]</element>
+            </forecast-period>
+            <forecast-period index="1" start-time-local="2026-08-24T16:00:00+08:00">
+                <text type="forecast">Parent forecast text day two.</text>
+            </forecast-period>
+        </area>
+        <area aac="WA_PT053" parent-aac="WA_FA003" description="Perth">
+            <forecast-period index="0" start-time-local="2026-08-23T16:00:00+08:00">
+                <text type="forecast">Partly cloudy. The chance of a shower.</text>
+                <element type="uv_alert">Sun protection 9:30 to 15:20, UV Index predicted to reach 4 [Moderate]</element>
+            </forecast-period>
+            <forecast-period index="1" start-time-local="2026-08-24T16:00:00+08:00">
+                <text type="forecast">Sunny afternoon.</text>
+            </forecast-period>
+        </area>
+        <area aac="WA_FB777" parent-aac="WA_FA003" description="Fremantle">
+            <forecast-period index="0" start-time-local="2026-08-23T16:00:00+08:00">
+                <element type="forecast_icon_code">1</element>
+            </forecast-period>
+        </area>
+    </forecast>
+</product>
